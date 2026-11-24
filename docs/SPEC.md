@@ -530,6 +530,16 @@ examples/          three-rooms.dcmm (port of the prototype), tower.dcmm (multi-l
 
 The MVP is milestones 1–5.
 
+**Status (2026-11-23):** milestones 1 and 2 are done. Milestone 2 left out these items from §8, which come in later milestones:
+- Moving, copying and pasting a selection with the Select tool.
+- The Height, Ramp/Stairs, Vertical-edge, Prop and Note tools. Heights, shapes and vertical connections can already be edited in the Inspector.
+- The Events, Flags and Types panels.
+- The 3D and Playtest viewport modes.
+
+The 2D view in milestone 2 uses Zustand state; history uses Immer patches as specified. The editor also adds two conveniences not in §8:
+- The Connections tool cycles an edge's state when you click it again.
+- Alt+click with the Material tool picks up a material.
+
 ---
 
 ## 12. Planned extensions (keep room in the model)

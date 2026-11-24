@@ -67,6 +67,11 @@ export const canRedo = (h: History) => h.future.length > 0;
 export const undoLabel = (h: History) => h.past.at(-1)?.label;
 export const redoLabel = (h: History) => h.future[0]?.label;
 
+/** Combine several commands into one undo step. */
+export function batch(label: string, cmds: Command[]): Command {
+  return { label, recipe: (d) => cmds.forEach((c) => c.recipe(d)) };
+}
+
 /** Run a command once without history (handy for building fixtures and imports). */
 export function run(doc: MapDoc, ...cmds: Command[]): MapDoc {
   let h = createHistory(1);
