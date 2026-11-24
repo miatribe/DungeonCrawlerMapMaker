@@ -3,7 +3,7 @@
 This is a guide for engine developers loading maps exported by DCMM (Dungeon Crawler Map Maker) with the **JSON** exporter. It covers what every field means, how to turn it into geometry, and how the logic is meant to run.
 
 - **Machine-readable schema:** [`schemas/dcmm-map.schema.json`](../schemas/dcmm-map.schema.json), a JSON Schema you can validate against.
-- **Examples:** [`examples/three-rooms.json`](../examples/three-rooms.json) (doors, levers, events), [`examples/tower.json`](../examples/tower.json) (multiple levels, stairs, a pit) and [`examples/crypt.json`](../examples/crypt.json) (custom types, flags, trapdoor, ladder, secret wall).
+- **Examples:** [`examples/keep-of-echoes.json`](../examples/keep-of-echoes.json) (uses every feature), [`examples/three-rooms.json`](../examples/three-rooms.json) (doors, levers, events), [`examples/tower.json`](../examples/tower.json) (multiple levels, stairs, a pit) and [`examples/crypt.json`](../examples/crypt.json) (custom types, flags, trapdoor, ladder, secret wall).
 - **Reference implementation:** [`src/core/logic/runtime.ts`](../src/core/logic/runtime.ts) is the headless runtime the editor's playtest uses. It's short, has no UI dependencies, and is the source of truth for the semantics below.
 
 ---

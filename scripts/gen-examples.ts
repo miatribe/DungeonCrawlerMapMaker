@@ -2,10 +2,10 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { saveProject, stringifyProject } from "../src/core";
 import { runExport } from "../src/exporters";
-import { crypt, threeRooms, tower } from "../tests/fixtures/maps";
+import { crypt, keep, threeRooms, tower } from "../tests/fixtures/maps";
 
 mkdirSync("examples", { recursive: true });
-for (const doc of [threeRooms(), tower(), crypt()]) {
+for (const doc of [keep(), threeRooms(), tower(), crypt()]) {
   writeFileSync(`examples/${doc.id}.dcmm`, stringifyProject(saveProject(doc)));
   const r = runExport("json", doc);
   if (!r.ok) throw new Error(`${doc.id}: ${r.problems.map((p) => p.message).join("; ")}`);

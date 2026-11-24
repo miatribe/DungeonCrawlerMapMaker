@@ -63,6 +63,257 @@ export function threeRooms(): MapDoc {
 }
 
 /**
+ * "The Keep of Echoes": the flagship example. It uses every feature DCMM has:
+ *
+ * - 3 levels (Cellar -1, Keep 0, Tower 1); a tall vaulted hall (ceiling 8); a raised dais
+ *   reached by a ramp; a staircase run down to a sunken armory; stairs that climb a full
+ *   level; a sunken pool.
+ * - Vertical connections of every kind: trapdoor (hatch), ladder, pit, open shaft, grate.
+ * - Connections: openings, doors (usable and locked), a secret wall, and a custom
+ *   "portcullis" connection type with a parameter.
+ * - Props: lever, button, chests, sign, pressure plate, a wall-mounted torch, and a custom
+ *   "altar" prop type with a parameter.
+ * - Logic: map onLoad, cell onEnter/onExit, edge onUse/onBump, prop onUse; once events,
+ *   else branches, nested any/none, state/flag/playerFacing/eventFired/custom conditions;
+ *   every action type (set/toggle connection, prop state, set/add flag, teleport, message,
+ *   delayed runEvent, setSurface, custom actions); bool/int/string flags.
+ * - Custom action and condition types, custom materials with built-in textures, tags and
+ *   pass-through data.
+ *
+ * Walkthrough: open the door; pull the hall lever to raise the portcullis; take the key from
+ * the armory chest (mind the dart plate and the spike pit); unlock the vault door; climb to
+ * the tower; press the button to reveal the library; take the tome; drop down the shaft;
+ * wake the altar on the dais (it opens a trapdoor); fall to the cellar; take the crown; climb
+ * the ladder out.
+ */
+export function keep(): MapDoc {
+  let doc = createMap({ id: "keep-of-echoes", name: "The Keep of Echoes" });
+  const entry = rectPositions(P(0, 0), P(2, 2));
+  const hall = rectPositions(P(3, 0), P(7, 4));
+  const dais = rectPositions(P(6, 1), P(7, 3));
+  const stairRoom = rectPositions(P(8, 1), P(9, 3));
+  const armory = rectPositions(P(4, 7), P(6, 8));
+  const tower = rectPositions(P(10, 1, 1), P(12, 3, 1));
+  const library = rectPositions(P(10, 4, 1), P(12, 5, 1));
+  const cellar = rectPositions(P(3, 3, -1), P(5, 4, -1));
+
+  doc = run(
+    doc,
+    ops.setMapMeta({ data: { author: "DCMM examples", difficulty: "easy" }, tags: ["example", "showcase"] }),
+    ops.setLevelName(-1, "Cellar"),
+    ops.setLevelName(0, "Keep"),
+    ops.setLevelName(1, "Tower"),
+    // materials (custom ones use built-in preview patterns)
+    ops.define("material", "carpet", { name: "Red carpet", color: "#7a2630", texture: "builtin:noise" }),
+    ops.define("material", "marble", { name: "Marble", color: "#d9d4c8", texture: "builtin:flagstone" }),
+    ops.define("material", "mural", { name: "Faded mural", color: "#b8913a", texture: "builtin:stone" }),
+    ops.define("material", "books", { name: "Bookshelves", color: "#6b4a2b", texture: "builtin:planks" }),
+    // custom types
+    ops.define("connectionType", "portcullis", {
+      name: "Portcullis", kind: "gate", axis: "horizontal", material: "iron", initialState: "closed",
+      states: { closed: { passable: false, blocksSight: false, transitions: [] }, open: { passable: true, blocksSight: false, transitions: [] } },
+      params: [{ name: "sound", type: "string", default: "chains" }],
+    }),
+    ops.define("propType", "altar", {
+      name: "Altar", states: ["dormant", "awake"], initialState: "dormant",
+      params: [{ name: "deity", type: "enum", options: ["sun", "moon", "sea"], required: true }],
+      preview: { color: "#c9b6ff", icon: "generic" },
+    }),
+    ops.define("propType", "torch", { name: "Wall torch", states: ["lit", "out"], initialState: "lit", preview: { color: "#ffb347", icon: "generic" } }),
+    ops.define("customType", "playSound", {
+      category: "action", name: "Play sound",
+      params: [{ name: "sound", type: "string", required: true }, { name: "volume", type: "float", default: 1 }],
+    }),
+    ops.define("customType", "spawnMonster", {
+      category: "action", name: "Spawn monster",
+      params: [{ name: "monster", type: "enum", options: ["wraith", "skeleton", "rat"], required: true }, { name: "at", type: "gridPos", required: true }, { name: "near", type: "ref:prop" }],
+    }),
+    ops.define("customType", "hasItem", {
+      category: "condition", name: "Player has item", description: "True when the player carries the item",
+      params: [{ name: "item", type: "enum", options: ["torch", "rope"], required: true }],
+    }),
+    // flags
+    ops.define("flag", "item", { type: "string", initial: "" }),
+    ops.define("flag", "tome", { type: "bool", initial: false }),
+    ops.define("flag", "crown", { type: "bool", initial: false }),
+    ops.define("flag", "visits", { type: "int", initial: 0 }),
+    ops.define("flag", "falls", { type: "int", initial: 0 }),
+
+    // ---- level 0: entry, great hall, dais, stair room ----
+    ops.paintCells(entry),
+    ops.setSurface(entry, "walls", "brick"),
+    ops.paintCells(hall),
+    ops.setHeights(hall, { ceiling: 8 }),
+    ops.setSurface(hall, "down", "carpet"),
+    ops.updateCells([P(5, 2)], { tags: ["hall-center"], data: { music: "hall_theme" } }),
+    ops.setHeights(dais, { floor: 1 }),
+    ops.setSurface(dais, "down", "marble"),
+    ops.buildRamp([P(5, 2)], { kind: "ramp", rise: 1, toward: "east" }),
+    ops.setEdge({ cell: P(2, 1), dir: "east" }, "door", { id: "hall_door" }),
+    ops.paintCells(stairRoom),
+    ops.setEdge({ cell: P(7, 2), dir: "east" }, "door", { id: "vault_door", state: "locked" }),
+    // ---- sunken armory down a staircase run, behind the portcullis ----
+    ops.paintCells([P(5, 5), P(5, 6)]),
+    ops.setHeights([P(5, 6)], { floor: -2 }),
+    ops.buildRamp([P(5, 6), P(5, 5)], { kind: "stairs", rise: 1, toward: "north", treads: 3 }),
+    ops.setEdge({ cell: P(5, 4), dir: "south" }, "portcullis", { id: "portcullis" }),
+    ops.paintCells(armory),
+    ops.setHeights(armory, { floor: -2 }),
+    ops.setEdge({ cell: P(5, 6), dir: "south" }, "opening"),
+    ops.setSurface([P(5, 5), P(5, 6), ...armory], "walls", "stone"),
+    // ---- tower (level 1) up a full-level staircase, with a hidden library ----
+    ops.paintCells(tower),
+    ops.paintCells(library),
+    ops.setSurface(library, "walls", "books"),
+    ops.setEdge({ cell: P(11, 3, 1), dir: "south" }, "secretWall", { id: "library_wall" }),
+    // ---- cellar (level -1) under the hall, with a sunken pool ----
+    ops.paintCells(cellar),
+    ops.setSurface(cellar, "walls", "moss"),
+    ops.setSurface(cellar, "down", "dirt"),
+    ops.setHeights([P(5, 4, -1)], { floor: -1 }),
+    ops.setSurface([P(5, 4, -1)], "down", "water"),
+    ops.setStart({ cell: P(1, 1), facing: "east" }),
+  );
+  doc = run(doc, ops.buildLevelStairs(doc, P(9, 2), "east"));
+  // vertical connections of every kind
+  doc = run(
+    doc,
+    ops.connectVertical(doc, P(4, 3), "down", "hatch"),                               // hall -> cellar trapdoor
+    ops.connectVertical(doc, P(3, 3, -1), "up", "ladder"),                            // cellar -> hall ladder
+    ops.connectVertical(doc, P(5, 3, -1), "up", "grate"),                             // look up from the cellar
+    ops.connectVertical(doc, P(6, 8), "down", "pit", { createMissing: true }),        // spike pit under the armory
+    ops.connectVertical(doc, P(12, 5, 1), "down", "open", { createMissing: true }),   // library shaft -> oubliette
+  );
+  doc = run(
+    doc,
+    ops.updateEdge("4,3,-1:up", { id: "trapdoor" }),
+    ops.setHeights([P(6, 8, -1)], { floor: -2, ceiling: 2 }),
+    ops.setSurface([P(6, 8, -1)], "all", "stone"),
+    ops.setSurface([P(12, 5, 0)], "walls", "moss"),
+    ops.updateEdge("5,4,0:south", { params: { sound: "chains_heavy" } }),
+  );
+
+  const msg = (text: string): Action => ({ type: "showMessage", text });
+  const sound = (s: string, volume?: number): Action => ({ type: "custom", custom: "playSound", params: volume === undefined ? { sound: s } : { sound: s, volume } });
+  const edge = (id: string) => ({ kind: "edge" as const, id });
+  const prop = (id: string) => ({ kind: "prop" as const, id });
+  doc = run(
+    doc,
+    // arrival
+    ops.define("event", "arrive", { actions: [{ type: "addFlag", name: "visits", amount: 1 }, msg("Wind howls through the Keep of Echoes. The great hall lies east.")] }),
+    ops.define("event", "chill", { once: true, actions: [msg("The air grows colder as you step into the hall.")] }),
+    // portcullis lever (toggle with matching lever state)
+    ops.define("event", "pullHallLever", {
+      conditions: [{ type: "state", target: edge("portcullis"), equals: "closed" }],
+      actions: [{ type: "setConnectionState", target: edge("portcullis"), state: "open" }, { type: "setPropState", target: prop("hall_lever"), state: "on" }, sound("chains_heavy"), msg("Chains rattle. The portcullis to the south rises.")],
+      else: [{ type: "setConnectionState", target: edge("portcullis"), state: "closed" }, { type: "setPropState", target: prop("hall_lever"), state: "off" }, msg("The portcullis slams down.")],
+    }),
+    // armory
+    ops.define("event", "openArmoryChest", {
+      once: true,
+      actions: [
+        { type: "setPropState", target: prop("armory_chest"), state: "open" },
+        { type: "setFlag", name: "item", value: "key" },
+        { type: "setSurface", cell: P(6, 7), side: "east", material: "mural" },
+        sound("chest_open", 0.8),
+        msg("Inside lies an iron key. As you lift it, a faded mural appears on the wall."),
+      ],
+    }),
+    ops.define("event", "dartPlate", { once: true, actions: [msg("Click."), { type: "runEvent", event: "dart", delayMs: 1200 }] }),
+    ops.define("event", "dart", { actions: [sound("dart"), msg("A dart whistles past your ear!")] }),
+    ops.define("event", "spikes", {
+      actions: [{ type: "addFlag", name: "falls", amount: 1 }, msg("You land among rusted spikes. Somewhere a mechanism groans..."), { type: "runEvent", event: "rescue", delayMs: 1500 }],
+    }),
+    ops.define("event", "rescue", { actions: [{ type: "teleport", to: P(5, 2), facing: "north" }, msg("...and the floor lifts you back up into the hall.")] }),
+    // vault door: use = unlock with the key, or open/close once unlocked; bump explains
+    ops.define("event", "useVaultDoor", {
+      conditions: [{ type: "state", target: edge("vault_door"), equals: "locked" }],
+      actions: [{ type: "runEvent", event: "unlockVault" }],
+      else: [{ type: "toggleConnectionState", target: edge("vault_door"), states: ["closed", "open"] }],
+    }),
+    ops.define("event", "unlockVault", {
+      conditions: [{ type: "flag", name: "item", op: "==", value: "key" }],
+      actions: [{ type: "setConnectionState", target: edge("vault_door"), state: "closed" }, sound("unlock"), msg("The iron key turns. The vault door is unlocked.")],
+      else: [msg("Locked. There must be a key somewhere.")],
+    }),
+    ops.define("event", "bumpVault", {
+      conditions: [{ type: "state", target: edge("vault_door"), equals: "locked" }],
+      actions: [msg("The vault door is locked.")],
+      else: [msg("The vault door is shut. Use it to open it.")],
+    }),
+    // tower
+    ops.define("event", "window", {
+      conditions: [{ type: "playerFacing", facing: "north" }],
+      actions: [msg("Through a narrow window you see the sea, grey under the moon.")],
+    }),
+    ops.define("event", "towerButton", {
+      once: true,
+      actions: [{ type: "setPropState", target: prop("tower_button"), state: "down" }, { type: "setConnectionState", target: edge("library_wall"), state: "open" }, sound("stone_grind"), msg("A bookcase in the south wall swings aside.")],
+    }),
+    ops.define("event", "takeTome", {
+      once: true,
+      actions: [{ type: "setPropState", target: prop("tome_chest"), state: "open" }, { type: "setFlag", name: "tome", value: true }, msg("You take the Tome of Echoes. The floor near the east shelves looks hollow.")],
+    }),
+    ops.define("event", "oubliette", {
+      actions: [{ type: "addFlag", name: "falls", amount: 1 }, msg("You tumble into a lightless oubliette."), { type: "runEvent", event: "outOfOubliette", delayMs: 1500 }],
+    }),
+    ops.define("event", "outOfOubliette", { actions: [{ type: "teleport", to: P(1, 1), facing: "east" }, msg("A cold wind carries you... back to the entrance.")] }),
+    // the altar: needs the tome and the key, and only works once
+    ops.define("event", "awakenAltar", {
+      conditions: [
+        { type: "flag", name: "tome", op: "==", value: true },
+        { type: "any", conditions: [{ type: "flag", name: "item", op: "==", value: "key" }, { type: "flag", name: "visits", op: ">=", value: 3 }] },
+        { type: "not", conditions: [{ type: "state", target: prop("altar"), equals: "awake" }] },
+      ],
+      actions: [
+        { type: "setPropState", target: prop("altar"), state: "awake" },
+        { type: "setConnectionState", target: edge("trapdoor"), state: "open" },
+        { type: "setPropState", target: prop("hall_torch"), state: "out" },
+        sound("choir", 0.7),
+        { type: "custom", custom: "spawnMonster", params: { monster: "wraith", at: P(3, 0), near: "altar" } },
+        msg("The altar wakes with a sound like distant bells. A trapdoor opens in the hall floor, and something stirs in the shadows."),
+      ],
+      else: [msg("The altar is cold. It wants the Tome of Echoes, and the key.")],
+    }),
+    ops.define("event", "takeCrown", {
+      once: true,
+      conditions: [{ type: "custom", custom: "hasItem", params: { item: "torch" } }, { type: "eventFired", event: "awakenAltar" }],
+      actions: [{ type: "setPropState", target: prop("crown_chest"), state: "open" }, { type: "setFlag", name: "crown", value: true }, sound("fanfare"), msg("The Crown of Echoes! Climb the ladder to leave the keep.")],
+      else: [msg("It's too dark to find the latch.")],
+    }),
+    ops.define("event", "leave", {
+      conditions: [{ type: "flag", name: "crown", op: "==", value: true }],
+      actions: [msg("You climb into the hall, crown in hand. The echoes fall silent. You win!")],
+    }),
+    // triggers
+    ops.setMapMeta({ onLoad: "arrive" }),
+    ops.updateCells([P(2, 1)], { onExit: "chill" }),
+    ops.updateCells([P(4, 7)], { onEnter: "dartPlate" }),
+    ops.updateCells([P(6, 8, -1)], { onEnter: "spikes" }),
+    ops.updateCells([P(11, 1, 1)], { onEnter: "window" }),
+    ops.updateCells([P(12, 5, 0)], { onEnter: "oubliette" }),
+    ops.updateCells([P(3, 3)], { onEnter: "leave" }),
+    ops.updateEdge("7,2,0:east", { onUse: "useVaultDoor", onBump: "bumpVault" }),
+  );
+
+  const props: [string, string, GridPos, Side | undefined, string | undefined, Record<string, string> | undefined][] = [
+    ["entry_sign", "sign", P(0, 1), "west", undefined, { text: "The Keep of Echoes. Wake the altar." }],
+    ["hall_lever", "lever", P(4, 0), "north", "pullHallLever", undefined],
+    ["hall_torch", "torch", P(3, 2), "west", undefined, undefined],
+    ["altar", "altar", P(7, 1), undefined, "awakenAltar", { deity: "moon" }],
+    ["armory_chest", "chest", P(6, 7), undefined, "openArmoryChest", undefined],
+    ["dart_plate", "pressurePlate", P(4, 7), undefined, undefined, undefined],
+    ["tower_button", "button", P(12, 2, 1), "east", "towerButton", undefined],
+    ["tome_chest", "chest", P(10, 5, 1), undefined, "takeTome", undefined],
+    ["crown_chest", "chest", P(3, 4, -1), undefined, "takeCrown", undefined],
+  ];
+  for (const [id, type, cell, side, onUse, params] of props) {
+    doc = run(doc, ops.addProp(doc, { id, type, cell, ...(side && { side }), ...(onUse && { onUse }), ...(params && { params }) }).command);
+  }
+  return doc;
+}
+
+/**
  * "The Crypt": a small puzzle dungeon that uses most features.
  * Chapel (level 0): light three braziers (custom prop type) to count up a flag and open a
  * secret wall. A staircase run leads down to a vault where a pressure plate opens a trapdoor

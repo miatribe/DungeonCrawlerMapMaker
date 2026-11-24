@@ -64,13 +64,13 @@ export function View3D({ mode }: { mode: "3d" | "play" }) {
     return unsub;
   }, [mode]);
 
-  // Playtest: build the whole map once, then follow runtime state.
+  // Playtest: build the whole map, then follow runtime state. Restart (R) swaps in a new
+  // Runtime, so this re-runs whenever the runtime changes, not just the mode.
+  const runtime = useEditor((s) => s.playtest?.runtime);
   useEffect(() => {
-    if (mode !== "play") return;
+    if (mode !== "play" || !runtime) return;
     const scene = sceneRef.current!;
-    const pt = useEditor.getState().playtest;
-    if (!pt) return;
-    const rt = pt.runtime;
+    const rt = runtime;
     const map = rt.map;
     const unitY = map.stepHeight / map.cellSize;
     let surfacesSig = "";
@@ -88,7 +88,7 @@ export function View3D({ mode }: { mode: "3d" | "play" }) {
     };
     sync(true);
     return rt.subscribe(() => sync(false));
-  }, [mode]);
+  }, [mode, runtime]);
 
   // Orbit picking: a click (not a drag) selects the cell under the cursor.
   useEffect(() => {

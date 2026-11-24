@@ -12,6 +12,7 @@ import { autosave, type FileHandle } from "./persistence";
 import threeRoomsText from "../../examples/three-rooms.dcmm?raw";
 import towerText from "../../examples/tower.dcmm?raw";
 import cryptText from "../../examples/crypt.dcmm?raw";
+import keepText from "../../examples/keep-of-echoes.dcmm?raw";
 
 export type ToolId = "select" | "paint" | "room" | "erase" | "edge" | "material" | "height" | "ramp" | "vertical" | "prop" | "start";
 export type DockTab = "levels" | "events" | "flags" | "types" | "problems";
@@ -47,6 +48,7 @@ export interface Selection {
 const EMPTY_SEL: Selection = { cells: [], edges: [], props: [] };
 
 export const EXAMPLES: Record<string, { name: string; text: string }> = {
+  "keep-of-echoes": { name: "The Keep of Echoes (everything)", text: keepText },
   "three-rooms": { name: "Three Rooms", text: threeRoomsText },
   tower: { name: "Tower (multi-level)", text: towerText },
   crypt: { name: "The Crypt (puzzle, custom types)", text: cryptText },

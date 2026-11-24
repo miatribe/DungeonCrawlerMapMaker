@@ -5,7 +5,7 @@ import { useEditor } from "./store";
 
 const S = () => useEditor.getState();
 
-export function startPlaytest(from?: Start): void {
+export function startPlaytest(from?: Start, returnTo?: "2d" | "3d"): void {
   const s = S();
   const start = from ?? s.doc.start ?? undefined;
   if (!start || !s.resolved.cellAt(start.cell)) {
@@ -17,8 +17,8 @@ export function startPlaytest(from?: Start): void {
     customCondition: (id) => S().customConds[id] ?? true,
   });
   runtime.subscribe(() => S().set({ playTick: S().playTick + 1 }));
-  const returnTo = s.viewMode === "3d" ? "3d" : "2d";
-  s.set({ playtest: { runtime, from: start, returnTo }, viewMode: "play", pick: null, preview: null });
+  const back = returnTo ?? (s.viewMode === "3d" ? "3d" : "2d");
+  s.set({ playtest: { runtime, from: start, returnTo: back }, viewMode: "play", pick: null, preview: null });
   runtime.begin();
 }
 
@@ -37,15 +37,12 @@ export function stopPlaytest(): void {
   s.set({ viewMode: s.playtest.returnTo, playtest: null, level: p.pos.z });
 }
 
+/** Start over from the same spot with a fresh runtime (R / Restart button). */
 export function restartPlaytest(): void {
   const p = S().playtest;
-  if (p) startPlaytestFrom(p.from, p.returnTo);
-}
-
-function startPlaytestFrom(from: Start, returnTo: "2d" | "3d") {
-  startPlaytest(from);
-  const pt = S().playtest;
-  if (pt) S().set({ playtest: { ...pt, returnTo } });
+  if (!p) return;
+  startPlaytest(p.from, p.returnTo);
+  S().notify("Restarted.");
 }
 
 /** Copy the playtest's current states and flag values into the map as its starting values. */

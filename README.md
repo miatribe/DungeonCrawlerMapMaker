@@ -26,6 +26,7 @@ A browser-based editor for building maps for grid-based dungeon crawler games, i
   - A live debug panel shows flags and states, and toggles what custom conditions return.
 - **Textures:** built-in patterns (bricks, stone, planks, cobble, metal and more) tinted by each material's color, or your own uploaded images. They show in both 2D and 3D.
 - **Examples:**
+  - *The Keep of Echoes* (the default): one map that uses every feature, across three levels.
   - *Three Rooms:* levers, a gate and a door trap.
   - *Tower:* multi-level, with stairs and a pit.
   - *The Crypt:* a puzzle with custom types, flags, a secret wall, a trapdoor and a ladder.
@@ -65,7 +66,7 @@ npm install
 npm run dev
 ```
 
-Then open **http://localhost:5173** in your browser. The first visit opens the **Three Rooms** example. **File → New map** starts from scratch, and **File → Example: Tower** shows a multi-level map. The page reloads by itself when you change the code. Press `Ctrl+C` in the terminal to stop the server.
+Then open **http://localhost:5173** in your browser. The first visit opens the **Keep of Echoes** example. Press F5 to play it. **File → New map** starts from scratch, and **File → Example: Tower** shows a multi-level map. The page reloads by itself when you change the code. Press `Ctrl+C` in the terminal to stop the server.
 
 Your maps autosave to the browser (IndexedDB), and the last one reopens on reload. **File → Save** writes a `.dcmm` file you can keep or share. In Chrome and Edge it saves straight to disk; other browsers download it.
 
@@ -158,7 +159,14 @@ npm run demo
 npm run examples
 ```
 
-This writes the three fixture maps to [examples/](examples):
+This writes the four fixture maps to [examples/](examples):
+- **The Keep of Echoes:** the showcase, using every feature DCMM has.
+  - **Spaces:** three levels, with a tall vaulted hall, a marble dais up a ramp, stairs down to a sunken armory, stairs up a full level to a tower, a hidden library and a cellar with a pool.
+  - **Vertical connections:** a trapdoor, a ladder, a pit, an open shaft and a grate.
+  - **Connections:** usable and locked doors, a secret wall, and a custom portcullis type.
+  - **Props:** a lever, a button, chests, a sign, a dart plate, a wall torch, and a custom altar prop with a parameter.
+  - **Logic:** every condition and action type, bool/int/string flags, custom actions and conditions, delayed events, teleports and a runtime material change.
+  - **Walkthrough:** open the door, pull the lever, get the key from the armory (mind the dart and the spike pit), unlock the vault, reveal the library from the tower, take the tome, wake the altar, then drop into the cellar for the crown and climb out.
 - **Three Rooms:** a port of the original prototype, with a lever-operated gate, a door trap and a chest.
 - **Tower:** two levels joined by a full-level staircase, a pit and a sunken floor.
 - **The Crypt:**
@@ -166,7 +174,7 @@ This writes the three fixture maps to [examples/](examples):
   - Stairs lead down to a pressure plate that opens a trapdoor into a lower crypt.
   - The crypt has a sarcophagus that fires custom actions, and a ladder back up.
 
-Each map gets a `.dcmm` project file and a `.json` export, so you can see both formats. All three are also under **File** in the editor.
+Each map gets a `.dcmm` project file and a `.json` export, so you can see both formats. All four are also under **File** in the editor.
 
 ```powershell
 npm run schemas
