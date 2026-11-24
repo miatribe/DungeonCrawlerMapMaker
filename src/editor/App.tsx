@@ -3,6 +3,7 @@ import * as ops from "../core/ops";
 import { openProject, saveProject } from "./actions";
 import { Dock } from "./components/Dock";
 import { ExportDialog } from "./components/ExportDialog";
+import { HelpDialog } from "./components/HelpDialog";
 import { Inspector } from "./components/Inspector";
 import { MenuBar } from "./components/MenuBar";
 import { Palette } from "./components/Palette";
@@ -28,6 +29,7 @@ function useShortcuts() {
       if (mod && k === "s") { e.preventDefault(); void saveProject(e.shiftKey); return; }
       if (mod && k === "o") { e.preventDefault(); void openProject(); return; }
       if (mod && k === "e") { e.preventDefault(); s.set({ exportOpen: true }); return; }
+      if (e.key === "F1" || (e.key === "?" && !typing)) { e.preventDefault(); s.set({ helpOpen: !s.helpOpen }); return; }
       if (e.key === "F5") { e.preventDefault(); if (s.viewMode === "play") stopPlaytest(); else if (e.shiftKey) startPlaytestHere(); else startPlaytest(); return; }
       if (e.key === "F6") { e.preventDefault(); if (s.viewMode === "play") stopPlaytest(); s.set({ viewMode: useEditor.getState().viewMode === "3d" ? "2d" : "3d" }); return; }
       if (typing || s.exportOpen || s.viewMode === "play") return;
@@ -98,6 +100,7 @@ export function App() {
       </aside>
       <StatusBar />
       <ExportDialog />
+      <HelpDialog />
       <Toast />
     </div>
   );

@@ -3,6 +3,7 @@ import * as ops from "../../core/ops";
 import { useEditor, type HeightTarget, type MaterialTarget, type RampKind } from "../store";
 import { TOOLS } from "../tools";
 import { NumberField, Swatch, TextField } from "./fields";
+import { BUILTIN_PATTERNS, isBuiltinTexture, PATTERN_LABEL } from "../../render/textures";
 
 const KIND_HINT: Record<string, string> = {
   opening: "Open passage",
@@ -178,6 +179,71 @@ function VerticalPalette() {
   );
 }
 
+const MAX_TEXTURE = 1024;
+
+function TexturePicker({ materialId }: { materialId: string }) {
+  const mat = useEditor((s) => s.doc.materials[materialId]);
+  const assets = useEditor((s) => s.assets);
+  const exec = useEditor((s) => s.exec);
+  const set = useEditor((s) => s.set);
+  const notify = useEditor((s) => s.notify);
+  if (!mat) return null;
+  const setTexture = (texture: string | undefined) => {
+    const next = { ...mat };
+    if (texture) next.texture = texture; else delete next.texture;
+    exec(ops.define("material", materialId, next));
+  };
+  const upload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/png,image/jpeg,image/webp";
+    input.onchange = () => {
+      const f = input.files?.[0];
+      if (!f) return;
+      if (!["image/png", "image/jpeg", "image/webp"].includes(f.type)) { notify("Use a PNG, JPEG or WebP image.", "error"); return; }
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = String(reader.result);
+        const img = new Image();
+        img.onload = () => {
+          if (img.naturalWidth > MAX_TEXTURE || img.naturalHeight > MAX_TEXTURE) { notify(`Images can be at most ${MAX_TEXTURE}×${MAX_TEXTURE} px.`, "error"); return; }
+          const s = useEditor.getState();
+          let n = 1; while (s.assets[`tex_${n}`]) n++;
+          const id = `tex_${n}`;
+          set({ assets: { ...s.assets, [id]: { mime: f.type as "image/png" | "image/jpeg" | "image/webp", data } } });
+          setTexture(id);
+          notify(`Uploaded ${f.name} as ${id}`);
+        };
+        img.onerror = () => notify("That image couldn't be read.", "error");
+        img.src = data;
+      };
+      reader.readAsDataURL(f);
+    };
+    input.click();
+  };
+  return (
+    <>
+      <select
+        value={mat.texture ?? ""}
+        aria-label="Texture"
+        onChange={(e) => { const v = e.target.value; if (v === "__upload") upload(); else setTexture(v || undefined); }}
+      >
+        <option value="">(color only)</option>
+        <optgroup label="Built-in patterns">
+          {BUILTIN_PATTERNS.map((p) => <option key={p} value={`builtin:${p}`}>{PATTERN_LABEL[p]}</option>)}
+        </optgroup>
+        {Object.keys(assets).length > 0 && (
+          <optgroup label="Uploaded">
+            {Object.keys(assets).map((id) => <option key={id} value={id}>{id}</option>)}
+          </optgroup>
+        )}
+        {mat.texture && !isBuiltinTexture(mat.texture) && !assets[mat.texture] && <option value={mat.texture}>{mat.texture} (missing)</option>}
+        <option value="__upload">Upload image…</option>
+      </select>
+    </>
+  );
+}
+
 const TARGETS: { id: MaterialTarget; label: string }[] = [
   { id: "auto", label: "Face" },
   { id: "floor", label: "Floor" },
@@ -228,6 +294,11 @@ function MaterialPalette() {
               <span className="mono small">{mat.color}</span>
             </span>
           </div>
+          <div className="row">
+            <span className="row-label">Texture</span>
+            <span className="row-field"><TexturePicker materialId={active} /></span>
+          </div>
+          <p className="muted small">Textures are for previews only. Built-in patterns are tinted by the color. Uploaded images are saved in the project file and left out of exports unless you ask for them.</p>
         </div>
       )}
     </>

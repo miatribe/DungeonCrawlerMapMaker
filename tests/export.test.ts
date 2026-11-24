@@ -71,6 +71,12 @@ describe("JSON exporter", () => {
     expect(exportJson(doc, { includePreviewTextures: true }, {}).result.warnings).toEqual(['Material "flagA" references missing texture asset "tex1"']);
   });
 
+  it("exports built-in pattern names as-is when textures are included", () => {
+    const data = parse(exportJson(threeRooms(), { includePreviewTextures: true }));
+    expect(data.materials.brick.texture).toBe("builtin:brick");
+    expect(parse(exportJson(threeRooms())).materials.brick.texture).toBeUndefined();
+  });
+
   it("is blocked by validation errors", () => {
     const r = runExport("json", createMap());
     expect(r.ok).toBe(false);

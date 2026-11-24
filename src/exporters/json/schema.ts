@@ -47,7 +47,7 @@ export const RiserSchema = z.object({
 });
 
 export const RuntimeMaterialSchema = MaterialSchema.extend({
-  /** Data URI, present only with the includePreviewTextures option. */
+  /** Only with the includePreviewTextures option: an uploaded image as a data URI, or "builtin:<pattern>". */
   texture: z.string().optional(),
 });
 

@@ -411,39 +411,48 @@
     "materials": {
       "stone": {
         "name": "Grey stone",
-        "color": "#7b8190"
+        "color": "#7b8190",
+        "texture": "builtin:stone"
       },
       "brick": {
         "name": "Red brick",
-        "color": "#a5503a"
+        "color": "#a5503a",
+        "texture": "builtin:brick"
       },
       "moss": {
         "name": "Mossy stone",
-        "color": "#5b8a58"
+        "color": "#5b8a58",
+        "texture": "builtin:moss"
       },
       "wood": {
         "name": "Oak planks",
-        "color": "#8a5a2b"
+        "color": "#8a5a2b",
+        "texture": "builtin:planks"
       },
       "iron": {
         "name": "Iron",
-        "color": "#9aa0a8"
+        "color": "#9aa0a8",
+        "texture": "builtin:metal"
       },
       "dirt": {
         "name": "Dirt",
-        "color": "#5a4632"
+        "color": "#5a4632",
+        "texture": "builtin:dirt"
       },
       "water": {
         "name": "Water",
-        "color": "#2f5f8a"
+        "color": "#2f5f8a",
+        "texture": "builtin:water"
       },
       "flagstone": {
         "name": "Flagstone",
-        "color": "#4a4440"
+        "color": "#4a4440",
+        "texture": "builtin:flagstone"
       },
       "ceiling": {
         "name": "Ceiling",
-        "color": "#2a2630"
+        "color": "#2a2630",
+        "texture": "builtin:noise"
       }
     },
     "connectionTypes": {

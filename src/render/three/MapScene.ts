@@ -7,7 +7,10 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import type { Facing, GridPos } from "../../core/geometry";
 import type { ResolvedMap } from "../../core/resolve";
-import { buildMesh, type BuildOptions, type HEdgePart, type MeshData, type PropPart, type VEdgePart } from "../mesh/buildMesh";
+import { buildMesh, type BuildOptions as MeshBuildOptions, type HEdgePart, type MeshData, type PropPart, type VEdgePart } from "../mesh/buildMesh";
+import { tinted } from "../textures";
+
+type BuildOptions = MeshBuildOptions & { textureFor?: (materialId: string) => { src: CanvasImageSource; multiply: boolean } | null };
 
 const YAW: Record<Facing, number> = { north: 0, west: Math.PI / 2, south: Math.PI, east: -Math.PI / 2 };
 
@@ -95,7 +98,7 @@ export class MapScene {
     this.clearGroup(this.staticGroup);
     this.clearGroup(this.dynamicGroup);
     this.clearGroup(this.overlayGroup);
-    for (const m of this.materials.values()) m.dispose();
+    this.resetMaterials();
     this.noise.dispose();
     this.renderer.dispose();
     this.renderer.domElement.remove();
@@ -112,13 +115,33 @@ export class MapScene {
 
   // ---------- content ----------
 
+  private textureFor: BuildOptions["textureFor"] | undefined;
+
   private material(id: string, color: string): THREE.MeshLambertMaterial {
     let m = this.materials.get(id);
     if (!m) {
-      m = new THREE.MeshLambertMaterial({ color, map: this.noise });
+      const tex = id.startsWith("__") ? null : this.textureFor?.(id) ?? null;
+      if (tex) {
+        const t = new THREE.CanvasTexture(tinted(tex.src, color, tex.multiply));
+        t.wrapS = t.wrapT = THREE.RepeatWrapping;
+        t.magFilter = THREE.NearestFilter;
+        t.colorSpace = THREE.SRGBColorSpace;
+        t.anisotropy = 4;
+        m = new THREE.MeshLambertMaterial({ color: 0xffffff, map: t });
+      } else {
+        m = new THREE.MeshLambertMaterial({ color, map: this.noise });
+      }
       this.materials.set(id, m);
-    } else m.color.set(color);
+    }
     return m;
+  }
+
+  private resetMaterials() {
+    for (const m of this.materials.values()) {
+      if (m.map && m.map !== this.noise) m.map.dispose();
+      m.dispose();
+    }
+    this.materials.clear();
   }
 
   private color(id: string): string {
@@ -137,6 +160,8 @@ export class MapScene {
     this.clearGroup(this.staticGroup);
     this.clearGroup(this.dynamicGroup);
     this.animated.clear();
+    this.textureFor = opts.textureFor;
+    this.resetMaterials();
     for (const [id, b] of this.mesh.groups) {
       const g = new THREE.BufferGeometry();
       g.setAttribute("position", new THREE.Float32BufferAttribute(b.positions, 3));
@@ -354,8 +379,21 @@ export class MapScene {
         g.add(box(0.36, 0.22, 0.04, base, 0, onWall ? 0 : 0.45, onWall ? 0.02 : 0));
         break;
       }
-      default:
-        g.add(box(0.24, 0.24, 0.24, base, 0, onWall ? 0 : 0.12, onWall ? 0.12 : 0));
+      default: {
+        // Generic props show state by glowing whenever they're not in their type's starting state.
+        const mesh = box(0.24, 0.24, 0.24, base, 0, onWall ? 0 : 0.12, onWall ? 0.12 : 0);
+        g.add(mesh);
+        const initial = this.map?.propTypes[p.type]?.initialState;
+        const glow = new THREE.PointLight(new THREE.Color(p.color), 0, 2.5, 1.5);
+        glow.position.set(0, onWall ? 0.1 : 0.35, onWall ? 0.25 : 0);
+        g.add(glow);
+        set = (s) => {
+          const active = initial !== undefined && s !== initial;
+          const m = new THREE.MeshLambertMaterial({ color: p.color, emissive: active ? new THREE.Color(p.color) : new THREE.Color(0x000000), emissiveIntensity: active ? 0.9 : 0 });
+          mesh.material = m;
+          glow.intensity = active ? 1.6 : 0;
+        };
+      }
     }
     if (p.mount === "up") g.rotation.x = Math.PI;
     return { obj: g, set, tick };

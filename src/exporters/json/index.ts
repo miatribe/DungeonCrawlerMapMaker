@@ -54,7 +54,8 @@ export function buildRuntimeMap(map: ResolvedMap, options: JsonExportOptions, ct
     const out: RuntimeMap["materials"][string] = { ...rest };
     if (options.includePreviewTextures && texture) {
       const asset = ctx.assets[texture];
-      if (asset) out.texture = asset.data;
+      if (texture.startsWith("builtin:")) out.texture = texture; // procedural pattern name; see EXPORT_FORMAT.md
+      else if (asset) out.texture = asset.data;
       else warnings.push(`Material "${id}" references missing texture asset "${texture}"`);
     }
     materials[id] = out;

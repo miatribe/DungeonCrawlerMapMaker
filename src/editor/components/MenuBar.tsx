@@ -96,6 +96,11 @@ export function MenuBar() {
       { label: "Height labels", checked: s.showHeights, action: () => s.set({ showHeights: !s.showHeights }) },
       { label: "Show all logic links", shortcut: "L", checked: s.showAllLinks, action: () => s.set({ showAllLinks: !s.showAllLinks }) },
     ],
+    Help: [
+      { label: "Keyboard shortcuts & guide", shortcut: "F1", action: () => s.set({ helpOpen: true }) },
+      { label: "Export format (for engines)", action: () => window.open("https://github.com/miatribe/DungeonCrawlerMapMaker/blob/master/docs/EXPORT_FORMAT.md", "_blank", "noopener") },
+      { label: "Project on GitHub", action: () => window.open("https://github.com/miatribe/DungeonCrawlerMapMaker", "_blank", "noopener") },
+    ],
   };
 
   return (

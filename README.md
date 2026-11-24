@@ -2,33 +2,40 @@
 
 A browser-based editor for building maps for grid-based dungeon crawler games, in 2D or 3D. You lay out cells and walls across stacked levels, set floor and ceiling heights, add doors, props and gameplay logic, and export the result as engine-neutral data for whatever engine you use.
 
-The full design is in [docs/SPEC.md](docs/SPEC.md).
+- **Design:** [docs/SPEC.md](docs/SPEC.md).
+- **Loading exported maps in an engine:** [docs/EXPORT_FORMAT.md](docs/EXPORT_FORMAT.md).
 
 ## Status
 
-**Milestones 1–5 of 6 are done: the core model, JSON export, the 2D editor, heights and vertical tools, the logic editor, and the 3D view and playtest.**
+**All six planned milestones are done.** What's in it:
 
-- **3D overview (F6):** orbit around the dungeon. Rooms are seen from outside, since walls only face inward, and levels above the current one can be hidden. Click a cell to select it.
+- **2D editor:**
+  - Edit top-down, one level at a time: paint rooms and cells, place doors, gates, openings and secret walls on cell edges, paint materials, and set the start.
+  - An Inspector edits whatever you select.
+  - The level below shows faintly, validation runs as you work, and you have undo/redo.
+  - Your work autosaves in the browser. Open and save `.dcmm` files, and export JSON.
+- **Heights and levels:** raise, lower or set floors and ceilings; build ramp and staircase runs; build stairs that climb a full level; and add trapdoors, pits, ladders and grates between levels.
+- **Logic:**
+  - Place props (levers, buttons, chests, signs, plates or your own types).
+  - Write events with conditions, actions and an otherwise branch, and keep flags.
+  - Define custom actions, conditions, props and connections with typed parameters for your engine, and share them between maps as type libraries.
+  - Selecting something draws arrows to everything its trigger changes or checks.
+- **3D overview (F6):** orbit around the dungeon, hide upper levels, and click to select.
 - **First-person playtest (F5):**
   - Walk the map with doors, gates, levers, traps, stairs, ladders and pits all working.
-  - A debug panel shows live flags and states and lets you choose what custom conditions return.
-  - **Copy state to map** makes the current states and flag values the map's starting values.
+  - A live debug panel shows flags and states, and toggles what custom conditions return.
+- **Textures:** built-in patterns (bricks, stone, planks, cobble, metal and more) tinted by each material's color, or your own uploaded images. They show in both 2D and 3D.
+- **Examples:**
+  - *Three Rooms:* levers, a gate and a door trap.
+  - *Tower:* multi-level, with stairs and a pit.
+  - *The Crypt:* a puzzle with custom types, flags, a secret wall, a trapdoor and a ladder.
+- **Help:** F1 or `?` shows every shortcut and a quick guide.
+- **Under the hood:**
+  - A pure-TypeScript core: model, validation, a headless runtime and a mesh builder.
+  - A versioned project format, and a deterministic JSON export behind a pluggable exporter interface.
+  - 99 tests.
 
-- **Logic editor:**
-  - Place and move props (levers, buttons, chests, signs, plates or your own types).
-  - Write events with conditions, actions and an otherwise branch.
-  - Manage flags, and define connection, prop and custom action/condition types.
-  - Share types between maps as type libraries.
-  - Selecting anything with a trigger draws arrows to everything its event changes or checks. Selecting a door or prop also shows what affects it.
-
-- **2D editor:** a top-down, level-by-level editor in the browser. You can paint rooms and cells, place doors, gates and openings on cell edges, paint materials, set the start position, edit cells and connections in an inspector, switch levels with the level below shown ghosted, see validation problems as you work, undo and redo, open and save `.dcmm` files, and export JSON. Your work autosaves in the browser.
-- **Heights and levels:** raise, lower or set floors and ceilings; build ramp and staircase runs; build stairs that climb a full level; and add hatches, pits, ladders and grates between levels. Connections find the right cell on the other level, even past tall or sunken cells, and can create it for you.
-- **Map model:** square grid, thin walls on cell edges, multiple levels, per-cell floor and ceiling heights, ramps and stairs, and tall cells for open vertical spaces.
-- **Logic model:** props, events with conditions and actions, flags, connections that change state (doors, gates, hatches), and custom action and condition types that your engine implements.
-- **Validation:** missing references, invalid states, overlapping cells, unreachable areas, bad custom params and more (see SPEC §8.8).
-- **Files:** a `.dcmm` project format with versioned migrations, and a JSON runtime export behind a pluggable exporter interface.
-
-Next up: polish (milestone 6), with built-in textures, more examples, engine-facing export docs and a shortcut help screen.
+Possible next steps: copy/paste and moving selections, designer notes, and engine-specific exporters (Godot, Unity, glTF). The spec lists more under planned extensions (§12).
 
 ## Running it yourself
 
@@ -85,7 +92,7 @@ If the dev server keeps showing old code after you edit a file (its file watcher
 | Paint cells | `B` | Drag to paint cells. Cells painted in one stroke open into each other. Right-drag erases. |
 | Erase | `E` | Drag over cells to remove them. Click a connection to turn it back into a wall. |
 | Connections | `D` | Click a cell edge to place the connection chosen in the right panel (door, gate, opening, secret wall). Click it again to cycle its state (closed → open → locked). Right-click makes a wall. Drag along edges to place many. |
-| Material | `M` | Click near a wall to paint that wall face, or the middle of a cell to paint its floor. Shift paints the whole room, Alt picks up a material, right-click resets to the default. The panel also adds and edits materials. |
+| Material | `M` | Click near a wall to paint that wall face, or the middle of a cell to paint its floor. Shift paints the whole room, Alt picks up a material, right-click resets to the default. The panel also adds and edits materials: name, color, and a texture (a built-in pattern tinted by the color, or an uploaded PNG/JPEG/WebP up to 1024×1024, saved in the project file). |
 | Height | `H` | Click or drag over cells to raise the floor one step; right-click lowers. The panel switches between Floor, Ceiling and Whole cell, and between Raise/lower and Set to value (right-click resets to the default). Alt picks up a cell's height. |
 | Ramp / Stairs | `S` | Drag in the uphill direction to build a staircase or ramp run; each cell rises from where the last one ended. Click near an edge for a one-cell ramp toward it. **Up a level** turns one cell into stairs that climb to the level above and creates the landing there. Right-click flattens. |
 | Vertical connections | `U` | Click a cell to put a trapdoor, pit, ladder, opening or grate through its floor (or ceiling; Shift flips). Click again to cycle its state, right-click to remove. Creates the cell on the other level if it's missing. |
@@ -151,7 +158,15 @@ npm run demo
 npm run examples
 ```
 
-This writes the two fixture maps to [examples/](examples): **Three Rooms** (a port of the original prototype, with a lever-operated gate, a door trap and a chest) and **Tower** (two levels joined by a full-level staircase, a pit and a sunken floor). Each map gets a `.dcmm` project file and a `.json` export, so you can see both formats.
+This writes the three fixture maps to [examples/](examples):
+- **Three Rooms:** a port of the original prototype, with a lever-operated gate, a door trap and a chest.
+- **Tower:** two levels joined by a full-level staircase, a pit and a sunken floor.
+- **The Crypt:**
+  - Three braziers (a custom prop type) count up a flag and open a secret wall.
+  - Stairs lead down to a pressure plate that opens a trapdoor into a lower crypt.
+  - The crypt has a sarcophagus that fires custom actions, and a ladder back up.
+
+Each map gets a `.dcmm` project file and a `.json` export, so you can see both formats. All three are also under **File** in the editor.
 
 ```powershell
 npm run schemas
@@ -184,6 +199,7 @@ tests/           Vitest tests, fixture maps and golden export files
 examples/        Generated example maps (.dcmm and .json)
 schemas/         Generated JSON Schemas for both file formats
 docs/SPEC.md     The design spec
+docs/EXPORT_FORMAT.md  Guide to the JSON export for engine developers
 ```
 
 ## Export format at a glance

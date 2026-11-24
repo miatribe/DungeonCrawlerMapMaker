@@ -168,7 +168,7 @@ interface Material {      // stored in map.materials keyed by id
 ```
 
 - The engine is expected to map material `id` to its own assets. Textures exist **only to make previews nicer**.
-- DCMM ships a small built-in prototype texture set (stone, brick, wood, moss, dirt, metal, water). Users can upload their own PNG/JPG/WebP files, at most 1024² each.
+- DCMM ships a small set of built-in prototype textures (`builtin:<pattern>`, procedural and tinted by the material color: brick, stone, cobble, flagstone, planks, metal, dirt, moss, water, noise). Users can upload their own PNG/JPG/WebP files, at most 1024² each.
 - Uploaded textures are embedded in the project file as data URIs. The JSON export leaves them out by default (option: `includePreviewTextures`).
 
 ---
@@ -530,9 +530,18 @@ examples/          three-rooms.dcmm (port of the prototype), tower.dcmm (multi-l
 
 The MVP is milestones 1–5.
 
-**Status (2026-11-23):** milestones 1–5 are done. Still open from §8:
+**Status (2026-11-23):** all six milestones are done. Still open from §8:
 - Moving, copying and pasting a selection with the Select tool.
 - The Note tool.
+
+Milestone 6 details:
+- **Built-in textures:** a material's `texture` may be `builtin:<pattern>`, a procedural grayscale pattern tinted by the material color (`render/textures.ts`). The patterns are brick, stone, cobble, flagstone, planks, metal, dirt, moss, water and noise. Built-in materials use them by default.
+  - **Uploads:** uploaded images are stored as project `assets` (max 1024², PNG/JPEG/WebP) and used untinted. Both kinds show in the 2D view (floors) and the 3D view.
+  - **Export:** with `includePreviewTextures`, a built-in texture is exported as its `builtin:` name and an uploaded image as a data URI.
+- **Examples:** a third example, *The Crypt*, shows off custom types and the logic system. It has an end-to-end playthrough test.
+- **Docs:** `docs/EXPORT_FORMAT.md` is the guide for engine developers.
+- **Help:** a help dialog (F1 / `?`) lists every shortcut.
+- **Autosave on open:** opening a file or example now autosaves right away, so a reload returns to it.
 
 Milestone 5 details:
 - **Runtime:** `core/logic/runtime.ts` is a headless `Runtime`. It plays a copy of the state and follows the §9.2 movement rules. Unit tests play through both example maps.

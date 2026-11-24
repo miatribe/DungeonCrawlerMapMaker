@@ -2,16 +2,20 @@
 import type { MapDoc } from "./model";
 import type { ConnectionType, Material, PropType } from "./schema";
 
+/**
+ * Preview textures `builtin:<pattern>` are procedural patterns the editor tints with the
+ * material color (see render/textures.ts). They're for previews only.
+ */
 export const BUILTIN_MATERIALS: Record<string, Material> = {
-  stone: { name: "Grey stone", color: "#7b8190" },
-  brick: { name: "Red brick", color: "#a5503a" },
-  moss: { name: "Mossy stone", color: "#5b8a58" },
-  wood: { name: "Oak planks", color: "#8a5a2b" },
-  iron: { name: "Iron", color: "#9aa0a8" },
-  dirt: { name: "Dirt", color: "#5a4632" },
-  water: { name: "Water", color: "#2f5f8a" },
-  flagstone: { name: "Flagstone", color: "#4a4440" },
-  ceiling: { name: "Ceiling", color: "#2a2630" },
+  stone: { name: "Grey stone", color: "#7b8190", texture: "builtin:stone" },
+  brick: { name: "Red brick", color: "#a5503a", texture: "builtin:brick" },
+  moss: { name: "Mossy stone", color: "#5b8a58", texture: "builtin:moss" },
+  wood: { name: "Oak planks", color: "#8a5a2b", texture: "builtin:planks" },
+  iron: { name: "Iron", color: "#9aa0a8", texture: "builtin:metal" },
+  dirt: { name: "Dirt", color: "#5a4632", texture: "builtin:dirt" },
+  water: { name: "Water", color: "#2f5f8a", texture: "builtin:water" },
+  flagstone: { name: "Flagstone", color: "#4a4440", texture: "builtin:flagstone" },
+  ceiling: { name: "Ceiling", color: "#2a2630", texture: "builtin:noise" },
 };
 
 const open = { passable: true, blocksSight: false };

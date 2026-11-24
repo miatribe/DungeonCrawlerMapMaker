@@ -250,6 +250,19 @@ input[type="color"] { width: 36px; height: 24px; padding: 0; border: 1px solid v
 .play-log p.custom { color: var(--sel); font-family: ui-monospace, Consolas, monospace; }
 .play-log p.warn { color: var(--warn); }
 
+/* ---------- help ---------- */
+.dialog.help { width: min(980px, calc(100vw - 32px)); max-height: calc(100vh - 48px); }
+.help-head { display: flex; align-items: center; gap: 10px; }
+.help-head .spacer { flex: 1; }
+.help-head h2 { margin: 0; }
+.help-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; }
+table.keys { border-collapse: collapse; width: 100%; font-size: 12px; }
+table.keys td { padding: 3px 6px; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,.04); }
+table.keys td:first-child { white-space: nowrap; width: 1%; }
+kbd { font-family: ui-monospace, Consolas, monospace; font-size: 11px; background: var(--bg); border: 1px solid var(--bd); border-bottom-width: 2px; border-radius: 3px; padding: 1px 5px; }
+.dialog a { color: var(--acc); }
+.dialog ol { padding-left: 20px; }
+
 /* ---------- toast ---------- */
 .toast { position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%); background: var(--panel-2); border: 1px solid var(--acc); border-radius: 6px; padding: 8px 14px; box-shadow: 0 8px 24px rgba(0,0,0,.5); z-index: 50; max-width: min(640px, calc(100vw - 32px)); cursor: pointer; }
 .toast.error { border-color: var(--err); }

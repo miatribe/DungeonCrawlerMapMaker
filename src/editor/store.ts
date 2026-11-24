@@ -11,6 +11,7 @@ import type { GridPos } from "../core/geometry";
 import { autosave, type FileHandle } from "./persistence";
 import threeRoomsText from "../../examples/three-rooms.dcmm?raw";
 import towerText from "../../examples/tower.dcmm?raw";
+import cryptText from "../../examples/crypt.dcmm?raw";
 
 export type ToolId = "select" | "paint" | "room" | "erase" | "edge" | "material" | "height" | "ramp" | "vertical" | "prop" | "start";
 export type DockTab = "levels" | "events" | "flags" | "types" | "problems";
@@ -48,6 +49,7 @@ const EMPTY_SEL: Selection = { cells: [], edges: [], props: [] };
 export const EXAMPLES: Record<string, { name: string; text: string }> = {
   "three-rooms": { name: "Three Rooms", text: threeRoomsText },
   tower: { name: "Tower (multi-level)", text: towerText },
+  crypt: { name: "The Crypt (puzzle, custom types)", text: cryptText },
 };
 
 interface Derived {
@@ -102,6 +104,9 @@ export interface EditorStore extends Derived {
   playTick: number;
   /** Values custom conditions return during playtest (default true). */
   customConds: Record<string, boolean>;
+  /** Bumped when an uploaded texture image finishes loading. */
+  textureTick: number;
+  helpOpen: boolean;
   level: number;
   view: View;
   ghostAbove: boolean;
@@ -197,6 +202,8 @@ export const useEditor = create<EditorStore>((set, get) => {
     playtest: null,
     playTick: 0,
     customConds: {},
+    textureTick: 0,
+    helpOpen: false,
     level: 0,
     view: { panX: 80, panY: 80, zoom: 36 },
     ghostAbove: false,
@@ -259,6 +266,7 @@ export const useEditor = create<EditorStore>((set, get) => {
         fileName: null, fileHandle: undefined, dirty: false, selection: EMPTY_SEL, level: 0,
         view: { panX: 80, panY: 80, zoom: 36 }, tool: "room",
       });
+      scheduleAutosave();
       get().notify("New map. Drag with the Room tool to start.");
     },
 
@@ -290,6 +298,8 @@ export const useEditor = create<EditorStore>((set, get) => {
         ghostBelow: v.showLevelsBelow ?? true,
         pendingFit: !v.pan || v.zoom === undefined,
       });
+      // Remember what's open, so a reload comes back to it even before any edit.
+      scheduleAutosave();
       if (!opts.silent) {
         const extra = r.problems.length ? ` (${r.problems.length} load warning${r.problems.length > 1 ? "s" : ""})` : "";
         get().notify(`Opened ${r.doc.name}${r.migratedFrom ? ` (upgraded from format ${r.migratedFrom})` : ""}${extra}`);

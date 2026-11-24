@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { cellKey, type ResolvedCell } from "../../core";
 import { MapScene } from "../../render/three/MapScene";
 import { useEditor } from "../store";
+import { textureFor } from "../textures";
 import { PlayHud, usePlayKeys } from "./PlayHud";
 
 /** World position of a cell's standing point (center, on the floor), in steps then scaled. */
@@ -33,7 +34,7 @@ export function View3D({ mode }: { mode: "3d" | "play" }) {
     let first = true;
     const rebuild = () => {
       const s = useEditor.getState();
-      scene.setMap(s.resolved, s.cutaway ? { includeCell: (c) => c.pos.z <= s.level } : {});
+      scene.setMap(s.resolved, { textureFor, ...(s.cutaway && { includeCell: (c) => c.pos.z <= s.level }) });
       const spl = s.resolved.stepsPerLevel, unitY = s.resolved.stepHeight / s.resolved.cellSize;
       if (first) {
         const b = s.resolved.bounds;
@@ -57,7 +58,7 @@ export function View3D({ mode }: { mode: "3d" | "play" }) {
     };
     rebuild();
     const unsub = useEditor.subscribe((s, prev) => {
-      if (s.resolved !== prev.resolved || s.level !== prev.level || s.cutaway !== prev.cutaway) rebuild();
+      if (s.resolved !== prev.resolved || s.level !== prev.level || s.cutaway !== prev.cutaway || s.textureTick !== prev.textureTick || s.assets !== prev.assets) rebuild();
       else if (s.selection !== prev.selection) overlay();
     });
     return unsub;
@@ -75,7 +76,7 @@ export function View3D({ mode }: { mode: "3d" | "play" }) {
     let surfacesSig = "";
     const build = () => {
       surfacesSig = JSON.stringify(rt.state.surfaces);
-      scene.setMap(map, { edgeStates: rt.state.edges, propStates: rt.state.props, surface: (p, side) => rt.state.surfaces[cellKey(p)]?.[side] });
+      scene.setMap(map, { textureFor, edgeStates: rt.state.edges, propStates: rt.state.props, surface: (p, side) => rt.state.surfaces[cellKey(p)]?.[side] });
     };
     build();
     scene.setFirstPerson();

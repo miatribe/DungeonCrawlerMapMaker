@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { draw } from "../../render/canvas2d/draw";
 import { centerOn, toWorld, zoomAt, type View } from "../../render/canvas2d/view";
 import { overlayLinks, triggerCells } from "../linkOverlay";
+import { patternsFor } from "../textures";
 import { selectionSets, useEditor } from "../store";
 import { cancelDrag, pointerDown, pointerHover, pointerMove, pointerUp, type PointerInfo } from "../tools";
 
@@ -46,6 +47,7 @@ export function Viewport() {
         problemCells: s.problemCells,
         links: overlayLinks(s),
         triggerCells: triggerCells(s.resolved),
+        patterns: patternsFor(ctx),
         ...(s.preview && { preview: s.preview }),
       });
     };

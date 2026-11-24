@@ -1,0 +1,2124 @@
+{
+  "format": "dcmm-map",
+  "schemaVersion": 1,
+  "generator": "DCMM 0.1.0",
+  "map": {
+    "id": "crypt",
+    "name": "The Crypt",
+    "cellSize": 1,
+    "stepsPerLevel": 4,
+    "stepHeight": 0.25,
+    "bounds": {
+      "min": {
+        "x": 0,
+        "y": 0,
+        "z": -1
+      },
+      "max": {
+        "x": 4,
+        "y": 8,
+        "z": 0
+      }
+    },
+    "start": {
+      "cell": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "facing": "east"
+    },
+    "rules": {
+      "maxStep": 1
+    },
+    "defaults": {
+      "wall": "stone",
+      "floor": "flagstone",
+      "ceiling": "ceiling"
+    }
+  },
+  "levels": [
+    {
+      "z": -1,
+      "name": "Crypt"
+    },
+    {
+      "z": 0,
+      "name": "Chapel"
+    }
+  ],
+  "cells": [
+    {
+      "pos": {
+        "x": 1,
+        "y": 7,
+        "z": -1
+      },
+      "floor": -2,
+      "ceiling": 2,
+      "abs": {
+        "floor": -6,
+        "ceiling": -2
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "moss",
+        "east": "moss",
+        "south": "moss",
+        "west": "moss",
+        "up": "ceiling",
+        "down": "bone"
+      }
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 7,
+        "z": -1
+      },
+      "floor": -2,
+      "ceiling": 2,
+      "abs": {
+        "floor": -6,
+        "ceiling": -2
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "moss",
+        "east": "moss",
+        "south": "moss",
+        "west": "moss",
+        "up": "ceiling",
+        "down": "bone"
+      },
+      "onEnter": "darkness"
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 7,
+        "z": -1
+      },
+      "floor": -2,
+      "ceiling": 2,
+      "abs": {
+        "floor": -6,
+        "ceiling": -2
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "moss",
+        "east": "moss",
+        "south": "moss",
+        "west": "moss",
+        "up": "ceiling",
+        "down": "bone"
+      }
+    },
+    {
+      "pos": {
+        "x": 1,
+        "y": 8,
+        "z": -1
+      },
+      "floor": -2,
+      "ceiling": 2,
+      "abs": {
+        "floor": -6,
+        "ceiling": -2
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "moss",
+        "east": "moss",
+        "south": "moss",
+        "west": "moss",
+        "up": "ceiling",
+        "down": "bone"
+      }
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 8,
+        "z": -1
+      },
+      "floor": -2,
+      "ceiling": 2,
+      "abs": {
+        "floor": -6,
+        "ceiling": -2
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "moss",
+        "east": "moss",
+        "south": "moss",
+        "west": "moss",
+        "up": "ceiling",
+        "down": "bone"
+      }
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 8,
+        "z": -1
+      },
+      "floor": -2,
+      "ceiling": 2,
+      "abs": {
+        "floor": -6,
+        "ceiling": -2
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "moss",
+        "east": "moss",
+        "south": "moss",
+        "west": "moss",
+        "up": "ceiling",
+        "down": "bone"
+      }
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 1,
+        "y": 0,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 0,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 0,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 4,
+        "y": 0,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      },
+      "onEnter": "welcome"
+    },
+    {
+      "pos": {
+        "x": 1,
+        "y": 1,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 1,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 1,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 4,
+        "y": 1,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 0,
+        "y": 2,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 1,
+        "y": 2,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 2,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 2,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 4,
+        "y": 2,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 3,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 4,
+        "z": 0
+      },
+      "floor": -1,
+      "ceiling": 4,
+      "abs": {
+        "floor": -1,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "stairs",
+        "rise": 1,
+        "toward": "north",
+        "treads": 3
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 5,
+        "z": 0
+      },
+      "floor": -2,
+      "ceiling": 4,
+      "abs": {
+        "floor": -2,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "stairs",
+        "rise": 1,
+        "toward": "north",
+        "treads": 3
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 1,
+        "y": 6,
+        "z": 0
+      },
+      "floor": -2,
+      "ceiling": 4,
+      "abs": {
+        "floor": -2,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      },
+      "onEnter": "plate"
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 6,
+        "z": 0
+      },
+      "floor": -2,
+      "ceiling": 4,
+      "abs": {
+        "floor": -2,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 6,
+        "z": 0
+      },
+      "floor": -2,
+      "ceiling": 4,
+      "abs": {
+        "floor": -2,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 1,
+        "y": 7,
+        "z": 0
+      },
+      "floor": -2,
+      "ceiling": 4,
+      "abs": {
+        "floor": -2,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 2,
+        "y": 7,
+        "z": 0
+      },
+      "floor": -2,
+      "ceiling": 4,
+      "abs": {
+        "floor": -2,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 7,
+        "z": 0
+      },
+      "floor": -2,
+      "ceiling": 4,
+      "abs": {
+        "floor": -2,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 3,
+        "y": 8,
+        "z": 0
+      },
+      "floor": -2,
+      "ceiling": 4,
+      "abs": {
+        "floor": -2,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      },
+      "onEnter": "lastWords"
+    }
+  ],
+  "edges": [
+    {
+      "from": {
+        "x": 1,
+        "y": 7,
+        "z": -1
+      },
+      "to": {
+        "x": 2,
+        "y": 7,
+        "z": -1
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 1,
+        "y": 7,
+        "z": -1
+      },
+      "to": {
+        "x": 1,
+        "y": 8,
+        "z": -1
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 7,
+        "z": -1
+      },
+      "to": {
+        "x": 3,
+        "y": 7,
+        "z": -1
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 7,
+        "z": -1
+      },
+      "to": {
+        "x": 2,
+        "y": 8,
+        "z": -1
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "id": "crypt_hatch",
+      "from": {
+        "x": 2,
+        "y": 7,
+        "z": -1
+      },
+      "to": {
+        "x": 2,
+        "y": 7,
+        "z": 0
+      },
+      "dir": "up",
+      "type": "hatch",
+      "state": "closed"
+    },
+    {
+      "from": {
+        "x": 3,
+        "y": 7,
+        "z": -1
+      },
+      "to": {
+        "x": 3,
+        "y": 8,
+        "z": -1
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 1,
+        "y": 8,
+        "z": -1
+      },
+      "to": {
+        "x": 2,
+        "y": 8,
+        "z": -1
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 8,
+        "z": -1
+      },
+      "to": {
+        "x": 3,
+        "y": 8,
+        "z": -1
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 3,
+        "y": 8,
+        "z": -1
+      },
+      "to": {
+        "x": 3,
+        "y": 8,
+        "z": 0
+      },
+      "dir": "up",
+      "type": "ladder",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 1,
+        "y": 0,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 1,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 0,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 1,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 1,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 3,
+        "y": 0,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 3,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 4,
+        "y": 0,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 3,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 3,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 4,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 4,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 1,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 1,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 1,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 1,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 3,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 3,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 4,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 3,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 3,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 4,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 4,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 0,
+        "y": 2,
+        "z": 0
+      },
+      "to": {
+        "x": 1,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 1,
+        "y": 2,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 2,
+        "z": 0
+      },
+      "to": {
+        "x": 3,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "id": "secret",
+      "from": {
+        "x": 2,
+        "y": 2,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 3,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "secretWall",
+      "state": "closed"
+    },
+    {
+      "from": {
+        "x": 3,
+        "y": 2,
+        "z": 0
+      },
+      "to": {
+        "x": 4,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 3,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 4,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 4,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 5,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 5,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 6,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 1,
+        "y": 6,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 6,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 1,
+        "y": 6,
+        "z": 0
+      },
+      "to": {
+        "x": 1,
+        "y": 7,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 6,
+        "z": 0
+      },
+      "to": {
+        "x": 3,
+        "y": 6,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 6,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 7,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 3,
+        "y": 6,
+        "z": 0
+      },
+      "to": {
+        "x": 3,
+        "y": 7,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 1,
+        "y": 7,
+        "z": 0
+      },
+      "to": {
+        "x": 2,
+        "y": 7,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 2,
+        "y": 7,
+        "z": 0
+      },
+      "to": {
+        "x": 3,
+        "y": 7,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 3,
+        "y": 7,
+        "z": 0
+      },
+      "to": {
+        "x": 3,
+        "y": 8,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    }
+  ],
+  "risers": [],
+  "props": [
+    {
+      "id": "brazier_1",
+      "type": "brazier",
+      "cell": {
+        "x": 1,
+        "y": 0,
+        "z": 0
+      },
+      "side": "north",
+      "state": "unlit",
+      "onUse": "light_1"
+    },
+    {
+      "id": "brazier_2",
+      "type": "brazier",
+      "cell": {
+        "x": 3,
+        "y": 0,
+        "z": 0
+      },
+      "side": "north",
+      "state": "unlit",
+      "onUse": "light_2"
+    },
+    {
+      "id": "brazier_3",
+      "type": "brazier",
+      "cell": {
+        "x": 4,
+        "y": 1,
+        "z": 0
+      },
+      "side": "east",
+      "state": "unlit",
+      "onUse": "light_3"
+    },
+    {
+      "id": "plate",
+      "type": "pressurePlate",
+      "cell": {
+        "x": 1,
+        "y": 6,
+        "z": 0
+      },
+      "state": "up"
+    },
+    {
+      "id": "sarcophagus",
+      "type": "chest",
+      "cell": {
+        "x": 2,
+        "y": 8,
+        "z": -1
+      },
+      "state": "closed",
+      "onUse": "openSarcophagus"
+    },
+    {
+      "id": "sign",
+      "type": "sign",
+      "cell": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "side": "north",
+      "state": "default",
+      "params": {
+        "text": "Three flames guard the way below."
+      }
+    }
+  ],
+  "materials": {
+    "bone": {
+      "name": "Bone",
+      "color": "#d8ccb0"
+    },
+    "brick": {
+      "name": "Red brick",
+      "color": "#a5503a"
+    },
+    "ceiling": {
+      "name": "Ceiling",
+      "color": "#2a2630"
+    },
+    "dirt": {
+      "name": "Dirt",
+      "color": "#5a4632"
+    },
+    "flagstone": {
+      "name": "Flagstone",
+      "color": "#4a4440"
+    },
+    "iron": {
+      "name": "Iron",
+      "color": "#9aa0a8"
+    },
+    "moss": {
+      "name": "Mossy stone",
+      "color": "#5b8a58"
+    },
+    "stone": {
+      "name": "Grey stone",
+      "color": "#7b8190"
+    },
+    "water": {
+      "name": "Water",
+      "color": "#2f5f8a"
+    },
+    "wood": {
+      "name": "Oak planks",
+      "color": "#8a5a2b"
+    }
+  },
+  "connectionTypes": {
+    "door": {
+      "name": "Wooden door",
+      "kind": "door",
+      "axis": "horizontal",
+      "material": "wood",
+      "initialState": "closed",
+      "states": {
+        "closed": {
+          "passable": false,
+          "blocksSight": true,
+          "transitions": [
+            "open"
+          ]
+        },
+        "open": {
+          "passable": true,
+          "blocksSight": false,
+          "transitions": [
+            "closed"
+          ]
+        },
+        "locked": {
+          "passable": false,
+          "blocksSight": true,
+          "transitions": []
+        }
+      }
+    },
+    "gate": {
+      "name": "Iron gate",
+      "kind": "gate",
+      "axis": "horizontal",
+      "material": "iron",
+      "initialState": "closed",
+      "states": {
+        "closed": {
+          "passable": false,
+          "blocksSight": false,
+          "transitions": []
+        },
+        "open": {
+          "passable": true,
+          "blocksSight": false,
+          "transitions": []
+        }
+      }
+    },
+    "grate": {
+      "name": "Grate",
+      "kind": "grate",
+      "axis": "vertical",
+      "material": "iron",
+      "initialState": "closed",
+      "states": {
+        "closed": {
+          "passable": false,
+          "blocksSight": false,
+          "transitions": []
+        }
+      }
+    },
+    "hatch": {
+      "name": "Trapdoor",
+      "kind": "hatch",
+      "axis": "vertical",
+      "material": "wood",
+      "initialState": "closed",
+      "states": {
+        "closed": {
+          "passable": false,
+          "blocksSight": true,
+          "transitions": [
+            "open"
+          ]
+        },
+        "open": {
+          "passable": true,
+          "blocksSight": false,
+          "transitions": [
+            "closed"
+          ]
+        }
+      }
+    },
+    "ladder": {
+      "name": "Ladder",
+      "kind": "ladder",
+      "axis": "vertical",
+      "material": "wood",
+      "initialState": "open",
+      "states": {
+        "open": {
+          "passable": true,
+          "blocksSight": false
+        }
+      }
+    },
+    "open": {
+      "name": "Open",
+      "kind": "opening",
+      "axis": "vertical",
+      "initialState": "open",
+      "states": {
+        "open": {
+          "passable": true,
+          "blocksSight": false
+        }
+      }
+    },
+    "opening": {
+      "name": "Opening",
+      "kind": "opening",
+      "axis": "horizontal",
+      "initialState": "open",
+      "states": {
+        "open": {
+          "passable": true,
+          "blocksSight": false
+        }
+      }
+    },
+    "pit": {
+      "name": "Pit",
+      "kind": "pit",
+      "axis": "vertical",
+      "initialState": "open",
+      "states": {
+        "open": {
+          "passable": true,
+          "blocksSight": false
+        }
+      }
+    },
+    "secretWall": {
+      "name": "Secret wall",
+      "kind": "wall",
+      "axis": "horizontal",
+      "initialState": "closed",
+      "states": {
+        "closed": {
+          "passable": false,
+          "blocksSight": true,
+          "transitions": []
+        },
+        "open": {
+          "passable": true,
+          "blocksSight": false,
+          "transitions": []
+        }
+      }
+    }
+  },
+  "propTypes": {
+    "brazier": {
+      "name": "Brazier",
+      "states": [
+        "unlit",
+        "lit"
+      ],
+      "initialState": "unlit",
+      "preview": {
+        "color": "#e07030",
+        "icon": "generic"
+      }
+    },
+    "button": {
+      "name": "Button",
+      "states": [
+        "up",
+        "down"
+      ],
+      "initialState": "up",
+      "preview": {
+        "color": "#c9ccd1",
+        "icon": "button"
+      }
+    },
+    "chest": {
+      "name": "Chest",
+      "states": [
+        "closed",
+        "open"
+      ],
+      "initialState": "closed",
+      "preview": {
+        "color": "#f2c744",
+        "icon": "chest"
+      }
+    },
+    "lever": {
+      "name": "Lever",
+      "states": [
+        "off",
+        "on"
+      ],
+      "initialState": "off",
+      "preview": {
+        "color": "#c9ccd1",
+        "icon": "lever"
+      }
+    },
+    "pressurePlate": {
+      "name": "Pressure plate",
+      "states": [
+        "up",
+        "down"
+      ],
+      "initialState": "up",
+      "preview": {
+        "color": "#8c8c8c",
+        "icon": "plate"
+      }
+    },
+    "sign": {
+      "name": "Sign",
+      "states": [
+        "default"
+      ],
+      "initialState": "default",
+      "params": [
+        {
+          "name": "text",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "preview": {
+        "color": "#c8a46e",
+        "icon": "sign"
+      }
+    }
+  },
+  "customTypes": {
+    "hasLight": {
+      "category": "condition",
+      "name": "Player carries a light",
+      "params": []
+    },
+    "playSound": {
+      "category": "action",
+      "name": "Play sound",
+      "description": "Play a sound effect",
+      "params": [
+        {
+          "name": "sound",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "volume",
+          "type": "float",
+          "default": 1
+        }
+      ]
+    },
+    "spawnMonster": {
+      "category": "action",
+      "name": "Spawn monster",
+      "params": [
+        {
+          "name": "monster",
+          "type": "enum",
+          "options": [
+            "skeleton",
+            "ghoul"
+          ],
+          "required": true
+        },
+        {
+          "name": "at",
+          "type": "gridPos",
+          "required": true
+        }
+      ]
+    }
+  },
+  "events": {
+    "checkFlames": {
+      "conditions": [
+        {
+          "type": "flag",
+          "name": "flames",
+          "op": ">=",
+          "value": 3
+        }
+      ],
+      "actions": [
+        {
+          "type": "setConnectionState",
+          "target": {
+            "kind": "edge",
+            "id": "secret"
+          },
+          "state": "open"
+        },
+        {
+          "type": "custom",
+          "custom": "playSound",
+          "params": {
+            "sound": "stone_grind"
+          }
+        },
+        {
+          "type": "showMessage",
+          "text": "Stone grinds against stone. Part of the south wall slides away."
+        }
+      ]
+    },
+    "darkness": {
+      "once": true,
+      "conditions": [
+        {
+          "type": "custom",
+          "custom": "hasLight"
+        }
+      ],
+      "actions": [
+        {
+          "type": "showMessage",
+          "text": "You land in the crypt. Your torch shows bones heaped against the walls."
+        }
+      ],
+      "else": [
+        {
+          "type": "showMessage",
+          "text": "You land in total darkness. Something shifts nearby."
+        }
+      ]
+    },
+    "lastWords": {
+      "conditions": [
+        {
+          "type": "flag",
+          "name": "relic",
+          "op": "==",
+          "value": true
+        }
+      ],
+      "actions": [
+        {
+          "type": "showMessage",
+          "text": "You climb out with the relic. Well done."
+        }
+      ],
+      "else": [
+        {
+          "type": "showMessage",
+          "text": "You climb the ladder. The relic is still below."
+        }
+      ]
+    },
+    "light_1": {
+      "conditions": [
+        {
+          "type": "state",
+          "target": {
+            "kind": "prop",
+            "id": "brazier_1"
+          },
+          "equals": "unlit"
+        }
+      ],
+      "actions": [
+        {
+          "type": "setPropState",
+          "target": {
+            "kind": "prop",
+            "id": "brazier_1"
+          },
+          "state": "lit"
+        },
+        {
+          "type": "addFlag",
+          "name": "flames",
+          "amount": 1
+        },
+        {
+          "type": "showMessage",
+          "text": "The brazier flares to life."
+        },
+        {
+          "type": "runEvent",
+          "event": "checkFlames"
+        }
+      ],
+      "else": [
+        {
+          "type": "showMessage",
+          "text": "It's already burning."
+        }
+      ]
+    },
+    "light_2": {
+      "conditions": [
+        {
+          "type": "state",
+          "target": {
+            "kind": "prop",
+            "id": "brazier_2"
+          },
+          "equals": "unlit"
+        }
+      ],
+      "actions": [
+        {
+          "type": "setPropState",
+          "target": {
+            "kind": "prop",
+            "id": "brazier_2"
+          },
+          "state": "lit"
+        },
+        {
+          "type": "addFlag",
+          "name": "flames",
+          "amount": 1
+        },
+        {
+          "type": "showMessage",
+          "text": "The brazier flares to life."
+        },
+        {
+          "type": "runEvent",
+          "event": "checkFlames"
+        }
+      ],
+      "else": [
+        {
+          "type": "showMessage",
+          "text": "It's already burning."
+        }
+      ]
+    },
+    "light_3": {
+      "conditions": [
+        {
+          "type": "state",
+          "target": {
+            "kind": "prop",
+            "id": "brazier_3"
+          },
+          "equals": "unlit"
+        }
+      ],
+      "actions": [
+        {
+          "type": "setPropState",
+          "target": {
+            "kind": "prop",
+            "id": "brazier_3"
+          },
+          "state": "lit"
+        },
+        {
+          "type": "addFlag",
+          "name": "flames",
+          "amount": 1
+        },
+        {
+          "type": "showMessage",
+          "text": "The brazier flares to life."
+        },
+        {
+          "type": "runEvent",
+          "event": "checkFlames"
+        }
+      ],
+      "else": [
+        {
+          "type": "showMessage",
+          "text": "It's already burning."
+        }
+      ]
+    },
+    "openSarcophagus": {
+      "once": true,
+      "actions": [
+        {
+          "type": "setPropState",
+          "target": {
+            "kind": "prop",
+            "id": "sarcophagus"
+          },
+          "state": "open"
+        },
+        {
+          "type": "setFlag",
+          "name": "relic",
+          "value": true
+        },
+        {
+          "type": "custom",
+          "custom": "spawnMonster",
+          "params": {
+            "monster": "skeleton",
+            "at": {
+              "x": 1,
+              "y": 7,
+              "z": -1
+            }
+          }
+        },
+        {
+          "type": "showMessage",
+          "text": "You lift the relic from the sarcophagus. Behind you, bones begin to rattle."
+        }
+      ]
+    },
+    "plate": {
+      "once": true,
+      "actions": [
+        {
+          "type": "setConnectionState",
+          "target": {
+            "kind": "edge",
+            "id": "crypt_hatch"
+          },
+          "state": "open"
+        },
+        {
+          "type": "custom",
+          "custom": "playSound",
+          "params": {
+            "sound": "click",
+            "volume": 0.6
+          }
+        },
+        {
+          "type": "showMessage",
+          "text": "Click. A trapdoor in the floor swings open."
+        }
+      ]
+    },
+    "welcome": {
+      "actions": [
+        {
+          "type": "showMessage",
+          "text": "The chapel is cold. Three braziers stand dark along the walls."
+        }
+      ]
+    }
+  },
+  "flags": {
+    "flames": {
+      "type": "int",
+      "initial": 0
+    },
+    "relic": {
+      "type": "bool",
+      "initial": false
+    }
+  }
+}
