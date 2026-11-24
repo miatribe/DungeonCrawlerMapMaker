@@ -9,7 +9,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "schemas": "tsx scripts/gen-schemas.ts",
-    "examples": "tsx scripts/gen-examples.ts"
+    "examples": "tsx scripts/gen-examples.ts",
+    "demo": "tsx scripts/demo.ts"
   },
   "dependencies": {
     "immer": "^11.2.10",
