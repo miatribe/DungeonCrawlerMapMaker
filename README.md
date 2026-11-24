@@ -1,90 +1,53 @@
 # DCMM — Dungeon Crawler Map Maker
 
-A browser-based editor for building maps for grid-based dungeon crawler games, in 2D or 3D. You lay out cells and walls across stacked levels, set floor and ceiling heights, add doors, props and gameplay logic, and export the result as engine-neutral data for whatever engine you use.
+A browser-based editor for building maps for grid-based dungeon crawler games, in 2D or 3D. Lay out cells and walls across stacked levels, set floor and ceiling heights, add doors, props and gameplay logic, playtest it in first person, and export the result as engine-neutral JSON for whatever engine you use.
 
-- **Design:** [docs/SPEC.md](docs/SPEC.md).
-- **Loading exported maps in an engine:** [docs/EXPORT_FORMAT.md](docs/EXPORT_FORMAT.md).
+**Open it:** https://miatribe.github.io/DungeonCrawlerMapMaker/
 
-## Status
+Nothing to install, and no account needed. It runs on desktop browsers (Chrome and Edge recommended). Your maps stay on your computer.
 
-**All six planned milestones are done.** What's in it:
+## Features
 
-- **2D editor:**
-  - Edit top-down, one level at a time: paint rooms and cells, place doors, gates, openings and secret walls on cell edges, paint materials, and set the start.
-  - An Inspector edits whatever you select.
-  - The level below shows faintly, validation runs as you work, and you have undo/redo.
-  - Your work autosaves in the browser. Open and save `.dcmm` files, and export JSON.
-- **Heights and levels:** raise, lower or set floors and ceilings; build ramp and staircase runs; build stairs that climb a full level; and add trapdoors, pits, ladders and grates between levels.
-- **Logic:**
-  - Place props (levers, buttons, chests, signs, plates or your own types).
-  - Write events with conditions, actions and an otherwise branch, and keep flags.
-  - Define custom actions, conditions, props and connections with typed parameters for your engine, and share them between maps as type libraries.
-  - Selecting something draws arrows to everything its trigger changes or checks.
-- **3D overview (F6):** orbit around the dungeon, hide upper levels, and click to select.
-- **First-person playtest (F5):**
-  - Walk the map with doors, gates, levers, traps, stairs, ladders and pits all working.
-  - A live debug panel shows flags and states, and toggles what custom conditions return.
-- **Textures:** built-in patterns (bricks, stone, planks, cobble, metal and more) tinted by each material's color, or your own uploaded images. They show in both 2D and 3D.
-- **Examples:**
-  - *The Keep of Echoes* (the default): one map that uses every feature, across three levels.
-  - *Three Rooms:* levers, a gate and a door trap.
-  - *Tower:* multi-level, with stairs and a pit.
-  - *The Crypt:* a puzzle with custom types, flags, a secret wall, a trapdoor and a ladder.
-- **Help:** F1 or `?` shows every shortcut and a quick guide.
-- **Under the hood:**
-  - A pure-TypeScript core: model, validation, a headless runtime and a mesh builder.
-  - A versioned project format, and a deterministic JSON export behind a pluggable exporter interface.
-  - 99 tests.
+- **2D editor:** edit top-down, one level at a time. Paint rooms and cells, place doors, gates, openings and secret walls on cell edges, paint materials, and set the player start. The level below shows faintly for reference.
+- **Heights and levels:** raise, lower or set floors and ceilings; build ramps and staircases; build stairs that climb a full level; and add trapdoors, pits, ladders and grates between levels.
+- **Logic:** place props (levers, buttons, chests, signs, pressure plates or your own types), write events with conditions, actions and an "otherwise" branch, and keep flags. Selecting something draws arrows to everything its trigger changes or checks.
+- **Custom types:** define your own actions, conditions, props and connection types with typed parameters for your engine, and share them between maps as type libraries.
+- **3D view (F6):** orbit around the dungeon, hide upper levels, and click to select.
+- **First-person playtest (F5):** walk the map with doors, gates, levers, traps, stairs, ladders and pits all working. A debug panel shows flags and states as you play.
+- **Textures:** built-in patterns (bricks, stone, planks, cobble, metal and more) tinted by each material's color, or your own images.
+- **Validation:** problems are listed as you work. Errors block export; warnings don't.
+- **Help:** press F1 or `?` in the editor for every shortcut and a quick guide.
 
-Possible next steps: copy/paste and moving selections, designer notes, and engine-specific exporters (Godot, Unity, glTF). The spec lists more under planned extensions (§12).
+## Getting started
 
-## Running it yourself
+The first time you open DCMM it loads **The Keep of Echoes**, an example map that uses every feature. Press **F5** to play it, or **F6** to look around in 3D.
 
-### Requirements
+- **File → New map** starts from scratch.
+- **File → Example: …** opens the other examples:
+  - **Three Rooms:** levers, a gate and a door trap.
+  - **Tower:** two levels joined by stairs, with a pit.
+  - **The Crypt:** a puzzle with custom types, flags, a secret wall, a trapdoor and a ladder.
 
-- **Node.js 22.12 or newer** (24 recommended). Check with `node --version`.
-- npm (comes with Node).
-- Git.
+### Saving your work
 
-### Setup
+- Your map **autosaves in the browser**, and the last one reopens when you come back.
+- Browser storage can be cleared, and it doesn't follow you to other browsers or computers, so use **File → Save** (`Ctrl+S`) to keep a `.dcmm` project file. In Chrome and Edge it saves straight to disk; other browsers download it.
+- **File → Open** (`Ctrl+O`) loads a `.dcmm` file.
+- One map per file.
 
-```powershell
-git clone https://github.com/miatribe/DungeonCrawlerMapMaker.git
-```
+### Exporting for your engine
 
-```powershell
-cd DungeonCrawlerMapMaker
-```
+**File → Export** (`Ctrl+E`) writes the map as JSON for your game to load. The project file (`.dcmm`) is what you edit; the export (`.json`) is what your engine reads.
 
-```powershell
-npm install
-```
+- Exports use neutral grid coordinates: **x east, y south, z up** (one level per z), with north = −y.
+- Heights are whole steps (4 per level by default).
+- A missing edge between two cells is a wall. Every other edge (openings, doors, gates, hatches and pits) is listed with its type and current state.
 
-### Run the site
+The full guide for engine developers is [docs/EXPORT_FORMAT.md](docs/EXPORT_FORMAT.md). You can validate exports against [schemas/dcmm-map.schema.json](schemas/dcmm-map.schema.json), and [examples/](examples) has each example map as both a `.dcmm` and a `.json` file.
 
-```powershell
-npm run dev
-```
+## Controls
 
-Then open **http://localhost:5173** in your browser. The first visit opens the **Keep of Echoes** example. Press F5 to play it. **File → New map** starts from scratch, and **File → Example: Tower** shows a multi-level map. The page reloads by itself when you change the code. Press `Ctrl+C` in the terminal to stop the server.
-
-Your maps autosave to the browser (IndexedDB), and the last one reopens on reload. **File → Save** writes a `.dcmm` file you can keep or share. In Chrome and Edge it saves straight to disk; other browsers download it.
-
-To build the static site and serve the build locally, the way it would run when hosted:
-
-```powershell
-npm run build
-```
-
-```powershell
-npm run preview
-```
-
-The output goes to `dist/` and can be hosted on any static host.
-
-If the dev server keeps showing old code after you edit a file (its file watcher occasionally misses a change on Windows), stop it with `Ctrl+C`, run `npm run dev` again, and reload the page.
-
-### Using the editor
+### Tools
 
 | Tool | Key | What it does |
 |---|---|---|
@@ -100,120 +63,54 @@ If the dev server keeps showing old code after you edit a file (its file watcher
 | Props | `P` | Click the middle of a cell to place the prop chosen in the panel on the floor, or near a wall to mount it there. Drag a prop to move it, click one to select it, right-click to delete. |
 | Start | `T` | Click a cell to put the player start there. Click it again to turn. |
 
-Other controls:
+### Editing and views
+
 - **Moving around:** middle-drag or Space+drag to pan, mouse wheel to zoom, `Home` to fit the level, `PgUp`/`PgDn` to change level.
-- **Editing:** `Ctrl+Z` / `Ctrl+Shift+Z` to undo and redo.
-- **Files:** `Ctrl+S` to save, `Ctrl+O` to open, `Ctrl+E` to export.
-- **Views:** the strip above the map switches between **2D**, **3D** and **▶ Playtest**.
-  - **Switching:** F6 toggles 2D/3D. F5 starts a playtest from the map's start. Shift+F5 starts one from the selected cell.
-  - **In 3D:** drag to orbit, right-drag to pan, wheel to zoom, click to select. "Hide levels above" cuts the view away at the current level.
-- **Playtest controls:**
-  - `W`/`S` move, `A`/`D` strafe, `Q`/`E` turn, `Space` uses what's in front of you (a lever, a door, a chest), `R` restarts and `Esc` returns to the editor.
-  - On a ladder, press Space (or walk into the wall it leans on) to climb; a hint shows when you're at one. Pits and open trapdoors drop you.
-  - The right panel shows flags, connection and prop states (changed values highlighted), fired events and the full log. Custom actions are logged rather than run, and you can toggle what custom conditions return.
-  - The map itself never changes while you play.
-- **Making things happen:** select a cell, connection or prop and set its trigger (On enter, On exit, On use, On bump) in the Inspector. Pick **+ New event…** to create the event and open it in the **Events** tab.
-- **Events tab:** each event has conditions ("when all of these are true"), actions ("do") and an "otherwise" branch. Fields that point at the map have a ⌖ button: click it, then click the door, prop or cell on the map. Picking a connection that has no id gives it one automatically.
-- **Seeing logic:**
-  - Selecting a lever, trigger cell or door draws arrows on the map: orange for what it changes, dashed blue for what it checks.
-  - The Inspector's **Logic** section lists the same links, plus **Affected by** (what changes this thing). Click any entry to jump to it.
-  - Press `L` (or **View → Show all logic links**) to see every link on the level at once.
-  - Cells with On enter/On exit triggers show a small orange diamond.
+- **Undo and redo:** `Ctrl+Z` / `Ctrl+Shift+Z`.
+- **Heights:** `=` / `-` raise or lower the floor of the selected cells, or the cell under the mouse. Hold `Shift` to change the ceiling instead. Cells show their floor/ceiling label when they aren't the defaults.
+- **Switching views:** the strip above the map switches between **2D**, **3D** and **▶ Playtest**. F6 toggles 2D/3D. F5 starts a playtest from the map's start; Shift+F5 starts one from the selected cell.
+- **In 3D:** drag to orbit, right-drag to pan, wheel to zoom, click to select. "Hide levels above" cuts the view away at the current level.
+- **Bottom panel:** drag its top edge to resize it, or double-click the edge to toggle between small and large.
+
+### Playtest
+
+- `W`/`S` move, `A`/`D` strafe, `Q`/`E` turn, `Space` uses what's in front of you (a lever, a door, a chest), `R` restarts and `Esc` returns to the editor.
+- On a ladder, press Space (or walk into the wall it leans on) to climb. Pits and open trapdoors drop you.
+- The right panel shows flags, connection and prop states (changed values highlighted), fired events and the full log. Custom actions are logged rather than run, and you can toggle what custom conditions return.
+- Playtesting never changes your map.
+
+### Logic
+
+- **Triggers:** select a cell, connection or prop and set its trigger (On enter, On exit, On use, On bump) in the Inspector. Pick **+ New event…** to create the event and open it in the **Events** tab.
+- **Events tab:** each event has conditions ("when all of these are true"), actions ("do") and an "otherwise" branch. Fields that point at the map have a ⌖ button: click it, then click the door, prop or cell on the map.
+- **Seeing logic:** selecting a lever, trigger cell or door draws arrows on the map: orange for what it changes, dashed blue for what it checks. The Inspector's **Logic** section lists the same links plus **Affected by**; click any entry to jump to it. Press `L` to show every link on the level at once. Cells with On enter/On exit triggers show a small orange diamond.
 - **Flags tab:** map variables (true/false, number, text) with starting values and usage counts.
-- **Types tab:**
-  - Edit connection types (states, what's passable or blocks sight, which states a player can switch between), prop types (states, map color, icon) and custom actions/conditions with typed parameters for your engine.
-  - **Type library** exports or imports these as a `.dcmm-types.json` file to share between maps.
-- **Bottom panel:** drag the top edge of the bottom panel to resize it. Double-click the edge to toggle between small and large.
-- **Heights:** `=` / `-` raise or lower the floor of the selected cells, or the cell under the mouse. `Shift` with them changes the ceiling. Heights are in steps (4 per level by default). Each cell shows its floor/ceiling label when they aren't the defaults.
-- **Problems:** the **Problems** tab lists validation issues. Click one to jump to it. Errors block export; warnings don't.
+- **Types tab:** edit connection types (states, what's passable or blocks sight, which states a player can switch between), prop types (states, map color, icon) and custom actions/conditions with typed parameters. **Type library** exports or imports these as a `.dcmm-types.json` file to share between maps.
+- **Problems tab:** lists validation issues. Click one to jump to it.
 
-### Run the tests
+## Running it locally
 
-```powershell
-npm test
+You only need this to work on DCMM itself or to host your own copy. It needs **Node.js 22.12 or newer** (24 recommended) and Git.
+
+```sh
+git clone https://github.com/miatribe/DungeonCrawlerMapMaker.git
+cd DungeonCrawlerMapMaker
+npm install
+npm run dev
 ```
 
-This runs the Vitest suite, which covers geometry, edit operations and undo, validation, the resolved map view, project load/save, the JSON exporter and the editor's hit-testing and tool helpers. For a watch mode that re-runs on every save:
+Then open http://localhost:5173.
 
-```powershell
-npm run test:watch
-```
+| Command | What it does |
+|---|---|
+| `npm run dev` | Starts the dev server, which reloads as you edit. |
+| `npm run build` | Builds the static site into `dist/`, ready for any static host. |
+| `npm run preview` | Serves the built site locally. |
+| `npm test` | Runs the tests. |
+| `npm run typecheck` | Checks types across the project. |
+| `npm run examples` | Regenerates the example maps in `examples/`. |
+| `npm run schemas` | Regenerates the JSON Schemas in `schemas/`. |
 
-To check types across the project:
+Pushes to `master` deploy to GitHub Pages automatically.
 
-```powershell
-npm run typecheck
-```
-
-### Try the core by hand
-
-```powershell
-npm run demo
-```
-
-[scripts/demo.ts](scripts/demo.ts) builds a small room with a door, shows undo and validation, and prints part of the JSON export. It's meant as a scratchpad: edit it and run it again to try things out. The edit operations are in [src/core/ops.ts](src/core/ops.ts).
-
-### Generate the example maps and schemas
-
-```powershell
-npm run examples
-```
-
-This writes the four fixture maps to [examples/](examples):
-- **The Keep of Echoes:** the showcase, using every feature DCMM has.
-  - **Spaces:** three levels, with a tall vaulted hall, a marble dais up a ramp, stairs down to a sunken armory, stairs up a full level to a tower, a hidden library and a cellar with a pool.
-  - **Vertical connections:** a trapdoor, a ladder, a pit, an open shaft and a grate.
-  - **Connections:** usable and locked doors, a secret wall, and a custom portcullis type.
-  - **Props:** a lever, a button, chests, a sign, a dart plate, a wall torch, and a custom altar prop with a parameter.
-  - **Logic:** every condition and action type, bool/int/string flags, custom actions and conditions, delayed events, teleports and a runtime material change.
-  - **Walkthrough:** open the door, pull the lever, get the key from the armory (mind the dart and the spike pit), unlock the vault, reveal the library from the tower, take the tome, wake the altar, then drop into the cellar for the crown and climb out.
-- **Three Rooms:** a port of the original prototype, with a lever-operated gate, a door trap and a chest.
-- **Tower:** two levels joined by a full-level staircase, a pit and a sunken floor.
-- **The Crypt:**
-  - Three braziers (a custom prop type) count up a flag and open a secret wall.
-  - Stairs lead down to a pressure plate that opens a trapdoor into a lower crypt.
-  - The crypt has a sarcophagus that fires custom actions, and a ladder back up.
-
-Each map gets a `.dcmm` project file and a `.json` export, so you can see both formats. All four are also under **File** in the editor.
-
-```powershell
-npm run schemas
-```
-
-This regenerates the JSON Schema files in [schemas/](schemas). Engines can validate an exported map against `dcmm-map.schema.json`.
-
-### Updating golden files
-
-The export tests compare output with the files in [tests/golden/](tests/golden). If you change the export on purpose, update them with:
-
-```powershell
-npx vitest run -u
-```
-
-Then review the diff before committing.
-
-## Project layout
-
-```
-src/core/        Model, schemas, geometry, edit ops + undo, validation, resolve, project files
-src/exporters/   Exporter interface and registry; json/ is the JSON runtime exporter
-src/core/logic/  links (trigger analysis) and runtime (headless event interpreter + movement rules)
-src/render/      canvas2d/: the top-down level renderer, view transform and hit-testing
-                 mesh/: map -> 3D geometry data; three/: the Three.js scene for 3D and playtest
-src/editor/      The React app: store (Zustand), tools, persistence, components/
-index.html       Vite entry page
-scripts/         demo, example and schema generators
-tests/           Vitest tests, fixture maps and golden export files
-examples/        Generated example maps (.dcmm and .json)
-schemas/         Generated JSON Schemas for both file formats
-docs/SPEC.md     The design spec
-docs/EXPORT_FORMAT.md  Guide to the JSON export for engine developers
-```
-
-## Export format at a glance
-
-Exports use neutral grid coordinates: **x east, y south, z up** (one level per z), with north = −y. Heights are integer steps (`stepsPerLevel` per level, 4 by default). A missing edge between two cells is a wall. The other edges (openings, doors, gates, vertical hatches and pits) are listed explicitly, each with its type and current state. See SPEC §3 and §6.2 for the details, or open [examples/three-rooms.json](examples/three-rooms.json).
-
-## Adding an exporter
-
-Implement the `Exporter` interface from [src/exporters/types.ts](src/exporters/types.ts) and register it in [src/exporters/index.ts](src/exporters/index.ts). Exporters receive a validated, normalized `ResolvedMap`, so they don't need to handle geometry edge cases themselves.
+To add an exporter for another format, implement the `Exporter` interface in [src/exporters/types.ts](src/exporters/types.ts) and register it in [src/exporters/index.ts](src/exporters/index.ts). The design spec is [docs/SPEC.md](docs/SPEC.md).
