@@ -108,7 +108,7 @@ Other controls:
   - **In 3D:** drag to orbit, right-drag to pan, wheel to zoom, click to select. "Hide levels above" cuts the view away at the current level.
 - **Playtest controls:**
   - `W`/`S` move, `A`/`D` strafe, `Q`/`E` turn, `Space` uses what's in front of you (a lever, a door, a chest), `R` restarts and `Esc` returns to the editor.
-  - Walking into a wall while standing on a ladder climbs it. Pits and open trapdoors drop you.
+  - On a ladder, press Space (or walk into the wall it leans on) to climb; a hint shows when you're at one. Pits and open trapdoors drop you.
   - The right panel shows flags, connection and prop states (changed values highlighted), fired events and the full log. Custom actions are logged rather than run, and you can toggle what custom conditions return.
   - The map itself never changes while you play.
 - **Making things happen:** select a cell, connection or prop and set its trigger (On enter, On exit, On use, On bump) in the Inspector. Pick **+ New event…** to create the event and open it in the **Events** tab.

@@ -6,6 +6,7 @@
  */
 import { DELTA, OPPOSITE, type Facing, type GridPos, type Side } from "../../core/geometry";
 import { floorAtSide, type ResolvedCell, type ResolvedEdge, type ResolvedMap } from "../../core/resolve";
+import { ladderSide } from "../../core/logic/runtime";
 
 export type Vec3 = [number, number, number];
 
@@ -44,6 +45,8 @@ export interface VEdgePart {
   y: number;
   /** Height of the lower cell's floor (for ladders). */
   yLow: number;
+  /** Ladders: the lower cell's wall it leans on (null = free-standing in the middle). */
+  side: Facing | null;
 }
 
 export interface PropPart {
@@ -216,6 +219,7 @@ export function buildMesh(map: ResolvedMap, opts: BuildOptions = {}): MeshData {
         x: e.from.x, z: e.from.y,
         y: Y(a ? a.abs.ceiling : b!.abs.floor),
         yLow: Y(a ? a.abs.floor : b!.abs.floor - map.stepsPerLevel),
+        side: ctKind === "ladder" && a ? ladderSide(map, a.pos) : null,
       });
       continue;
     }

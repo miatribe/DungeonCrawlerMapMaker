@@ -290,17 +290,24 @@ export class MapScene {
         return { obj: g, set: (_s, passable) => { g.visible = !passable; }, tick: () => true };
       }
       case "ladder": {
+        // Built against the north wall around the cell center, then turned to face the
+        // wall the playtest climbs by (see ladderSide); free-standing when every side is open.
         const h = e.y - e.yLow + 0.35;
-        for (const x of [0.32, 0.68]) {
+        const turn = new THREE.Group();
+        turn.position.set(0.5, 0, 0.5);
+        turn.rotation.y = e.side ? YAW[e.side] : 0;
+        const z = e.side ? -0.44 : 0;
+        for (const x of [-0.18, 0.18]) {
           const rail = new THREE.Mesh(new THREE.BoxGeometry(0.05, h, 0.05), mat);
-          rail.position.set(x, -h / 2 + 0.35, 0.06);
-          g.add(rail);
+          rail.position.set(x, -h / 2 + 0.35, z);
+          turn.add(rail);
         }
         for (let y = 0.15; y < h; y += 0.22) {
           const rung = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.035, 0.035), mat);
-          rung.position.set(0.5, -(e.y - e.yLow) + y, 0.06);
-          g.add(rung);
+          rung.position.set(0, -(e.y - e.yLow) + y, z);
+          turn.add(rung);
         }
+        g.add(turn);
         return { obj: g, set: () => {}, tick: () => true };
       }
       case "pit": {

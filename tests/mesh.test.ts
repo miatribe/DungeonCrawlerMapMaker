@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createMap, resolve, run } from "../src/core";
 import * as ops from "../src/core/ops";
 import { buildMesh, triangleCount, type Buffers } from "../src/render/mesh/buildMesh";
-import { threeRooms, tower } from "./fixtures/maps";
+import { crypt, threeRooms, tower } from "./fixtures/maps";
 
 const P = (x: number, y: number, z = 0) => ({ x, y, z });
 
@@ -64,6 +64,13 @@ describe("buildMesh", () => {
     expect(low.groups.get("wood")).toBeUndefined();
     const over = buildMesh(resolve(threeRooms()), { surface: (p, s) => (p.x === 1 && p.y === 1 && s === "north" ? "water" : undefined) });
     expect(triangleCount({ ...over, groups: new Map([["water", over.groups.get("water")!]]) })).toBe(2);
+  });
+
+  it("leans ladders on a real wall of their lower cell", () => {
+    const m = buildMesh(resolve(crypt()));
+    const ladder = m.edges.find((e) => e.kind === "vedge" && e.ctKind === "ladder");
+    // the Crypt's ladder cell (3,8,-1) is open to the north and west; east is solid
+    expect(ladder).toMatchObject({ x: 3, z: 8, side: "east" });
   });
 
   it("puts wall-mounted props against their wall", () => {

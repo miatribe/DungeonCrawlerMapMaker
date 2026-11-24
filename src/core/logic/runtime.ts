@@ -42,6 +42,22 @@ export type MoveResult =
   | { ok: true; fell?: number; climbed?: "up" | "down" }
   | { ok: false; reason: "wall" | "closed" | "void" | "step" | "busy" };
 
+/**
+ * The wall a ladder in this cell leans on: the first of north, east, south, west that is a
+ * real wall (no connection, or one leading to rock). Null when every side is open, in which
+ * case the ladder stands free in the middle of the cell. The 3D view and the playtest both
+ * use this, so the ladder you see is the one you can climb by walking into it.
+ */
+export function ladderSide(map: ResolvedMap, pos: GridPos): Facing | null {
+  for (const side of ["north", "east", "south", "west"] as Facing[]) {
+    const e = map.edgesOf(pos).find((x) => x.dir === side)?.edge;
+    if (!e) return side;
+    const isFrom = e.from.x === pos.x && e.from.y === pos.y && e.from.z === pos.z;
+    if (!map.cellAt(isFrom ? e.to : e.from)) return side;
+  }
+  return null;
+}
+
 const LEFT: Record<Facing, Facing> = { north: "west", west: "south", south: "east", east: "north" };
 const RIGHT: Record<Facing, Facing> = { north: "east", east: "south", south: "west", west: "north" };
 
@@ -145,19 +161,9 @@ export class Runtime {
     const e = this.edgeOn(p.pos, d);
 
     if (!e) {
-      // Ladders: walking into a wall while on a ladder climbs it.
+      // Ladders: walking into a wall while on a ladder climbs it (forward = up, back = down).
       const climb = rel === "forward" ? "up" : rel === "back" ? "down" : null;
-      if (climb) {
-        const lad = this.edgeOn(p.pos, climb);
-        if (lad && this.map.connectionTypes[lad.type]?.kind === "ladder" && this.passable(lad)) {
-          const to = this.other(lad, p.pos);
-          if (this.cell(to)) {
-            this.enter(to);
-            this.info(climb === "up" ? "You climb up the ladder." : "You climb down the ladder.");
-            return { ok: true, climbed: climb };
-          }
-        }
-      }
+      if (climb && this.climb(climb)) return { ok: true, climbed: climb };
       this.info("A solid wall.");
       return { ok: false, reason: "wall" };
     }
@@ -184,6 +190,21 @@ export class Runtime {
     }
     const fell = this.enter(to);
     return fell ? { ok: true, fell } : { ok: true };
+  }
+
+  /** The passable ladder leading up or down from the player's cell, if any. */
+  ladder(dir: "up" | "down", pos: GridPos = this.state.player.pos): ResolvedEdge | undefined {
+    const lad = this.edgeOn(pos, dir);
+    if (!lad || this.map.connectionTypes[lad.type]?.kind !== "ladder" || !this.passable(lad)) return undefined;
+    return this.cell(this.other(lad, pos)) ? lad : undefined;
+  }
+
+  private climb(dir: "up" | "down"): boolean {
+    const lad = this.ladder(dir);
+    if (!lad) return false;
+    this.enter(this.other(lad, this.state.player.pos));
+    this.info(dir === "up" ? "You climb up the ladder." : "You climb down the ladder.");
+    return true;
   }
 
   /** Move into a cell (exit/enter triggers), then fall through open floors. Returns levels fallen. */
@@ -248,6 +269,8 @@ export class Runtime {
         if (across) { this.run(across.onUse!, `prop:${across.id}:onUse`); return; }
       }
     }
+    // Nothing else to use: standing at a ladder, use climbs it (up first, else down).
+    if (this.climb("up") || this.climb("down")) return;
     this.info("Nothing to use here.");
   }
 

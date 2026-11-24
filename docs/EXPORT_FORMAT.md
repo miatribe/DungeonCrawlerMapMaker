@@ -299,12 +299,14 @@ These are the rules the editor's playtest uses. Your engine is free to differ, b
   - Compare the floor heights where the two cells meet the boundary, using a ramp's height at that edge and its midpoint along a ramp's sloped sides. The difference must be at most `rules.maxStep`.
 - **Entering a cell:** run the old cell's `onExit`, move, then run the new cell's `onEnter`.
 - **Falling:** while the current cell has a passable vertical edge going **down** that isn't a `ladder`, and a cell exists below, drop into it. Run exit and enter triggers each time.
-- **Ladders:** standing in a cell with a passable `ladder` edge, walking forward into a wall climbs up it and walking back into a wall climbs down.
+- **Ladders:** standing in a cell with a passable `ladder` edge, walking forward into a wall climbs up it and walking back into a wall climbs down. *Use* with nothing else to use also climbs (up first, else down).
+  - **Where to draw it:** the ladder leans on the first of north, east, south, west of its **lower** cell that is a real wall. If every side is open, it stands free in the middle. The editor uses this rule, so walking into the ladder you see climbs it.
 - **Use:** check these in order:
   1. A prop in the current cell mounted on the faced wall, then a floor prop in the current cell.
   2. The faced edge's `onUse`.
   3. Otherwise, if the faced edge isn't an opening, switch it to its first `transitions` state. With no transitions, it's locked or can only be moved by events.
   4. If the faced edge is passable, a prop in the next cell that sits on the floor or is mounted facing you.
+  5. Otherwise, a ladder in the current cell: climb it.
 
 ## 12. Versioning and compatibility
 

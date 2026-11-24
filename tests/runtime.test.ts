@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createMap, resolve, run, Runtime, type MapDoc } from "../src/core";
+import { createMap, ladderSide, rectPositions, resolve, run, Runtime, type MapDoc } from "../src/core";
 import * as ops from "../src/core/ops";
 import { threeRooms, tower } from "./fixtures/maps";
 
@@ -110,6 +110,25 @@ describe("runtime: vertical movement", () => {
     // a ladder doesn't drop you back down
     expect(rt.move("back")).toEqual({ ok: true, climbed: "down" });
     expect(at(rt)).toEqual(P(0, 0, 0));
+  });
+
+  it("climbs with Space wherever you face, and the ladder leans on a real wall", () => {
+    // ladder cell opens to the north and west, like the Crypt's: its wall is east
+    let doc = run(createMap(), ops.paintCells([P(0, 1), P(1, 0), P(1, 1)]), ops.paintCells([P(1, 1, 1)], { autoOpen: false }));
+    doc = run(doc, ops.connectVertical(doc, P(1, 1), "up", "ladder"), ops.setStart({ cell: P(1, 1), facing: "north" }));
+    const r = resolve(doc);
+    expect(ladderSide(r, P(1, 1))).toBe("east");
+    const rt = start(doc);
+    expect(rt.ladder("up")).toBeDefined();
+    rt.use(); // facing an opening, nothing to use: climbs
+    expect(at(rt)).toEqual(P(1, 1, 1));
+    rt.use(); // at the top: climbs back down
+    expect(at(rt)).toEqual(P(1, 1, 0));
+    rt.turn("right"); // east: the ladder's wall
+    expect(rt.move("forward")).toEqual({ ok: true, climbed: "up" });
+    // a free-standing ladder (all sides open) has no wall
+    const open = run(createMap(), ops.paintCells(rectPositions(P(0, 0), P(2, 2))));
+    expect(ladderSide(resolve(open), P(1, 1))).toBeNull();
   });
 
   it("a closed hatch holds you; an opened one drops you", () => {
