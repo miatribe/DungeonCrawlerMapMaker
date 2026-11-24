@@ -6,7 +6,13 @@ The full design is in [docs/SPEC.md](docs/SPEC.md).
 
 ## Status
 
-**Milestones 1–4 of 6 are done: the core model, JSON export, the 2D editor, heights and vertical tools, and the logic editor.**
+**Milestones 1–5 of 6 are done: the core model, JSON export, the 2D editor, heights and vertical tools, the logic editor, and the 3D view and playtest.**
+
+- **3D overview (F6):** orbit around the dungeon. Rooms are seen from outside, since walls only face inward, and levels above the current one can be hidden. Click a cell to select it.
+- **First-person playtest (F5):**
+  - Walk the map with doors, gates, levers, traps, stairs, ladders and pits all working.
+  - A debug panel shows live flags and states and lets you choose what custom conditions return.
+  - **Copy state to map** makes the current states and flag values the map's starting values.
 
 - **Logic editor:**
   - Place and move props (levers, buttons, chests, signs, plates or your own types).
@@ -22,7 +28,7 @@ The full design is in [docs/SPEC.md](docs/SPEC.md).
 - **Validation:** missing references, invalid states, overlapping cells, unreachable areas, bad custom params and more (see SPEC §8.8).
 - **Files:** a `.dcmm` project format with versioned migrations, and a JSON runtime export behind a pluggable exporter interface.
 
-Next up: the 3D orbit view and first-person playtest (milestone 5).
+Next up: polish (milestone 6), with built-in textures, more examples, engine-facing export docs and a shortcut help screen.
 
 ## Running it yourself
 
@@ -90,6 +96,14 @@ Other controls:
 - **Moving around:** middle-drag or Space+drag to pan, mouse wheel to zoom, `Home` to fit the level, `PgUp`/`PgDn` to change level.
 - **Editing:** `Ctrl+Z` / `Ctrl+Shift+Z` to undo and redo.
 - **Files:** `Ctrl+S` to save, `Ctrl+O` to open, `Ctrl+E` to export.
+- **Views:** the strip above the map switches between **2D**, **3D** and **▶ Playtest**.
+  - **Switching:** F6 toggles 2D/3D. F5 starts a playtest from the map's start. Shift+F5 starts one from the selected cell.
+  - **In 3D:** drag to orbit, right-drag to pan, wheel to zoom, click to select. "Hide levels above" cuts the view away at the current level.
+- **Playtest controls:**
+  - `W`/`S` move, `A`/`D` strafe, `Q`/`E` turn, `Space` uses what's in front of you (a lever, a door, a chest), `R` restarts and `Esc` returns to the editor.
+  - Walking into a wall while standing on a ladder climbs it. Pits and open trapdoors drop you.
+  - The right panel shows flags, connection and prop states (changed values highlighted), fired events and the full log. Custom actions are logged rather than run, and you can toggle what custom conditions return.
+  - The map itself never changes while you play.
 - **Making things happen:** select a cell, connection or prop and set its trigger (On enter, On exit, On use, On bump) in the Inspector. Pick **+ New event…** to create the event and open it in the **Events** tab.
 - **Events tab:** each event has conditions ("when all of these are true"), actions ("do") and an "otherwise" branch. Fields that point at the map have a ⌖ button: click it, then click the door, prop or cell on the map. Picking a connection that has no id gives it one automatically.
 - **Seeing logic:**
@@ -160,7 +174,9 @@ Then review the diff before committing.
 ```
 src/core/        Model, schemas, geometry, edit ops + undo, validation, resolve, project files
 src/exporters/   Exporter interface and registry; json/ is the JSON runtime exporter
+src/core/logic/  links (trigger analysis) and runtime (headless event interpreter + movement rules)
 src/render/      canvas2d/: the top-down level renderer, view transform and hit-testing
+                 mesh/: map -> 3D geometry data; three/: the Three.js scene for 3D and playtest
 src/editor/      The React app: store (Zustand), tools, persistence, components/
 index.html       Vite entry page
 scripts/         demo, example and schema generators

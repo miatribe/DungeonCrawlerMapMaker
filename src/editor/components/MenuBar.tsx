@@ -5,6 +5,7 @@ import type { Saved } from "../persistence";
 import { EXAMPLES, useEditor } from "../store";
 import { deleteSelection } from "../tools";
 import { fitCurrent } from "./Viewport";
+import { startPlaytest, startPlaytestHere, stopPlaytest } from "../playtest";
 
 type Item = { label: string; shortcut?: string; action?: () => void; disabled?: boolean; checked?: boolean } | "sep";
 
@@ -81,7 +82,12 @@ export function MenuBar() {
       { label: "Clear selection", shortcut: "Esc", action: s.clearSelection },
     ],
     View: [
-      { label: "Fit level", shortcut: "Home", action: fitCurrent },
+      { label: "2D editor", checked: s.viewMode === "2d", action: () => { if (s.viewMode === "play") stopPlaytest(); s.set({ viewMode: "2d" }); } },
+      { label: "3D overview", shortcut: "F6", checked: s.viewMode === "3d", action: () => { if (s.viewMode === "play") stopPlaytest(); s.set({ viewMode: "3d" }); } },
+      { label: "Playtest from start", shortcut: "F5", checked: s.viewMode === "play", action: () => startPlaytest() },
+      { label: "Playtest from selected cell", shortcut: "Shift+F5", action: startPlaytestHere },
+      "sep",
+      { label: "Fit level", shortcut: "Home", action: fitCurrent, disabled: s.viewMode !== "2d" },
       { label: "Level up", shortcut: "PgUp", action: () => s.setLevel(s.level + 1) },
       { label: "Level down", shortcut: "PgDn", action: () => s.setLevel(s.level - 1) },
       "sep",

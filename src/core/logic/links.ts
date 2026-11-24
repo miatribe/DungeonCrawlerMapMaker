@@ -97,7 +97,7 @@ export function describeCondition(doc: MapDoc, c: Condition): string {
     case "playerAt": return `player at ${fmtPos(c.pos)}${c.facing ? ` facing ${c.facing}` : ""}`;
     case "playerFacing": return `player facing ${c.facing}`;
     case "eventFired": return `${c.event} has fired`;
-    case "not": return `not (${c.conditions.map((s) => describeCondition(doc, s)).join(" and ")})`;
+    case "not": return `none of (${c.conditions.map((s) => describeCondition(doc, s)).join(", ")})`;
     case "any": return `any of (${c.conditions.map((s) => describeCondition(doc, s)).join(", ")})`;
     case "custom": return `${doc.customTypes[c.custom]?.name ?? c.custom}(${fmtParams(c.params)})`;
   }

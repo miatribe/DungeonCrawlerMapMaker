@@ -1,7 +1,7 @@
 /** Editor state (Zustand). The map itself lives in `doc`; every change goes through `exec`. */
 import { create } from "zustand";
 import {
-  apply, cellKey, collectLinks, createHistory, type Link, createMap, loadProject, redo as redoH, resolve, saveProject, stringifyProject,
+  apply, cellKey, collectLinks, createHistory, type Link, type Runtime, type Start, createMap, loadProject, redo as redoH, resolve, saveProject, stringifyProject,
   undo as undoH, validate, type Command, type EditorState, type History, type MapDoc, type Problem,
   type ProjectFile, type ResolvedMap,
 } from "../core";
@@ -14,6 +14,15 @@ import towerText from "../../examples/tower.dcmm?raw";
 
 export type ToolId = "select" | "paint" | "room" | "erase" | "edge" | "material" | "height" | "ramp" | "vertical" | "prop" | "start";
 export type DockTab = "levels" | "events" | "flags" | "types" | "problems";
+export type ViewMode = "2d" | "3d" | "play";
+
+export interface Playtest {
+  runtime: Runtime;
+  /** Where this run started, for Restart. */
+  from: Start;
+  /** View to return to on exit. */
+  returnTo: "2d" | "3d";
+}
 
 /** "Pick on map" mode: the next click answers a form field instead of using the tool. */
 export type PickKind = "cell" | "edge" | "prop";
@@ -85,6 +94,14 @@ export interface EditorStore extends Derived {
   showAllLinks: boolean;
   editingEvent: string | null;
   pick: PickRequest | null;
+  viewMode: ViewMode;
+  /** 3D view shows only the current level and below. */
+  cutaway: boolean;
+  playtest: Playtest | null;
+  /** Bumped on every runtime change so the HUD re-renders. */
+  playTick: number;
+  /** Values custom conditions return during playtest (default true). */
+  customConds: Record<string, boolean>;
   level: number;
   view: View;
   ghostAbove: boolean;
@@ -175,6 +192,11 @@ export const useEditor = create<EditorStore>((set, get) => {
     showAllLinks: false,
     editingEvent: null,
     pick: null,
+    viewMode: "2d",
+    cutaway: true,
+    playtest: null,
+    playTick: 0,
+    customConds: {},
     level: 0,
     view: { panX: 80, panY: 80, zoom: 36 },
     ghostAbove: false,

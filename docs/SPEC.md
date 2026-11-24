@@ -243,7 +243,7 @@ type Target =
 | `playerAt` | `pos`, optional `facing` |
 | `playerFacing` | `facing` |
 | `eventFired` | `event` |
-| `not` / `any` | `conditions` (any = OR group) |
+| `not` / `any` | `conditions`. `any` is an OR group (true if any condition holds). `not` is "none of" (true if none holds). |
 
 ### 5.6 Built-in actions
 
@@ -530,10 +530,19 @@ examples/          three-rooms.dcmm (port of the prototype), tower.dcmm (multi-l
 
 The MVP is milestones 1–5.
 
-**Status (2026-11-23):** milestones 1–4 are done. These items from §8 come in later milestones:
+**Status (2026-11-23):** milestones 1–5 are done. Still open from §8:
 - Moving, copying and pasting a selection with the Select tool.
 - The Note tool.
-- The 3D and Playtest viewport modes.
+
+Milestone 5 details:
+- **Runtime:** `core/logic/runtime.ts` is a headless `Runtime`. It plays a copy of the state and follows the §9.2 movement rules. Unit tests play through both example maps.
+  - **`not` condition:** means "none of", so it is true when none of its conditions hold.
+  - **Fired events:** a named event counts as fired (for `eventFired`) whenever its conditions passed. Only `once` events are blocked from running again.
+  - **Runaway chains:** `runEvent` chains deeper than 32 stop with a warning.
+- **Mesh builder:** `render/mesh/buildMesh.ts` produces data independent of the renderer. Faces are single-sided and point into cells, which is what lets the orbit view see into rooms from outside.
+  - **Static faces:** floors, ramps, stair treads and risers with side profiles, ceilings, walls, and risers between cells.
+  - **Dynamic parts:** doors swing, gates rise, secret walls sink, and hatches hinge open. Grates, ladders, pit rims and props are separate parts too.
+- **Three.js:** `render/three/MapScene.ts` renders both the orbit view (OrbitControls, cutaway, click picking) and first person (an eased camera with a torch light and fog). It does not use @react-three/fiber, contrary to §10. The 3D view is a lazily loaded chunk.
 
 Milestone 4 details:
 - **Props:** the Prop tool places, wall-mounts, moves and deletes props, and the Prop inspector edits them.
