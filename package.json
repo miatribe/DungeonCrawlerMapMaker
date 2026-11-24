@@ -1,0 +1,25 @@
+{
+  "name": "dcmm",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DCMM — Dungeon Crawler Map Maker",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "schemas": "tsx scripts/gen-schemas.ts",
+    "examples": "tsx scripts/gen-examples.ts"
+  },
+  "dependencies": {
+    "immer": "^11.2.10",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1",
+    "zod-to-json-schema": "^3.25.2"
+  }
+}

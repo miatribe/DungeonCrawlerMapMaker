@@ -1,0 +1,674 @@
+{
+  "format": "dcmm-project",
+  "formatVersion": 1,
+  "app": {
+    "name": "DCMM",
+    "version": "0.1.0"
+  },
+  "map": {
+    "id": "tower",
+    "name": "Tower",
+    "cellSize": 1,
+    "stepsPerLevel": 4,
+    "stepHeight": 0.25,
+    "start": {
+      "cell": {
+        "x": 1,
+        "y": 1,
+        "z": 0
+      },
+      "facing": "east"
+    },
+    "rules": {
+      "maxStep": 1
+    },
+    "defaults": {
+      "wall": "stone",
+      "floor": "flagstone",
+      "ceiling": "ceiling"
+    },
+    "levels": [
+      {
+        "z": 0,
+        "name": "Ground"
+      },
+      {
+        "z": 1,
+        "name": "Upper floor"
+      }
+    ],
+    "cells": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 2,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "floor": -1
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 1,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 2,
+          "y": 1,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 3,
+          "y": 1,
+          "z": 0
+        },
+        "ceiling": 8,
+        "shape": {
+          "kind": "stairs",
+          "rise": 4,
+          "toward": "east",
+          "treads": 4
+        }
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 2,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 2,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 2,
+          "y": 2,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 4,
+          "y": 2,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 4,
+          "y": 0,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 5,
+          "y": 0,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 4,
+          "y": 1,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 5,
+          "y": 1,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 4,
+          "y": 2,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 5,
+          "y": 2,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 2,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 2,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 2,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 3,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "toZ": 1,
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "up",
+        "type": "pit",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 0,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 0,
+          "z": 1
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 5,
+          "y": 0,
+          "z": 1
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 1,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 1,
+          "z": 1
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 5,
+          "y": 1,
+          "z": 1
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 2,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      }
+    ],
+    "props": [],
+    "materials": {
+      "stone": {
+        "name": "Grey stone",
+        "color": "#7b8190"
+      },
+      "brick": {
+        "name": "Red brick",
+        "color": "#a5503a"
+      },
+      "moss": {
+        "name": "Mossy stone",
+        "color": "#5b8a58"
+      },
+      "wood": {
+        "name": "Oak planks",
+        "color": "#8a5a2b"
+      },
+      "iron": {
+        "name": "Iron",
+        "color": "#9aa0a8"
+      },
+      "dirt": {
+        "name": "Dirt",
+        "color": "#5a4632"
+      },
+      "water": {
+        "name": "Water",
+        "color": "#2f5f8a"
+      },
+      "flagstone": {
+        "name": "Flagstone",
+        "color": "#4a4440"
+      },
+      "ceiling": {
+        "name": "Ceiling",
+        "color": "#2a2630"
+      }
+    },
+    "connectionTypes": {
+      "opening": {
+        "name": "Opening",
+        "kind": "opening",
+        "axis": "horizontal",
+        "initialState": "open",
+        "states": {
+          "open": {
+            "passable": true,
+            "blocksSight": false
+          }
+        }
+      },
+      "door": {
+        "name": "Wooden door",
+        "kind": "door",
+        "axis": "horizontal",
+        "material": "wood",
+        "initialState": "closed",
+        "states": {
+          "closed": {
+            "passable": false,
+            "blocksSight": true,
+            "transitions": [
+              "open"
+            ]
+          },
+          "open": {
+            "passable": true,
+            "blocksSight": false,
+            "transitions": [
+              "closed"
+            ]
+          },
+          "locked": {
+            "passable": false,
+            "blocksSight": true,
+            "transitions": []
+          }
+        }
+      },
+      "gate": {
+        "name": "Iron gate",
+        "kind": "gate",
+        "axis": "horizontal",
+        "material": "iron",
+        "initialState": "closed",
+        "states": {
+          "closed": {
+            "passable": false,
+            "blocksSight": false,
+            "transitions": []
+          },
+          "open": {
+            "passable": true,
+            "blocksSight": false,
+            "transitions": []
+          }
+        }
+      },
+      "secretWall": {
+        "name": "Secret wall",
+        "kind": "wall",
+        "axis": "horizontal",
+        "initialState": "closed",
+        "states": {
+          "closed": {
+            "passable": false,
+            "blocksSight": true,
+            "transitions": []
+          },
+          "open": {
+            "passable": true,
+            "blocksSight": false,
+            "transitions": []
+          }
+        }
+      },
+      "open": {
+        "name": "Open",
+        "kind": "opening",
+        "axis": "vertical",
+        "initialState": "open",
+        "states": {
+          "open": {
+            "passable": true,
+            "blocksSight": false
+          }
+        }
+      },
+      "hatch": {
+        "name": "Trapdoor",
+        "kind": "hatch",
+        "axis": "vertical",
+        "material": "wood",
+        "initialState": "closed",
+        "states": {
+          "closed": {
+            "passable": false,
+            "blocksSight": true,
+            "transitions": [
+              "open"
+            ]
+          },
+          "open": {
+            "passable": true,
+            "blocksSight": false,
+            "transitions": [
+              "closed"
+            ]
+          }
+        }
+      },
+      "pit": {
+        "name": "Pit",
+        "kind": "pit",
+        "axis": "vertical",
+        "initialState": "open",
+        "states": {
+          "open": {
+            "passable": true,
+            "blocksSight": false
+          }
+        }
+      },
+      "ladder": {
+        "name": "Ladder",
+        "kind": "ladder",
+        "axis": "vertical",
+        "material": "wood",
+        "initialState": "open",
+        "states": {
+          "open": {
+            "passable": true,
+            "blocksSight": false
+          }
+        }
+      },
+      "grate": {
+        "name": "Grate",
+        "kind": "grate",
+        "axis": "vertical",
+        "material": "iron",
+        "initialState": "closed",
+        "states": {
+          "closed": {
+            "passable": false,
+            "blocksSight": false,
+            "transitions": []
+          }
+        }
+      }
+    },
+    "propTypes": {
+      "lever": {
+        "name": "Lever",
+        "states": [
+          "off",
+          "on"
+        ],
+        "initialState": "off",
+        "preview": {
+          "color": "#c9ccd1",
+          "icon": "lever"
+        }
+      },
+      "button": {
+        "name": "Button",
+        "states": [
+          "up",
+          "down"
+        ],
+        "initialState": "up",
+        "preview": {
+          "color": "#c9ccd1",
+          "icon": "button"
+        }
+      },
+      "chest": {
+        "name": "Chest",
+        "states": [
+          "closed",
+          "open"
+        ],
+        "initialState": "closed",
+        "preview": {
+          "color": "#f2c744",
+          "icon": "chest"
+        }
+      },
+      "sign": {
+        "name": "Sign",
+        "states": [
+          "default"
+        ],
+        "initialState": "default",
+        "params": [
+          {
+            "name": "text",
+            "type": "string",
+            "default": ""
+          }
+        ],
+        "preview": {
+          "color": "#c8a46e",
+          "icon": "sign"
+        }
+      },
+      "pressurePlate": {
+        "name": "Pressure plate",
+        "states": [
+          "up",
+          "down"
+        ],
+        "initialState": "up",
+        "preview": {
+          "color": "#8c8c8c",
+          "icon": "plate"
+        }
+      }
+    },
+    "customTypes": {},
+    "events": {},
+    "flags": {}
+  }
+}

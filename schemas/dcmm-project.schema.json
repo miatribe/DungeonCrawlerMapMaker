@@ -1,0 +1,1366 @@
+{
+  "title": "DCMM project file (.dcmm)",
+  "$ref": "#/definitions/root",
+  "definitions": {
+    "root": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "const": "dcmm-project"
+        },
+        "formatVersion": {
+          "type": "number",
+          "const": 1
+        },
+        "app": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "version"
+          ],
+          "additionalProperties": false
+        },
+        "map": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z_][A-Za-z0-9_.\\-]*$"
+            },
+            "name": {
+              "type": "string"
+            },
+            "cellSize": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "stepsPerLevel": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 64
+            },
+            "stepHeight": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "start": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "cell": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "integer"
+                        },
+                        "y": {
+                          "type": "integer"
+                        },
+                        "z": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "x",
+                        "y",
+                        "z"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "facing": {
+                      "type": "string",
+                      "enum": [
+                        "north",
+                        "east",
+                        "south",
+                        "west"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "cell",
+                    "facing"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "rules": {
+              "type": "object",
+              "properties": {
+                "maxStep": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "maxStep"
+              ],
+              "additionalProperties": false
+            },
+            "defaults": {
+              "type": "object",
+              "properties": {
+                "wall": {
+                  "$ref": "#/definitions/root/properties/map/properties/id"
+                },
+                "floor": {
+                  "$ref": "#/definitions/root/properties/map/properties/id"
+                },
+                "ceiling": {
+                  "$ref": "#/definitions/root/properties/map/properties/id"
+                }
+              },
+              "required": [
+                "wall",
+                "floor",
+                "ceiling"
+              ],
+              "additionalProperties": false
+            },
+            "onLoad": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/root/properties/map/properties/id"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "once": {
+                      "type": "boolean"
+                    },
+                    "conditions": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "state"
+                              },
+                              "target": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "const": "edge"
+                                      },
+                                      "id": {
+                                        "$ref": "#/definitions/root/properties/map/properties/id"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "id"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "const": "edgeAt"
+                                      },
+                                      "cell": {
+                                        "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/cell"
+                                      },
+                                      "dir": {
+                                        "type": "string",
+                                        "enum": [
+                                          "north",
+                                          "east",
+                                          "south",
+                                          "west",
+                                          "up",
+                                          "down"
+                                        ]
+                                      },
+                                      "toZ": {
+                                        "type": "integer"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "cell",
+                                      "dir"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "const": "prop"
+                                      },
+                                      "id": {
+                                        "$ref": "#/definitions/root/properties/map/properties/id"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "id"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "const": "cell"
+                                      },
+                                      "pos": {
+                                        "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/cell"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "pos"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "const": "player"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                ]
+                              },
+                              "equals": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "target",
+                              "equals"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "flag"
+                              },
+                              "name": {
+                                "$ref": "#/definitions/root/properties/map/properties/id"
+                              },
+                              "op": {
+                                "type": "string",
+                                "enum": [
+                                  "==",
+                                  "!=",
+                                  ">",
+                                  "<",
+                                  ">=",
+                                  "<="
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "string"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "name",
+                              "op",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "playerAt"
+                              },
+                              "pos": {
+                                "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/cell"
+                              },
+                              "facing": {
+                                "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/facing"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "pos"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "playerFacing"
+                              },
+                              "facing": {
+                                "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/facing"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "facing"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "eventFired"
+                              },
+                              "event": {
+                                "$ref": "#/definitions/root/properties/map/properties/id"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "event"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "not"
+                              },
+                              "conditions": {
+                                "type": "array",
+                                "items": {
+                                  "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items"
+                                }
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "conditions"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "any"
+                              },
+                              "conditions": {
+                                "type": "array",
+                                "items": {
+                                  "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items"
+                                }
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "conditions"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "custom"
+                              },
+                              "custom": {
+                                "$ref": "#/definitions/root/properties/map/properties/id"
+                              },
+                              "params": {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/cell"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "custom"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "actions": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "setConnectionState"
+                              },
+                              "target": {
+                                "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items/anyOf/0/properties/target"
+                              },
+                              "state": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "target",
+                              "state"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "toggleConnectionState"
+                              },
+                              "target": {
+                                "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items/anyOf/0/properties/target"
+                              },
+                              "states": {
+                                "type": "array",
+                                "minItems": 2,
+                                "maxItems": 2,
+                                "items": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "string"
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "target",
+                              "states"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "setPropState"
+                              },
+                              "target": {
+                                "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items/anyOf/0/properties/target"
+                              },
+                              "state": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "target",
+                              "state"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "setFlag"
+                              },
+                              "name": {
+                                "$ref": "#/definitions/root/properties/map/properties/id"
+                              },
+                              "value": {
+                                "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items/anyOf/1/properties/value"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "name",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "addFlag"
+                              },
+                              "name": {
+                                "$ref": "#/definitions/root/properties/map/properties/id"
+                              },
+                              "amount": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "name",
+                              "amount"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "teleport"
+                              },
+                              "to": {
+                                "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/cell"
+                              },
+                              "facing": {
+                                "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/facing"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "to"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "showMessage"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "text"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "runEvent"
+                              },
+                              "event": {
+                                "$ref": "#/definitions/root/properties/map/properties/id"
+                              },
+                              "delayMs": {
+                                "type": "integer",
+                                "minimum": 0
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "event"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "setSurface"
+                              },
+                              "cell": {
+                                "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/cell"
+                              },
+                              "side": {
+                                "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items/anyOf/0/properties/target/anyOf/1/properties/dir"
+                              },
+                              "material": {
+                                "$ref": "#/definitions/root/properties/map/properties/id"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "cell",
+                              "side",
+                              "material"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "custom"
+                              },
+                              "custom": {
+                                "$ref": "#/definitions/root/properties/map/properties/id"
+                              },
+                              "params": {
+                                "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items/anyOf/7/properties/params"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "custom"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "else": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/actions/items"
+                      }
+                    },
+                    "notes": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "actions"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "levels": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "z": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "z",
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "cells": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "pos": {
+                    "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/cell"
+                  },
+                  "floor": {
+                    "type": "integer"
+                  },
+                  "ceiling": {
+                    "type": "integer"
+                  },
+                  "shape": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "flat"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "ramp"
+                          },
+                          "rise": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0
+                          },
+                          "toward": {
+                            "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/facing"
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "rise",
+                          "toward"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "stairs"
+                          },
+                          "rise": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0
+                          },
+                          "toward": {
+                            "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/facing"
+                          },
+                          "treads": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "rise",
+                          "toward",
+                          "treads"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "surfaces": {
+                    "type": "object",
+                    "properties": {
+                      "north": {
+                        "$ref": "#/definitions/root/properties/map/properties/id"
+                      },
+                      "east": {
+                        "$ref": "#/definitions/root/properties/map/properties/id"
+                      },
+                      "south": {
+                        "$ref": "#/definitions/root/properties/map/properties/id"
+                      },
+                      "west": {
+                        "$ref": "#/definitions/root/properties/map/properties/id"
+                      },
+                      "up": {
+                        "$ref": "#/definitions/root/properties/map/properties/id"
+                      },
+                      "down": {
+                        "$ref": "#/definitions/root/properties/map/properties/id"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "onEnter": {
+                    "$ref": "#/definitions/root/properties/map/properties/onLoad"
+                  },
+                  "onExit": {
+                    "$ref": "#/definitions/root/properties/map/properties/onLoad"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "data": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  }
+                },
+                "required": [
+                  "pos"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "edges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "$ref": "#/definitions/root/properties/map/properties/id"
+                  },
+                  "from": {
+                    "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/cell"
+                  },
+                  "dir": {
+                    "type": "string",
+                    "enum": [
+                      "east",
+                      "south",
+                      "up"
+                    ]
+                  },
+                  "toZ": {
+                    "type": "integer"
+                  },
+                  "type": {
+                    "$ref": "#/definitions/root/properties/map/properties/id"
+                  },
+                  "state": {
+                    "type": "string"
+                  },
+                  "onUse": {
+                    "$ref": "#/definitions/root/properties/map/properties/onLoad"
+                  },
+                  "onBump": {
+                    "$ref": "#/definitions/root/properties/map/properties/onLoad"
+                  },
+                  "params": {
+                    "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items/anyOf/7/properties/params"
+                  },
+                  "tags": {
+                    "$ref": "#/definitions/root/properties/map/properties/cells/items/properties/tags"
+                  },
+                  "data": {
+                    "$ref": "#/definitions/root/properties/map/properties/cells/items/properties/data"
+                  }
+                },
+                "required": [
+                  "from",
+                  "dir",
+                  "type",
+                  "state"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "props": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "$ref": "#/definitions/root/properties/map/properties/id"
+                  },
+                  "type": {
+                    "$ref": "#/definitions/root/properties/map/properties/id"
+                  },
+                  "cell": {
+                    "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/cell"
+                  },
+                  "side": {
+                    "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items/anyOf/0/properties/target/anyOf/1/properties/dir"
+                  },
+                  "facing": {
+                    "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/facing"
+                  },
+                  "state": {
+                    "type": "string"
+                  },
+                  "onUse": {
+                    "$ref": "#/definitions/root/properties/map/properties/onLoad"
+                  },
+                  "params": {
+                    "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items/anyOf/7/properties/params"
+                  },
+                  "tags": {
+                    "$ref": "#/definitions/root/properties/map/properties/cells/items/properties/tags"
+                  },
+                  "data": {
+                    "$ref": "#/definitions/root/properties/map/properties/cells/items/properties/data"
+                  }
+                },
+                "required": [
+                  "id",
+                  "type",
+                  "cell",
+                  "state"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "materials": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "color": {
+                    "type": "string",
+                    "pattern": "^#[0-9a-fA-F]{6}$"
+                  },
+                  "texture": {
+                    "type": "string"
+                  },
+                  "tags": {
+                    "$ref": "#/definitions/root/properties/map/properties/cells/items/properties/tags"
+                  },
+                  "data": {
+                    "$ref": "#/definitions/root/properties/map/properties/cells/items/properties/data"
+                  }
+                },
+                "required": [
+                  "name",
+                  "color"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "connectionTypes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "opening",
+                      "door",
+                      "gate",
+                      "hatch",
+                      "pit",
+                      "ladder",
+                      "grate",
+                      "wall",
+                      "custom"
+                    ]
+                  },
+                  "axis": {
+                    "type": "string",
+                    "enum": [
+                      "horizontal",
+                      "vertical",
+                      "both"
+                    ]
+                  },
+                  "material": {
+                    "$ref": "#/definitions/root/properties/map/properties/id"
+                  },
+                  "initialState": {
+                    "type": "string"
+                  },
+                  "states": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "object",
+                      "properties": {
+                        "passable": {
+                          "type": "boolean"
+                        },
+                        "blocksSight": {
+                          "type": "boolean"
+                        },
+                        "transitions": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "passable",
+                        "blocksSight"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "params": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "$ref": "#/definitions/root/properties/map/properties/id"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "string",
+                            "int",
+                            "float",
+                            "bool",
+                            "enum",
+                            "gridPos",
+                            "direction",
+                            "color",
+                            "ref:edge",
+                            "ref:prop",
+                            "ref:event",
+                            "ref:flag",
+                            "ref:material"
+                          ]
+                        },
+                        "options": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "default": {
+                          "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1/properties/conditions/items/anyOf/7/properties/params/additionalProperties"
+                        },
+                        "required": {
+                          "type": "boolean"
+                        },
+                        "description": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "name",
+                  "kind",
+                  "axis",
+                  "initialState",
+                  "states"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "propTypes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "states": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  },
+                  "initialState": {
+                    "type": "string"
+                  },
+                  "params": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/root/properties/map/properties/connectionTypes/additionalProperties/properties/params/items"
+                    }
+                  },
+                  "preview": {
+                    "type": "object",
+                    "properties": {
+                      "color": {
+                        "$ref": "#/definitions/root/properties/map/properties/materials/additionalProperties/properties/color"
+                      },
+                      "icon": {
+                        "type": "string",
+                        "enum": [
+                          "lever",
+                          "button",
+                          "chest",
+                          "sign",
+                          "plate",
+                          "generic"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "color"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "name",
+                  "states",
+                  "initialState"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "customTypes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "action",
+                      "condition"
+                    ]
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "params": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/root/properties/map/properties/connectionTypes/additionalProperties/properties/params/items"
+                    }
+                  }
+                },
+                "required": [
+                  "category",
+                  "name",
+                  "params"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "events": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/root/properties/map/properties/onLoad/anyOf/1"
+              }
+            },
+            "flags": {
+              "type": "object",
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "bool"
+                      },
+                      "initial": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "initial"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "int"
+                      },
+                      "initial": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "initial"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "string"
+                      },
+                      "initial": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "initial"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            },
+            "tags": {
+              "$ref": "#/definitions/root/properties/map/properties/cells/items/properties/tags"
+            },
+            "data": {
+              "$ref": "#/definitions/root/properties/map/properties/cells/items/properties/data"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "cellSize",
+            "stepsPerLevel",
+            "stepHeight",
+            "start",
+            "rules",
+            "defaults",
+            "levels",
+            "cells",
+            "edges",
+            "props",
+            "materials",
+            "connectionTypes",
+            "propTypes",
+            "customTypes",
+            "events",
+            "flags"
+          ],
+          "additionalProperties": false
+        },
+        "assets": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "mime": {
+                "type": "string",
+                "enum": [
+                  "image/png",
+                  "image/jpeg",
+                  "image/webp"
+                ]
+              },
+              "data": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "mime",
+              "data"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "editor": {
+          "type": "object",
+          "properties": {
+            "view": {
+              "type": "object",
+              "properties": {
+                "level": {
+                  "type": "integer"
+                },
+                "pan": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                "zoom": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "showLevelsAbove": {
+                  "type": "boolean"
+                },
+                "showLevelsBelow": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            },
+            "notes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "pos": {
+                    "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0/properties/cell"
+                  },
+                  "text": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "pos",
+                  "text"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "playtestStart": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/root/properties/map/properties/start/anyOf/0"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "format",
+        "formatVersion",
+        "app",
+        "map"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
