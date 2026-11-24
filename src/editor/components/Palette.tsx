@@ -1,8 +1,8 @@
 import { nextId } from "../../core";
 import * as ops from "../../core/ops";
-import { useEditor, type MaterialTarget } from "../store";
+import { useEditor, type HeightTarget, type MaterialTarget, type RampKind } from "../store";
 import { TOOLS } from "../tools";
-import { Swatch, TextField } from "./fields";
+import { NumberField, Swatch, TextField } from "./fields";
 
 const KIND_HINT: Record<string, string> = {
   opening: "Open passage",
@@ -22,6 +22,9 @@ export function Palette() {
         <p className="muted small">{info.hint}</p>
         {tool === "edge" && <ConnectionPalette />}
         {tool === "material" && <MaterialPalette />}
+        {tool === "height" && <HeightPalette />}
+        {tool === "ramp" && <RampPalette />}
+        {tool === "vertical" && <VerticalPalette />}
       </div>
     </section>
   );
@@ -44,8 +47,115 @@ function ConnectionPalette() {
             <span className="muted small hint">{KIND_HINT[t.kind] ?? t.kind}</span>
           </button>
         ))}
-      <p className="muted small">Vertical connections (hatches, pits, ladders) are set per cell in the Inspector.</p>
+      <p className="muted small">Hatches, pits and ladders go through floors and ceilings: use the Vertical connections tool (U).</p>
     </div>
+  );
+}
+
+function Segmented<T extends string>({ value, options, onChange, label }: { value: T; options: { id: T; label: string }[]; onChange: (v: T) => void; label: string }) {
+  return (
+    <div className="segmented" role="radiogroup" aria-label={label}>
+      {options.map((o) => (
+        <button key={o.id} role="radio" aria-checked={value === o.id} className={value === o.id ? "active" : ""} onClick={() => onChange(o.id)}>{o.label}</button>
+      ))}
+    </div>
+  );
+}
+
+function HeightPalette() {
+  const s = useEditor();
+  const spl = s.doc.stepsPerLevel;
+  return (
+    <>
+      <Segmented<HeightTarget>
+        label="Height target"
+        value={s.heightTarget}
+        onChange={(heightTarget) => s.set({ heightTarget })}
+        options={[{ id: "floor", label: "Floor" }, { id: "ceiling", label: "Ceiling" }, { id: "both", label: "Whole cell" }]}
+      />
+      <Segmented<"step" | "set">
+        label="Height mode"
+        value={s.heightMode}
+        onChange={(heightMode) => s.set({ heightMode })}
+        options={[{ id: "step", label: "Raise / lower" }, { id: "set", label: "Set to value" }]}
+      />
+      {s.heightMode === "set" ? (
+        <div className="row">
+          <span className="row-label">{s.heightTarget === "ceiling" ? "Ceiling" : "Floor"}</span>
+          <span className="row-field">
+            <NumberField value={s.heightValue} min={-64} max={128} onCommit={(heightValue) => s.set({ heightValue })} />
+            <span className="muted small">steps</span>
+          </span>
+        </div>
+      ) : null}
+      <p className="muted small">
+        {s.heightMode === "step"
+          ? `Left-click raises by one step, right-click lowers. `
+          : `Left-click sets the value, right-click resets to the default. `}
+        {s.heightTarget === "both" ? "Whole cell moves floor and ceiling together. " : ""}
+        One level is {spl} steps. A ceiling above {spl} makes a tall cell that reaches into the level above.
+      </p>
+    </>
+  );
+}
+
+function RampPalette() {
+  const s = useEditor();
+  const spl = s.doc.stepsPerLevel;
+  return (
+    <>
+      <Segmented<RampKind>
+        label="Ramp kind"
+        value={s.rampKind}
+        onChange={(rampKind) => s.set({ rampKind })}
+        options={[{ id: "stairs", label: "Stairs" }, { id: "ramp", label: "Ramp" }, { id: "levelStairs", label: "Up a level" }]}
+      />
+      {s.rampKind !== "levelStairs" ? (
+        <>
+          <div className="row">
+            <span className="row-label">Rise per cell</span>
+            <span className="row-field">
+              <NumberField value={s.rampRise} min={1} max={spl * 2} onCommit={(rampRise) => s.set({ rampRise })} />
+              <span className="muted small">steps</span>
+            </span>
+          </div>
+          <p className="muted small">Each cell in the run starts where the previous one ended, so a drag over {spl} cells at rise 1 climbs one level ({spl} steps). Ceilings are raised where a cell's top would hit them.</p>
+        </>
+      ) : (
+        <p className="muted small">Click or drag one cell in the uphill direction. It becomes a staircase climbing a full level, with headroom, and joins the cell beyond it on the level above. That cell is created if it doesn't exist.</p>
+      )}
+    </>
+  );
+}
+
+function VerticalPalette() {
+  const types = useEditor((s) => s.doc.connectionTypes);
+  const s = useEditor();
+  return (
+    <>
+      <Segmented<"down" | "up">
+        label="Direction"
+        value={s.verticalDir}
+        onChange={(verticalDir) => s.set({ verticalDir })}
+        options={[{ id: "down", label: "Down through floor" }, { id: "up", label: "Up through ceiling" }]}
+      />
+      <div className="choice-list" role="listbox" aria-label="Vertical connection types">
+        {Object.entries(types)
+          .filter(([, t]) => t.axis !== "horizontal")
+          .map(([id, t]) => (
+            <button key={id} role="option" aria-selected={s.activeVertical === id} className={`choice${s.activeVertical === id ? " active" : ""}`} onClick={() => s.set({ activeVertical: id })}>
+              <Swatch color={(t.material && s.doc.materials[t.material]?.color) || (t.kind === "pit" ? "#000000" : "#5fd36b")} />
+              <span className="lbl">{t.name}</span>
+              <span className="muted small">{Object.keys(t.states).join(" / ")}</span>
+            </button>
+          ))}
+      </div>
+      <label className="check-row">
+        <input type="checkbox" checked={s.createMissing} onChange={(e) => s.set({ createMissing: e.target.checked })} />
+        <span>Create the cell on the other side if it's missing</span>
+      </label>
+      <p className="muted small">Connections find the cell whose floor meets this ceiling (or whose ceiling meets this floor), even across tall cells.</p>
+    </>
   );
 }
 

@@ -7,7 +7,7 @@ import type { Draft } from "immer";
 import type { Command } from "./history";
 import {
   canonicalEdge, cellKey, DELTA, edgeKey, edgeEnds, FACINGS, parseCellKey, samePos,
-  type Direction, type EdgeKey, type GridPos, type Side,
+  type Direction, type EdgeKey, type Facing, type GridPos, type Side,
 } from "./geometry";
 import { nextId, type MapDoc } from "./model";
 import { definedIds, walkRefs, type RefKind } from "./refs";
@@ -285,6 +285,201 @@ export function renameId(doc: MapDoc, kind: RefKind, oldId: string, newId: strin
     walkRefs(d as MapDoc, (r) => {
       if (r.kind === kind && "set" in r && r.id === oldId) r.set(newId);
     });
+  });
+}
+
+// ---------- heights, ramps, stairs, vertical links (SPEC §4.1, §4.3) ----------
+
+/** Normalize a cell's heights so defaults aren't stored. */
+function tidyHeights(c: Draft<Cell>, spl: number) {
+  if (c.floor === 0) delete c.floor;
+  if (c.ceiling === spl) delete c.ceiling;
+}
+
+/**
+ * Set floor and/or ceiling (steps above the level base) on each cell. With `keepHeight`,
+ * setting the floor moves the ceiling by the same amount, so the room keeps its height.
+ */
+export function setHeights(positions: GridPos[], h: { floor?: number; ceiling?: number; keepHeight?: boolean }): Command {
+  return cmd("Set height", (d) => {
+    for (const p of positions) {
+      const c = d.cells[cellKey(p)];
+      if (!c) continue;
+      const oldFloor = c.floor ?? 0;
+      if (h.floor !== undefined) c.floor = h.floor;
+      if (h.ceiling !== undefined) c.ceiling = h.ceiling;
+      else if (h.keepHeight && h.floor !== undefined) c.ceiling = (c.ceiling ?? d.stepsPerLevel) + (h.floor - oldFloor);
+      tidyHeights(c, d.stepsPerLevel);
+    }
+  });
+}
+
+/** Headroom (steps) left above the top of a ramp when its ceiling has to be raised. */
+export const headroom = (stepsPerLevel: number) => Math.max(1, Math.ceil(stepsPerLevel / 2));
+
+export interface RampOptions {
+  kind: "ramp" | "stairs";
+  /** Steps each cell rises. */
+  rise: number;
+  toward: Facing;
+  /** Stair treads per cell (stairs only; default 4). */
+  treads?: number;
+}
+
+/**
+ * Turn a straight run of cells into a continuous ramp or staircase. Each cell starts where
+ * the previous one ended, beginning at the first cell's current floor. Missing cells are
+ * created, consecutive cells are opened to each other, and ceilings are raised where a
+ * cell's top would hit it.
+ */
+export function buildRamp(path: GridPos[], o: RampOptions): Command {
+  return cmd(o.kind === "ramp" ? "Build ramp" : "Build stairs", (d) => {
+    const spl = d.stepsPerLevel;
+    const first = path[0] && d.cells[cellKey(path[0])];
+    const base = first?.floor ?? 0;
+    path.forEach((p, i) => {
+      const k = cellKey(p);
+      d.cells[k] ??= { pos: { ...p } };
+      ensureLevel(d, p.z);
+      const c = d.cells[k]!;
+      c.floor = base + i * o.rise;
+      c.shape = o.kind === "ramp"
+        ? { kind: "ramp", rise: o.rise, toward: o.toward }
+        : { kind: "stairs", rise: o.rise, toward: o.toward, treads: o.treads ?? 4 };
+      if ((c.ceiling ?? spl) <= c.floor + o.rise) c.ceiling = c.floor + o.rise + headroom(spl);
+      tidyHeights(c, spl);
+      if (i > 0) {
+        const e = canonicalEdge(path[i - 1]!, o.toward);
+        const ek = edgeKey(e);
+        if (!d.edges[ek]) d.edges[ek] = { ...e, type: "opening", state: d.connectionTypes.opening?.initialState ?? "open" };
+      }
+    });
+  });
+}
+
+/** Make a cell flat again (keeps its floor height). */
+export function flattenCells(positions: GridPos[]): Command {
+  return cmd("Flatten", (d) => {
+    for (const p of positions) {
+      const c = d.cells[cellKey(p)];
+      if (c) delete c.shape;
+    }
+  });
+}
+
+/**
+ * A staircase (or ramp) in one cell that climbs to the level above (SPEC §4.3): the cell
+ * becomes tall enough to stand at the top, and its high end joins the cell one step
+ * `toward` on level z+1 with a cross-level opening. That upper cell is created if needed.
+ */
+export function buildLevelStairs(doc: MapDoc, pos: GridPos, toward: Facing, kind: "ramp" | "stairs" = "stairs", treads = 4): Command {
+  const spl = doc.stepsPerLevel;
+  const here = doc.cells[cellKey(pos)];
+  const floor = here?.floor ?? 0;
+  const d0 = DELTA[toward];
+  const topPos = { x: pos.x + d0.x, y: pos.y + d0.y, z: pos.z + 1 };
+  const top = doc.cells[cellKey(topPos)];
+  const rise = spl + (top?.floor ?? 0) - floor;
+  if (rise <= 0) throw new Error("The cell above is not higher than this one");
+  const ceiling = Math.max(here?.ceiling ?? spl, spl + (top?.ceiling ?? spl));
+  return cmd(kind === "ramp" ? "Build ramp to level above" : "Build stairs to level above", (d) => {
+    const k = cellKey(pos);
+    d.cells[k] ??= { pos: { ...pos } };
+    const c = d.cells[k]!;
+    c.shape = kind === "ramp" ? { kind: "ramp", rise, toward } : { kind: "stairs", rise, toward, treads };
+    c.ceiling = ceiling;
+    tidyHeights(c, spl);
+    ensureLevel(d, pos.z);
+    const tk = cellKey(topPos);
+    d.cells[tk] ??= { pos: { ...topPos } };
+    ensureLevel(d, topPos.z);
+    // The high end now leads up a level, so drop any same-level connection on that side.
+    delete d.edges[edgeKey(canonicalEdge(pos, toward))];
+    const e = canonicalEdge(pos, toward, topPos.z);
+    d.edges[edgeKey(e)] = { ...e, type: "opening", state: d.connectionTypes.opening?.initialState ?? "open" };
+  });
+}
+
+/** Absolute floor/ceiling of a stored cell, in steps. */
+function absHeights(doc: MapDoc, c: Cell) {
+  const base = c.pos.z * doc.stepsPerLevel;
+  return { floor: base + (c.floor ?? 0), ceiling: base + (c.ceiling ?? doc.stepsPerLevel) };
+}
+
+/** The vertical edges (by key) leaving a cell through its ceiling or floor. */
+export function verticalEdgesOf(doc: MapDoc, pos: GridPos, dir: "up" | "down"): EdgeKey[] {
+  return Object.entries(doc.edges)
+    .filter(([, e]) => e.dir === "up" && (dir === "up" ? samePos(e.from, pos) : samePos(edgeEnds(e)[1], pos)))
+    .map(([k]) => k);
+}
+
+export interface VerticalTarget {
+  /** z of the cell on the far side. */
+  z: number;
+  /** True when a cell there already meets this one exactly. */
+  exists: boolean;
+  /** For a cell that has to be created: its floor/ceiling relative to its own level. */
+  create?: Omit<Cell, "pos">;
+}
+
+/**
+ * Where a connection through a cell's ceiling (up) or floor (down) should lead: the cell in
+ * the same column whose floor meets this ceiling (or whose ceiling meets this floor), or a
+ * new one positioned to meet it, which also handles tall and sunken cells.
+ */
+export function verticalTarget(doc: MapDoc, pos: GridPos, dir: "up" | "down"): VerticalTarget {
+  const spl = doc.stepsPerLevel;
+  const c = doc.cells[cellKey(pos)];
+  if (!c) throw new Error(`no cell at ${cellKey(pos)}`);
+  const h = absHeights(doc, c);
+  const column = Object.values(doc.cells).filter((o) => o.pos.x === pos.x && o.pos.y === pos.y && o.pos.z !== pos.z);
+  if (dir === "up") {
+    const hit = column.find((o) => absHeights(doc, o).floor === h.ceiling);
+    if (hit) return { z: hit.pos.z, exists: true };
+    const z = Math.max(pos.z + 1, Math.floor(h.ceiling / spl));
+    const floor = h.ceiling - z * spl;
+    return { z, exists: false, create: floor === 0 ? {} : { floor } };
+  }
+  const hit = column.find((o) => absHeights(doc, o).ceiling === h.floor);
+  if (hit) return { z: hit.pos.z, exists: true };
+  const z = Math.min(pos.z - 1, Math.ceil(h.floor / spl) - 1);
+  const ceiling = h.floor - z * spl;
+  return { z, exists: false, create: ceiling === spl ? {} : { ceiling } };
+}
+
+/**
+ * Connect a cell up through its ceiling or down through its floor with a vertical
+ * connection type (`null` removes it). Replaces any existing connection on that side.
+ * With `createMissing`, the cell on the other side is created when there isn't one.
+ */
+export function connectVertical(
+  doc: MapDoc,
+  pos: GridPos,
+  dir: "up" | "down",
+  type: string | null,
+  opts: { createMissing?: boolean; state?: string } = {},
+): Command {
+  const existing = verticalEdgesOf(doc, pos, dir);
+  if (type === null) {
+    return cmd("Remove vertical connection", (d) => { for (const k of existing) delete d.edges[k]; });
+  }
+  const t = verticalTarget(doc, pos, dir);
+  return cmd("Set vertical connection", (d) => {
+    const prev = existing.map((k) => d.edges[k]).find(Boolean);
+    for (const k of existing) delete d.edges[k];
+    if (!t.exists && opts.createMissing) {
+      const p = { x: pos.x, y: pos.y, z: t.z };
+      d.cells[cellKey(p)] ??= { ...structuredClone(t.create ?? {}), pos: p };
+      ensureLevel(d, t.z);
+    }
+    const e = canonicalEdge(pos, dir, t.z);
+    const ct = d.connectionTypes[type];
+    const state = opts.state ?? (prev?.type === type ? prev.state : (ct?.initialState ?? "open"));
+    const edge: Edge = { ...e, type, state };
+    if (prev?.id) edge.id = prev.id;
+    if (prev?.onUse !== undefined) edge.onUse = prev.onUse;
+    if (prev?.onBump !== undefined) edge.onBump = prev.onBump;
+    d.edges[edgeKey(e)] = edge;
   });
 }
 

@@ -10,6 +10,9 @@ const ICONS: Record<ToolId, ReactElement> = {
   erase: <path d="M16 3l5 5-11 11H5l-2-2zM9 9l6 6M12 21h9" fill="none" strokeWidth="2" />,
   edge: <><rect x="4" y="4" width="16" height="16" fill="none" strokeWidth="1" opacity=".5" /><path d="M20 4v16" strokeWidth="4" /></>,
   material: <><circle cx="8" cy="9" r="3" /><circle cx="16" cy="9" r="3" opacity=".7" /><circle cx="12" cy="16" r="3" opacity=".45" /></>,
+  height: <path d="M4 20h16M7 20v-6h4v6M13 20V8h4v12M15 3v3M13 5l2-2 2 2" fill="none" strokeWidth="2" />,
+  ramp: <path d="M3 20h18M5 20v-3h4v-3h4v-3h4V8h4v12" fill="none" strokeWidth="2" />,
+  vertical: <><rect x="5" y="9" width="14" height="10" fill="none" strokeWidth="2" /><path d="M12 2v9M9 5l3-3 3 3" fill="none" strokeWidth="2" /></>,
   start: <path d="M5 4l15 8-15 8 4-8z" />,
 };
 

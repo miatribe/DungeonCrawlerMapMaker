@@ -127,9 +127,9 @@ function CellInspector({ cellKeyStr }: { cellKeyStr: string }) {
               value={e?.type ?? ""}
               empty="solid"
               options={verticalTypes}
-              onChange={(v) => exec(ops.setEdge({ cell: pos, dir, ...(e && { toZ: dir === "up" ? e.to.z : e.from.z }) }, v || null))}
+              onChange={(v) => exec(ops.connectVertical(doc, pos, dir, v || null))}
             />
-            {e && <span className="muted small">{r.cellAt(dir === "up" ? e.to : e.from) ? "" : " no cell there"}</span>}
+            {e && <span className="muted small">{r.cellAt(dir === "up" ? e.to : e.from) ? `z ${dir === "up" ? e.to.z : e.from.z}` : "no cell there"}</span>}
           </Row>
         );
       })}

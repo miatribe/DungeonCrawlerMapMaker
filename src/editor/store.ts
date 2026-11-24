@@ -12,8 +12,10 @@ import { autosave, type FileHandle } from "./persistence";
 import threeRoomsText from "../../examples/three-rooms.dcmm?raw";
 import towerText from "../../examples/tower.dcmm?raw";
 
-export type ToolId = "select" | "paint" | "room" | "erase" | "edge" | "material" | "start";
+export type ToolId = "select" | "paint" | "room" | "erase" | "edge" | "material" | "height" | "ramp" | "vertical" | "start";
 export type MaterialTarget = "auto" | "floor" | "ceiling" | "walls" | "all";
+export type HeightTarget = "floor" | "ceiling" | "both";
+export type RampKind = "ramp" | "stairs" | "levelStairs";
 
 export interface Selection {
   cells: string[];
@@ -58,6 +60,13 @@ export interface EditorStore extends Derived {
   activeVertical: string;
   activeMaterial: string;
   materialTarget: MaterialTarget;
+  heightTarget: HeightTarget;
+  heightMode: "step" | "set";
+  heightValue: number;
+  rampKind: RampKind;
+  rampRise: number;
+  verticalDir: "down" | "up";
+  createMissing: boolean;
   level: number;
   view: View;
   ghostAbove: boolean;
@@ -134,6 +143,13 @@ export const useEditor = create<EditorStore>((set, get) => {
     activeVertical: "hatch",
     activeMaterial: "stone",
     materialTarget: "auto",
+    heightTarget: "floor",
+    heightMode: "step",
+    heightValue: 0,
+    rampKind: "stairs",
+    rampRise: 1,
+    verticalDir: "down",
+    createMissing: true,
     level: 0,
     view: { panX: 80, panY: 80, zoom: 36 },
     ghostAbove: false,

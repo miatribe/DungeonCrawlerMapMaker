@@ -530,11 +530,16 @@ examples/          three-rooms.dcmm (port of the prototype), tower.dcmm (multi-l
 
 The MVP is milestones 1–5.
 
-**Status (2026-11-23):** milestones 1 and 2 are done. Milestone 2 left out these items from §8, which come in later milestones:
+**Status (2026-11-23):** milestones 1–3 are done. These items from §8 come in later milestones:
 - Moving, copying and pasting a selection with the Select tool.
-- The Height, Ramp/Stairs, Vertical-edge, Prop and Note tools. Heights, shapes and vertical connections can already be edited in the Inspector.
+- The Prop and Note tools.
 - The Events, Flags and Types panels.
 - The 3D and Playtest viewport modes.
+
+Milestone 3 details:
+- **Height tool:** works on Floor, Ceiling or the Whole cell, in two modes: Raise/lower or Set to a value. The mouse wheel stays zoom, so `=` / `-` (with Shift for the ceiling) nudge heights instead.
+- **Ramp/Stairs tool:** a dragged run chains cells upward. When a cell's top would reach its ceiling, the ceiling is raised to leave `ceil(stepsPerLevel / 2)` steps of headroom. "Up a level" builds the full-level stair from §4.3.
+- **Vertical tool:** finds the far cell by matching heights (the cell whose floor meets this ceiling, or whose ceiling meets this floor), so it works across tall and sunken cells. It can create that cell.
 
 The 2D view in milestone 2 uses Zustand state; history uses Immer patches as specified. The editor also adds two conveniences not in §8:
 - The Connections tool cycles an edge's state when you click it again.

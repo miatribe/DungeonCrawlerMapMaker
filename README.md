@@ -6,15 +6,16 @@ The full design is in [docs/SPEC.md](docs/SPEC.md).
 
 ## Status
 
-**Milestones 1–2 of 6 are done: the core model, JSON export and the 2D editor.**
+**Milestones 1–3 of 6 are done: the core model, JSON export, the 2D editor, and heights and vertical tools.**
 
 - **2D editor:** a top-down, level-by-level editor in the browser. You can paint rooms and cells, place doors, gates and openings on cell edges, paint materials, set the start position, edit cells and connections in an inspector, switch levels with the level below shown ghosted, see validation problems as you work, undo and redo, open and save `.dcmm` files, and export JSON. Your work autosaves in the browser.
+- **Heights and levels:** raise, lower or set floors and ceilings; build ramp and staircase runs; build stairs that climb a full level; and add hatches, pits, ladders and grates between levels. Connections find the right cell on the other level, even past tall or sunken cells, and can create it for you.
 - **Map model:** square grid, thin walls on cell edges, multiple levels, per-cell floor and ceiling heights, ramps and stairs, and tall cells for open vertical spaces.
 - **Logic:** props, events with conditions and actions, flags, connections that change state (doors, gates, hatches), and custom action and condition types that your engine implements. The model supports all of this, but the editor UI for it arrives in milestone 4. For now, logic comes from opened files (see the Three Rooms example).
 - **Validation:** missing references, invalid states, overlapping cells, unreachable areas, bad custom params and more (see SPEC §8.8).
 - **Files:** a `.dcmm` project format with versioned migrations, and a JSON runtime export behind a pluggable exporter interface.
 
-Next up: dedicated height and stair tools (milestone 3), the logic editor with prop placement (4), then the 3D orbit view and first-person playtest (5).
+Next up: the logic editor with prop placement (milestone 4), then the 3D orbit view and first-person playtest (5).
 
 ## Running it yourself
 
@@ -70,14 +71,16 @@ The output goes to `dist/` and can be hosted on any static host.
 | Erase | `E` | Drag over cells to remove them. Click a connection to turn it back into a wall. |
 | Connections | `D` | Click a cell edge to place the connection chosen in the right panel (door, gate, opening, secret wall). Click it again to cycle its state (closed → open → locked). Right-click makes a wall. Drag along edges to place many. |
 | Material | `M` | Click near a wall to paint that wall face, or the middle of a cell to paint its floor. Shift paints the whole room, Alt picks up a material, right-click resets to the default. The panel also adds and edits materials. |
+| Height | `H` | Click or drag over cells to raise the floor one step; right-click lowers. The panel switches between Floor, Ceiling and Whole cell, and between Raise/lower and Set to value (right-click resets to the default). Alt picks up a cell's height. |
+| Ramp / Stairs | `S` | Drag in the uphill direction to build a staircase or ramp run; each cell rises from where the last one ended. Click near an edge for a one-cell ramp toward it. **Up a level** turns one cell into stairs that climb to the level above and creates the landing there. Right-click flattens. |
+| Vertical connections | `U` | Click a cell to put a trapdoor, pit, ladder, opening or grate through its floor (or ceiling; Shift flips). Click again to cycle its state, right-click to remove. Creates the cell on the other level if it's missing. |
 | Start | `T` | Click a cell to put the player start there. Click it again to turn. |
 
 Other controls:
 - **Moving around:** middle-drag or Space+drag to pan, mouse wheel to zoom, `Home` to fit the level, `PgUp`/`PgDn` to change level.
 - **Editing:** `Ctrl+Z` / `Ctrl+Shift+Z` to undo and redo.
 - **Files:** `Ctrl+S` to save, `Ctrl+O` to open, `Ctrl+E` to export.
-- **Heights, ramps and stairs:** set them in the Inspector for now. Dedicated tools come in milestone 3.
-- **Hatches, pits and ladders:** set them in the Inspector under **Vertical connections**.
+- **Heights:** `=` / `-` raise or lower the floor of the selected cells, or the cell under the mouse. `Shift` with them changes the ceiling. Heights are in steps (4 per level by default). Each cell shows its floor/ceiling label when they aren't the defaults.
 - **Problems:** the **Problems** tab lists validation issues. Click one to jump to it. Errors block export; warnings don't.
 
 ### Run the tests

@@ -3,7 +3,7 @@ import { apply, batch, createHistory, createMap, resolve, run, undo } from "../s
 import * as ops from "../src/core/ops";
 import { EDGE_BAND, hitFace, hitTest } from "../src/render/canvas2d/hit";
 import { MAX_ZOOM, toScreen, toWorld, zoomAt } from "../src/render/canvas2d/view";
-import { edgeOnSide, floodRoom } from "../src/editor/tools";
+import { edgeOnSide, floodRoom, rampPath } from "../src/editor/tools";
 import { threeRooms, tower } from "./fixtures/maps";
 
 describe("hit testing", () => {
@@ -59,6 +59,16 @@ describe("editor helpers", () => {
     // the address resolves back to the same stored edge
     expect(ops.edgeKeyAt(fromTop.at)).toBe(fromTop.key);
     expect(edgeOnSide(r, { x: 0, y: 0, z: 0 }, "north")).toBeNull();
+  });
+
+  it("rampPath follows the drag's dominant axis, or the nearest edge on a click", () => {
+    expect(rampPath({ startX: 1.5, startY: 1.5 }, { wx: 4.2, wy: 2.1 }, 0, false)).toEqual({
+      toward: "east", path: [{ x: 1, y: 1, z: 0 }, { x: 2, y: 1, z: 0 }, { x: 3, y: 1, z: 0 }, { x: 4, y: 1, z: 0 }],
+    });
+    expect(rampPath({ startX: 1.5, startY: 3.5 }, { wx: 1.9, wy: 1.2 }, 2, false).toward).toBe("north");
+    expect(rampPath({ startX: 1.5, startY: 1.9 }, { wx: 1.5, wy: 1.9 }, 0, false)).toEqual({ toward: "south", path: [{ x: 1, y: 1, z: 0 }] });
+    // level stairs always use one cell
+    expect(rampPath({ startX: 1.5, startY: 1.5 }, { wx: 5.5, wy: 1.5 }, 0, true).path).toHaveLength(1);
   });
 
   it("batch makes one undo step", () => {

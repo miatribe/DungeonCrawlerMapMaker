@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import * as ops from "../core/ops";
 import { openProject, saveProject } from "./actions";
 import { Dock } from "./components/Dock";
 import { ExportDialog } from "./components/ExportDialog";
@@ -32,6 +33,17 @@ function useShortcuts() {
       if (e.key === "Home") { e.preventDefault(); fitCurrent(); return; }
       if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); deleteSelection(); return; }
       if (e.key === "Escape") { s.clearSelection(); return; }
+      // = / - nudge the floor, Shift (+ / _) the ceiling, of the selection or the hovered cell.
+      const nudge = { "=": ["floor", 1], "-": ["floor", -1], "+": ["ceiling", 1], "_": ["ceiling", -1] } as const;
+      if (e.key in nudge) {
+        const [part, delta] = nudge[e.key as keyof typeof nudge];
+        const h = s.hover;
+        const cells = s.selection.cells.length
+          ? s.selection.cells.map((k) => s.doc.cells[k]?.pos).filter((p) => !!p)
+          : h ? [h.kind === "cell" ? h.pos : h.cell].filter((p) => s.doc.cells[`${p.x},${p.y},${p.z}`]) : [];
+        if (cells.length) { e.preventDefault(); s.exec(ops.adjustHeights(cells, { [part]: delta })); }
+        return;
+      }
       const tool = TOOLS.find((x) => x.key.toLowerCase() === k);
       if (tool) { s.setTool(tool.id); return; }
     };

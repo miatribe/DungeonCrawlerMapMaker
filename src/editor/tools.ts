@@ -27,12 +27,15 @@ export const TOOLS: { id: ToolId; name: string; key: string; hint: string }[] = 
   { id: "erase", name: "Erase", key: "E", hint: "Drag over cells to erase them. Click a connection to turn it back into a wall." },
   { id: "edge", name: "Connections", key: "D", hint: "Click a cell edge to place the active connection; click again to cycle its state. Right-click makes a wall. Drag along edges to place many." },
   { id: "material", name: "Material", key: "M", hint: "Click a floor or wall face to paint it. Shift paints the whole room, Alt picks a material, right-click resets." },
+  { id: "height", name: "Height", key: "H", hint: "Click or drag over cells to raise them; right-click lowers. In Set mode it paints an exact height instead. Alt picks up a cell's height. = and - nudge the selected or hovered cell from any tool." },
+  { id: "ramp", name: "Ramp / Stairs", key: "S", hint: "Drag in the uphill direction to build a ramp or staircase; each cell rises from where the last one ended. Click near a cell edge for a one-cell ramp toward it. Right-click flattens." },
+  { id: "vertical", name: "Vertical connections", key: "U", hint: "Click a cell to connect it down through its floor (or up through its ceiling) with the active type; click again to cycle its state. Shift uses the other direction. Right-click removes." },
   { id: "start", name: "Start", key: "T", hint: "Click a cell to put the start there; click it again to turn." },
 ];
 
 export function hitModeFor(tool: ToolId, target: MaterialTarget): HitMode {
   switch (tool) {
-    case "paint": case "room": case "start": return "cell";
+    case "paint": case "room": case "start": case "height": case "ramp": case "vertical": return "cell";
     case "edge": return "edge";
     case "material": return target === "auto" ? "auto" : "cell";
     default: return "auto";
@@ -75,6 +78,16 @@ export function pointerDown(p: PointerInfo): void {
     tool: s.tool, button: p.button, shift: p.shift, startX: p.wx, startY: p.wy, moved: false,
     cells: new Map(), edges: new Map(), faces: new Map(),
   };
+  if (s.tool === "height" && p.alt && p.button === 0) {
+    const c = s.resolved.cellAt({ x: Math.floor(p.wx), y: Math.floor(p.wy), z: s.level });
+    if (c) {
+      const v = s.heightTarget === "ceiling" ? c.ceiling : c.floor;
+      s.set({ heightValue: v, heightMode: "set" });
+      s.notify(`Picked ${s.heightTarget === "ceiling" ? "ceiling" : "floor"} height ${v}`);
+    }
+    drag = null;
+    return;
+  }
   if (s.tool === "material" && p.alt && p.button === 0) {
     pickMaterial(p);
     drag = null;
@@ -109,6 +122,18 @@ function extend(p: PointerInfo) {
   const s = S();
   const z = s.level;
   switch (d.tool) {
+    case "height": {
+      const h = hit(p, "cell");
+      if (h.kind === "cell" && s.doc.cells[cellKey(h.pos)]) d.cells.set(cellKey(h.pos), h.pos);
+      s.set({ preview: { cells: [...d.cells.values()], mode: d.button === 2 ? "remove" : "add" } });
+      break;
+    }
+    case "ramp": {
+      const { path } = rampPath(d, p);
+      d.cells = new Map(path.map((c) => [cellKey(c), c]));
+      s.set({ preview: { cells: path, mode: d.button === 2 ? "remove" : "add" } });
+      break;
+    }
     case "paint":
     case "erase": {
       const h = hit(p, d.tool === "erase" ? "auto" : "cell");
@@ -149,6 +174,65 @@ function finish(d: Drag, p: PointerInfo) {
   const z = s.level;
   const exists = (pos: GridPos) => !!s.doc.cells[cellKey(pos)];
   switch (d.tool) {
+    case "height": {
+      const cells = [...d.cells.values()];
+      if (!cells.length) return;
+      const target = s.heightTarget;
+      if (s.heightMode === "step") {
+        const delta = d.button === 2 ? -1 : 1;
+        s.exec(ops.adjustHeights(cells, {
+          ...(target !== "ceiling" && { floor: delta }),
+          ...(target !== "floor" && { ceiling: delta }),
+        }));
+      } else if (d.button === 2) {
+        s.exec(ops.setHeights(cells, {
+          ...(target !== "ceiling" && { floor: 0 }),
+          ...(target !== "floor" && { ceiling: s.doc.stepsPerLevel }),
+        }));
+      } else {
+        const v = s.heightValue;
+        s.exec(ops.setHeights(cells, target === "ceiling" ? { ceiling: v } : target === "floor" ? { floor: v } : { floor: v, keepHeight: true }));
+      }
+      return;
+    }
+    case "ramp": {
+      const { path, toward } = rampPath(d, p);
+      if (d.button === 2) {
+        const cells = path.filter(exists);
+        if (cells.length) s.exec(ops.flattenCells(cells));
+        return;
+      }
+      try {
+        if (s.rampKind === "levelStairs") s.exec(ops.buildLevelStairs(s.doc, path[0]!, toward));
+        else s.exec(ops.buildRamp(path, { kind: s.rampKind, rise: s.rampRise, toward }));
+      } catch (e) {
+        s.notify((e as Error).message, "error");
+      }
+      return;
+    }
+    case "vertical": {
+      const h = hit(p, "cell");
+      if (h.kind !== "cell") return;
+      if (!exists(h.pos)) { s.notify("Click an existing cell to connect it up or down.", "error"); return; }
+      const dir = d.shift ? (s.verticalDir === "up" ? "down" : "up") : s.verticalDir;
+      if (d.button === 2) { s.exec(ops.connectVertical(s.doc, h.pos, dir, null)); return; }
+      const type = s.activeVertical;
+      const existing = ops.verticalEdgesOf(s.doc, h.pos, dir).map((k) => [k, s.doc.edges[k]!] as const)[0];
+      if (existing && existing[1].type === type) {
+        const states = Object.keys(s.doc.connectionTypes[type]?.states ?? {});
+        if (states.length > 1) {
+          const next = states[(states.indexOf(existing[1].state) + 1) % states.length]!;
+          s.exec(ops.updateEdge(existing[0], { state: next }));
+        }
+        return;
+      }
+      try {
+        s.exec(ops.connectVertical(s.doc, h.pos, dir, type, { createMissing: s.createMissing }));
+      } catch (e) {
+        s.notify((e as Error).message, "error");
+      }
+      return;
+    }
     case "paint": {
       const cells = [...d.cells.values()];
       if (!cells.length) return;
@@ -230,6 +314,33 @@ function finish(d: Drag, p: PointerInfo) {
     }
   }
   void z;
+}
+
+/**
+ * The straight run of cells for the ramp tool, and its uphill direction: along the drag's
+ * dominant axis, or (for a click) toward the cell edge nearest the click point. Level stairs
+ * use only the first cell.
+ */
+export function rampPath(d: { startX: number; startY: number }, p: { wx: number; wy: number }, z = S().level, single = S().rampKind === "levelStairs"): { path: GridPos[]; toward: Facing } {
+  const sx = Math.floor(d.startX), sy = Math.floor(d.startY);
+  const dx = Math.floor(p.wx) - sx, dy = Math.floor(p.wy) - sy;
+  let toward: Facing;
+  let n: number;
+  if (dx === 0 && dy === 0) {
+    const h = hitTest(d.startX, d.startY, z, "edge");
+    toward = h.kind === "edge" ? h.dir : "east";
+    n = 0;
+  } else if (Math.abs(dx) >= Math.abs(dy)) {
+    toward = dx > 0 ? "east" : "west";
+    n = Math.abs(dx);
+  } else {
+    toward = dy > 0 ? "south" : "north";
+    n = Math.abs(dy);
+  }
+  if (single) n = 0;
+  const step = { north: [0, -1], south: [0, 1], east: [1, 0], west: [-1, 0] }[toward];
+  const path = Array.from({ length: n + 1 }, (_, i) => ({ x: sx + step[0]! * i, y: sy + step[1]! * i, z }));
+  return { path, toward };
 }
 
 /**
