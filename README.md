@@ -6,16 +6,23 @@ The full design is in [docs/SPEC.md](docs/SPEC.md).
 
 ## Status
 
-**Milestones 1–3 of 6 are done: the core model, JSON export, the 2D editor, and heights and vertical tools.**
+**Milestones 1–4 of 6 are done: the core model, JSON export, the 2D editor, heights and vertical tools, and the logic editor.**
+
+- **Logic editor:**
+  - Place and move props (levers, buttons, chests, signs, plates or your own types).
+  - Write events with conditions, actions and an otherwise branch.
+  - Manage flags, and define connection, prop and custom action/condition types.
+  - Share types between maps as type libraries.
+  - Selecting anything with a trigger draws arrows to everything its event changes or checks. Selecting a door or prop also shows what affects it.
 
 - **2D editor:** a top-down, level-by-level editor in the browser. You can paint rooms and cells, place doors, gates and openings on cell edges, paint materials, set the start position, edit cells and connections in an inspector, switch levels with the level below shown ghosted, see validation problems as you work, undo and redo, open and save `.dcmm` files, and export JSON. Your work autosaves in the browser.
 - **Heights and levels:** raise, lower or set floors and ceilings; build ramp and staircase runs; build stairs that climb a full level; and add hatches, pits, ladders and grates between levels. Connections find the right cell on the other level, even past tall or sunken cells, and can create it for you.
 - **Map model:** square grid, thin walls on cell edges, multiple levels, per-cell floor and ceiling heights, ramps and stairs, and tall cells for open vertical spaces.
-- **Logic:** props, events with conditions and actions, flags, connections that change state (doors, gates, hatches), and custom action and condition types that your engine implements. The model supports all of this, but the editor UI for it arrives in milestone 4. For now, logic comes from opened files (see the Three Rooms example).
+- **Logic model:** props, events with conditions and actions, flags, connections that change state (doors, gates, hatches), and custom action and condition types that your engine implements.
 - **Validation:** missing references, invalid states, overlapping cells, unreachable areas, bad custom params and more (see SPEC §8.8).
 - **Files:** a `.dcmm` project format with versioned migrations, and a JSON runtime export behind a pluggable exporter interface.
 
-Next up: the logic editor with prop placement (milestone 4), then the 3D orbit view and first-person playtest (5).
+Next up: the 3D orbit view and first-person playtest (milestone 5).
 
 ## Running it yourself
 
@@ -61,6 +68,8 @@ npm run preview
 
 The output goes to `dist/` and can be hosted on any static host.
 
+If the dev server keeps showing old code after you edit a file (its file watcher occasionally misses a change on Windows), stop it with `Ctrl+C`, run `npm run dev` again, and reload the page.
+
 ### Using the editor
 
 | Tool | Key | What it does |
@@ -74,12 +83,25 @@ The output goes to `dist/` and can be hosted on any static host.
 | Height | `H` | Click or drag over cells to raise the floor one step; right-click lowers. The panel switches between Floor, Ceiling and Whole cell, and between Raise/lower and Set to value (right-click resets to the default). Alt picks up a cell's height. |
 | Ramp / Stairs | `S` | Drag in the uphill direction to build a staircase or ramp run; each cell rises from where the last one ended. Click near an edge for a one-cell ramp toward it. **Up a level** turns one cell into stairs that climb to the level above and creates the landing there. Right-click flattens. |
 | Vertical connections | `U` | Click a cell to put a trapdoor, pit, ladder, opening or grate through its floor (or ceiling; Shift flips). Click again to cycle its state, right-click to remove. Creates the cell on the other level if it's missing. |
+| Props | `P` | Click the middle of a cell to place the prop chosen in the panel on the floor, or near a wall to mount it there. Drag a prop to move it, click one to select it, right-click to delete. |
 | Start | `T` | Click a cell to put the player start there. Click it again to turn. |
 
 Other controls:
 - **Moving around:** middle-drag or Space+drag to pan, mouse wheel to zoom, `Home` to fit the level, `PgUp`/`PgDn` to change level.
 - **Editing:** `Ctrl+Z` / `Ctrl+Shift+Z` to undo and redo.
 - **Files:** `Ctrl+S` to save, `Ctrl+O` to open, `Ctrl+E` to export.
+- **Making things happen:** select a cell, connection or prop and set its trigger (On enter, On exit, On use, On bump) in the Inspector. Pick **+ New event…** to create the event and open it in the **Events** tab.
+- **Events tab:** each event has conditions ("when all of these are true"), actions ("do") and an "otherwise" branch. Fields that point at the map have a ⌖ button: click it, then click the door, prop or cell on the map. Picking a connection that has no id gives it one automatically.
+- **Seeing logic:**
+  - Selecting a lever, trigger cell or door draws arrows on the map: orange for what it changes, dashed blue for what it checks.
+  - The Inspector's **Logic** section lists the same links, plus **Affected by** (what changes this thing). Click any entry to jump to it.
+  - Press `L` (or **View → Show all logic links**) to see every link on the level at once.
+  - Cells with On enter/On exit triggers show a small orange diamond.
+- **Flags tab:** map variables (true/false, number, text) with starting values and usage counts.
+- **Types tab:**
+  - Edit connection types (states, what's passable or blocks sight, which states a player can switch between), prop types (states, map color, icon) and custom actions/conditions with typed parameters for your engine.
+  - **Type library** exports or imports these as a `.dcmm-types.json` file to share between maps.
+- **Bottom panel:** drag the top edge of the bottom panel to resize it. Double-click the edge to toggle between small and large.
 - **Heights:** `=` / `-` raise or lower the floor of the selected cells, or the cell under the mouse. `Shift` with them changes the ceiling. Heights are in steps (4 per level by default). Each cell shows its floor/ceiling label when they aren't the defaults.
 - **Problems:** the **Problems** tab lists validation issues. Click one to jump to it. Errors block export; warnings don't.
 

@@ -530,11 +530,20 @@ examples/          three-rooms.dcmm (port of the prototype), tower.dcmm (multi-l
 
 The MVP is milestones 1–5.
 
-**Status (2026-11-23):** milestones 1–3 are done. These items from §8 come in later milestones:
+**Status (2026-11-23):** milestones 1–4 are done. These items from §8 come in later milestones:
 - Moving, copying and pasting a selection with the Select tool.
-- The Prop and Note tools.
-- The Events, Flags and Types panels.
+- The Note tool.
 - The 3D and Playtest viewport modes.
+
+Milestone 4 details:
+- **Props:** the Prop tool places, wall-mounts, moves and deletes props, and the Prop inspector edits them.
+- **Dock:** it is resizable and holds the **Events**, **Flags** and **Types** tabs. The Types tab includes type library import and export (§5.7).
+- **Pick on map:** any target field (connection, prop, cell or position) can be filled by clicking the map. Picking an unnamed connection names it.
+- **Trigger links** (`core/logic/links.ts`, not in the original spec): `collectLinks` walks every trigger's event, following `runEvent` chains and custom-type `ref:*`/`gridPos` params, and produces read/write links from sources to targets. The editor uses them for:
+  - map arrows for the selection, or for everything with `L`
+  - the Inspector's Logic and Affected-by lists
+  - flag usage counts
+- **State renames:** renaming a state (`ops.renameState`) updates the type and every edge or prop in that state. Event references to the old name are reported by validation rather than rewritten.
 
 Milestone 3 details:
 - **Height tool:** works on Floor, Ceiling or the Whole cell, in two modes: Raise/lower or Set to a value. The mouse wheel stays zoom, so `=` / `-` (with Shift for the ceiling) nudge heights instead.

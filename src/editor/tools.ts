@@ -8,7 +8,7 @@ import {
   type ResolvedMap, type Side,
 } from "../core";
 import * as ops from "../core/ops";
-import { hitFace, hitTest, type Hit, type HitMode } from "../render/canvas2d/hit";
+import { hitFace, hitTest, propAt, type Hit, type HitMode } from "../render/canvas2d/hit";
 import { useEditor, type MaterialTarget, type ToolId } from "./store";
 
 export interface PointerInfo {
@@ -30,12 +30,14 @@ export const TOOLS: { id: ToolId; name: string; key: string; hint: string }[] = 
   { id: "height", name: "Height", key: "H", hint: "Click or drag over cells to raise them; right-click lowers. In Set mode it paints an exact height instead. Alt picks up a cell's height. = and - nudge the selected or hovered cell from any tool." },
   { id: "ramp", name: "Ramp / Stairs", key: "S", hint: "Drag in the uphill direction to build a ramp or staircase; each cell rises from where the last one ended. Click near a cell edge for a one-cell ramp toward it. Right-click flattens." },
   { id: "vertical", name: "Vertical connections", key: "U", hint: "Click a cell to connect it down through its floor (or up through its ceiling) with the active type; click again to cycle its state. Shift uses the other direction. Right-click removes." },
+  { id: "prop", name: "Props", key: "P", hint: "Click the middle of a cell to place the active prop on the floor, or near a wall to mount it there. Drag a prop to move it, click one to select it, right-click to delete." },
   { id: "start", name: "Start", key: "T", hint: "Click a cell to put the start there; click it again to turn." },
 ];
 
 export function hitModeFor(tool: ToolId, target: MaterialTarget): HitMode {
   switch (tool) {
     case "paint": case "room": case "start": case "height": case "ramp": case "vertical": return "cell";
+    case "prop": return "auto";
     case "edge": return "edge";
     case "material": return target === "auto" ? "auto" : "cell";
     default: return "auto";
@@ -54,30 +56,64 @@ interface Drag {
   cells: Map<string, GridPos>;
   edges: Map<string, { cell: GridPos; dir: Facing }>;
   faces: Map<string, { pos: GridPos; side: Side }>;
+  /** Prop being dragged by the Prop tool. */
+  propId?: string;
 }
 
 let drag: Drag | null = null;
 
 const hit = (p: PointerInfo, mode: HitMode): Hit => hitTest(p.wx, p.wy, S().level, mode);
+const propUnder = (p: PointerInfo) => propAt(S().resolved.props, p.wx, p.wy, S().level);
 
 export function pointerHover(p: PointerInfo | null): void {
   const s = S();
   if (!p) {
-    s.set({ hover: null, cursor: null });
+    s.set({ hover: null, hoverProp: null, cursor: null });
     return;
   }
+  const wantsProps = s.tool === "select" || s.tool === "prop" || !!s.pick?.kinds.includes("prop");
+  const hp = wantsProps ? propUnder(p) : undefined;
   s.set({
-    hover: hit(p, hitModeFor(s.tool, s.materialTarget)),
+    hover: hp ? null : hit(p, s.pick ? (s.pick.kinds.includes("edge") ? "auto" : "cell") : hitModeFor(s.tool, s.materialTarget)),
+    hoverProp: hp?.id ?? null,
     cursor: { x: Math.floor(p.wx), y: Math.floor(p.wy) },
   });
 }
 
+/** Answer a pending "pick on map" request with whatever is under the pointer. */
+function answerPick(p: PointerInfo): void {
+  const s = S();
+  const req = s.pick!;
+  // Resolve before clearing `pick`: clearing it resolves a still-pending request with null.
+  const done = (r: Parameters<typeof req.resolve>[0]) => { req.resolve(r); s.set({ pick: null }); };
+  if (p.button === 2) { s.set({ pick: null }); return; }
+  if (req.kinds.includes("prop")) {
+    const pr = propUnder(p);
+    if (pr) { done({ kind: "prop", id: pr.id }); return; }
+  }
+  const h = hit(p, req.kinds.includes("edge") ? "auto" : "cell");
+  if (req.kinds.includes("edge") && h.kind === "edge") {
+    const e = edgeOnSide(s.resolved, h.cell, h.dir);
+    if (e) { done({ kind: "edge", key: e.key }); return; }
+  }
+  if (req.kinds.includes("cell")) {
+    const pos = h.kind === "cell" ? h.pos : h.cell;
+    if (s.doc.cells[cellKey(pos)]) { done({ kind: "cell", pos }); return; }
+  }
+  s.notify(`Nothing to pick there. ${req.prompt} (Esc or right-click cancels)`, "error");
+}
+
 export function pointerDown(p: PointerInfo): void {
   const s = S();
+  if (s.pick) { answerPick(p); return; }
   drag = {
     tool: s.tool, button: p.button, shift: p.shift, startX: p.wx, startY: p.wy, moved: false,
     cells: new Map(), edges: new Map(), faces: new Map(),
   };
+  if (s.tool === "prop" && p.button === 0) {
+    const pr = propUnder(p);
+    if (pr) drag.propId = pr.id;
+  }
   if (s.tool === "height" && p.alt && p.button === 0) {
     const c = s.resolved.cellAt({ x: Math.floor(p.wx), y: Math.floor(p.wy), z: s.level });
     if (c) {
@@ -122,6 +158,13 @@ function extend(p: PointerInfo) {
   const s = S();
   const z = s.level;
   switch (d.tool) {
+    case "prop": {
+      if (d.propId && d.moved) {
+        const f = hitFace(p.wx, p.wy, z);
+        s.set({ preview: { cells: [f.pos], mode: s.doc.cells[cellKey(f.pos)] ? "add" : "remove" } });
+      }
+      break;
+    }
     case "height": {
       const h = hit(p, "cell");
       if (h.kind === "cell" && s.doc.cells[cellKey(h.pos)]) d.cells.set(cellKey(h.pos), h.pos);
@@ -174,6 +217,28 @@ function finish(d: Drag, p: PointerInfo) {
   const z = s.level;
   const exists = (pos: GridPos) => !!s.doc.cells[cellKey(pos)];
   switch (d.tool) {
+    case "prop": {
+      const f = hitFace(p.wx, p.wy, z);
+      const side = f.side === "down" ? undefined : f.side;
+      if (d.propId) {
+        if (!d.moved) { s.select({ props: [d.propId] }); return; }
+        if (!exists(f.pos)) { s.notify("Props must sit in a cell.", "error"); return; }
+        s.exec(ops.updateProp(d.propId, { cell: f.pos, side }));
+        s.select({ props: [d.propId] });
+        return;
+      }
+      if (d.button === 2) {
+        const pr = propUnder(p) ?? s.resolved.props.find((x) => x.cell.x === f.pos.x && x.cell.y === f.pos.y && x.cell.z === z);
+        if (pr) s.exec(ops.removeProp(pr.id));
+        return;
+      }
+      if (!exists(f.pos)) { s.notify("Click inside a cell to place a prop.", "error"); return; }
+      if (!s.doc.propTypes[s.activeProp]) { s.notify("Choose a prop type first.", "error"); return; }
+      const { command, id } = ops.addProp(s.doc, { type: s.activeProp, cell: f.pos, ...(side && { side }) });
+      s.exec(command);
+      s.select({ props: [id] });
+      return;
+    }
     case "height": {
       const cells = [...d.cells.values()];
       if (!cells.length) return;
@@ -302,6 +367,8 @@ function finish(d: Drag, p: PointerInfo) {
         s.select({ cells }, d.shift);
         return;
       }
+      const pr = propUnder(p);
+      if (pr) { s.select({ props: [pr.id] }, d.shift); return; }
       const h = hit(p, "auto");
       if (h.kind === "edge") {
         const e = edgeOnSide(s.resolved, h.cell, h.dir);

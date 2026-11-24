@@ -4,7 +4,7 @@
  */
 import type { Facing, GridPos } from "../../core/geometry";
 import type { ResolvedCell, ResolvedEdge, ResolvedMap } from "../../core/resolve";
-import type { Hit } from "./hit";
+import { propPoint, PROP_RADIUS, type Hit } from "./hit";
 import { toWorld, type View } from "./view";
 
 export interface DrawInput {
@@ -17,13 +17,26 @@ export interface DrawInput {
   ghostBelow: boolean;
   showHeights: boolean;
   hover: Hit | null;
-  selection: { cells: Set<string>; edges: Set<string>; props: Set<string> };
+  /** Prop id under the cursor, for a hover ring. */
+  hoverProp?: string | null;
+  selection:{ cells: Set<string>; edges: Set<string>; props: Set<string> };
   /** Cells with an error, by cell key. */
   problemCells: Set<string>;
   /** In-progress tool preview. */
   preview?: { cells?: GridPos[]; mode: "add" | "remove" | "select" };
   /** Optional per-material preview textures. */
   patterns?: Map<string, CanvasPattern>;
+  /** Trigger → effect arrows, in world coordinates. */
+  links?: DrawLink[];
+  /** Cells that have on-enter/on-exit triggers (by cell key). */
+  triggerCells?: Set<string>;
+}
+
+export interface DrawLink {
+  a: { x: number; y: number; z: number };
+  b: { x: number; y: number; z: number };
+  effect: "write" | "read";
+  faint: boolean;
 }
 
 export const THEME = {
@@ -201,15 +214,16 @@ export function draw(ctx: CanvasRenderingContext2D, input: DrawInput): void {
   for (const p of map.props) {
     if (p.cell.z !== level) continue;
     const pt = map.propTypes[p.type];
-    let cx = p.cell.x + 0.5, cy = p.cell.y + 0.5;
-    if (p.side === "north") cy -= 0.32;
-    if (p.side === "south") cy += 0.32;
-    if (p.side === "west") cx -= 0.32;
-    if (p.side === "east") cx += 0.32;
+    const { x: cx, y: cy } = propPoint(p);
     ctx.fillStyle = pt?.preview?.color ?? THEME.accent;
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 1.5 * px;
-    ctx.beginPath(); ctx.arc(cx, cy, 0.16, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, PROP_RADIUS, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    drawPropIcon(ctx, pt?.preview?.icon, p.state, cx, cy, px);
+    if (input.hoverProp === p.id) {
+      ctx.strokeStyle = THEME.accent; ctx.lineWidth = 2 * px;
+      ctx.beginPath(); ctx.arc(cx, cy, 0.2, 0, Math.PI * 2); ctx.stroke();
+    }
     if (input.selection.props.has(p.id)) {
       ctx.strokeStyle = THEME.select; ctx.lineWidth = 3 * px;
       ctx.beginPath(); ctx.arc(cx, cy, 0.22, 0, Math.PI * 2); ctx.stroke();
@@ -248,6 +262,23 @@ export function draw(ctx: CanvasRenderingContext2D, input: DrawInput): void {
     }
     ctx.restore();
   }
+
+  // ---- trigger markers ----
+  if (input.triggerCells?.size) {
+    for (const c of cells) {
+      if (!input.triggerCells.has(c.key)) continue;
+      const x = c.pos.x + 0.13, y = c.pos.y + 0.87;
+      ctx.fillStyle = THEME.accent;
+      ctx.strokeStyle = "#000";
+      ctx.lineWidth = 1 * px;
+      ctx.beginPath();
+      ctx.moveTo(x, y - 0.09); ctx.lineTo(x + 0.08, y); ctx.lineTo(x, y + 0.09); ctx.lineTo(x - 0.08, y); ctx.closePath();
+      ctx.fill(); ctx.stroke();
+    }
+  }
+
+  // ---- logic links ----
+  if (input.links?.length) drawLinks(ctx, input.links, level, px);
 
   // ---- problems ----
   for (const k of input.problemCells) {
@@ -302,6 +333,104 @@ export function draw(ctx: CanvasRenderingContext2D, input: DrawInput): void {
     }
   }
 
+  ctx.restore();
+}
+
+const LINK_COLOR = { write: "#ffb44a", read: "#4fb3ff" } as const;
+
+/**
+ * Curved arrows from trigger sources to what they affect. An end on another level is
+ * drawn where it would be on this level, with a level badge, and the arrow is dashed.
+ */
+function drawLinks(ctx: CanvasRenderingContext2D, links: DrawLink[], level: number, px: number) {
+  ctx.save();
+  ctx.lineCap = "round";
+  for (const l of links) {
+    if (l.a.z !== level && l.b.z !== level) continue;
+    const offLevel = l.a.z !== l.b.z;
+    const dx = l.b.x - l.a.x, dy = l.b.y - l.a.y;
+    const len = Math.hypot(dx, dy);
+    ctx.globalAlpha = l.faint ? 0.35 : 0.95;
+    ctx.strokeStyle = LINK_COLOR[l.effect];
+    ctx.fillStyle = LINK_COLOR[l.effect];
+    ctx.lineWidth = Math.max((l.faint ? 1.5 : 2.5) * px, l.faint ? 0.025 : 0.045);
+    ctx.setLineDash(l.effect === "read" || offLevel ? [0.12, 0.08] : []);
+    if (len < 0.05) {
+      // same spot (e.g. a lever that changes itself): a small loop
+      ctx.beginPath(); ctx.arc(l.a.x + 0.18, l.a.y - 0.18, 0.12, 0, Math.PI * 1.6); ctx.stroke();
+      continue;
+    }
+    // bow the curve sideways so arrows between the same points don't overlap
+    const bow = Math.min(0.6, len * 0.18) * (l.effect === "read" ? -1 : 1);
+    const mx = (l.a.x + l.b.x) / 2 - (dy / len) * bow;
+    const my = (l.a.y + l.b.y) / 2 + (dx / len) * bow;
+    // stop short of the target so the head is visible
+    const tx = l.b.x - ((l.b.x - mx) / Math.hypot(l.b.x - mx, l.b.y - my)) * 0.14;
+    const ty = l.b.y - ((l.b.y - my) / Math.hypot(l.b.x - mx, l.b.y - my)) * 0.14;
+    ctx.beginPath(); ctx.moveTo(l.a.x, l.a.y); ctx.quadraticCurveTo(mx, my, tx, ty); ctx.stroke();
+    ctx.setLineDash([]);
+    const ang = Math.atan2(ty - my, tx - mx);
+    const h = l.faint ? 0.12 : 0.18;
+    ctx.beginPath();
+    ctx.moveTo(tx, ty);
+    ctx.lineTo(tx - Math.cos(ang - 0.45) * h, ty - Math.sin(ang - 0.45) * h);
+    ctx.lineTo(tx - Math.cos(ang + 0.45) * h, ty - Math.sin(ang + 0.45) * h);
+    ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.arc(l.a.x, l.a.y, l.faint ? 0.04 : 0.06, 0, Math.PI * 2); ctx.fill();
+    if (offLevel) {
+      const other = l.a.z === level ? l.b : l.a;
+      const label = `L${other.z}`;
+      ctx.save();
+      ctx.translate(other.x, other.y);
+      ctx.scale(px, px);
+      ctx.font = "bold 10px system-ui, sans-serif";
+      const w = ctx.measureText(label).width + 6;
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "#000";
+      ctx.fillRect(4, -16, w, 14);
+      ctx.fillStyle = LINK_COLOR[l.effect];
+      ctx.fillText(label, 7, -5);
+      ctx.restore();
+    }
+  }
+  ctx.restore();
+}
+
+/** A tiny glyph inside a prop's circle so types and states read at a glance. */
+function drawPropIcon(ctx: CanvasRenderingContext2D, icon: string | undefined, state: string, cx: number, cy: number, px: number) {
+  ctx.save();
+  ctx.strokeStyle = "#1a1206";
+  ctx.fillStyle = "#1a1206";
+  ctx.lineWidth = Math.max(1.5 * px, 0.025);
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  switch (icon) {
+    case "lever": {
+      const on = state === "on";
+      ctx.moveTo(cx, cy + 0.08);
+      ctx.lineTo(cx + (on ? 0.08 : -0.08), cy - 0.08);
+      ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx + (on ? 0.08 : -0.08), cy - 0.08, 0.03, 0, Math.PI * 2); ctx.fill();
+      break;
+    }
+    case "chest":
+      ctx.rect(cx - 0.08, cy - (state === "open" ? 0.09 : 0.05), 0.16, 0.12);
+      ctx.stroke();
+      break;
+    case "button":
+      ctx.arc(cx, cy, state === "down" ? 0.03 : 0.06, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+    case "sign":
+      ctx.moveTo(cx - 0.07, cy - 0.04); ctx.lineTo(cx + 0.07, cy - 0.04);
+      ctx.moveTo(cx - 0.07, cy + 0.02); ctx.lineTo(cx + 0.04, cy + 0.02);
+      ctx.stroke();
+      break;
+    case "plate":
+      ctx.rect(cx - 0.08, cy - 0.08, 0.16, 0.16);
+      ctx.stroke();
+      break;
+  }
   ctx.restore();
 }
 

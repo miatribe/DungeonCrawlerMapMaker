@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { draw } from "../../render/canvas2d/draw";
 import { centerOn, toWorld, zoomAt, type View } from "../../render/canvas2d/view";
+import { overlayLinks, triggerCells } from "../linkOverlay";
 import { selectionSets, useEditor } from "../store";
 import { cancelDrag, pointerDown, pointerHover, pointerMove, pointerUp, type PointerInfo } from "../tools";
 
@@ -40,8 +41,11 @@ export function Viewport() {
         ghostBelow: s.ghostBelow,
         showHeights: s.showHeights,
         hover: s.hover,
+        hoverProp: s.hoverProp,
         selection: selectionSets(s.selection),
         problemCells: s.problemCells,
+        links: overlayLinks(s),
+        triggerCells: triggerCells(s.resolved),
         ...(s.preview && { preview: s.preview }),
       });
     };
@@ -130,7 +134,7 @@ export function Viewport() {
         if (!space) { space = true; cv.style.cursor = "grab"; }
         e.preventDefault();
       }
-      if (e.key === "Escape") cancelDrag();
+      if (e.key === "Escape") { cancelDrag(); if (useEditor.getState().pick) useEditor.getState().set({ pick: null }); }
     };
     const keyup = (e: KeyboardEvent) => { if (e.code === "Space") { space = false; cv.style.cursor = ""; } };
     const ctxmenu = (e: Event) => e.preventDefault();
@@ -156,9 +160,16 @@ export function Viewport() {
     };
   }, []);
 
+  const pick = useEditor((s) => s.pick);
   return (
-    <div className="viewport" ref={wrap}>
+    <div className={`viewport${pick ? " picking" : ""}`} ref={wrap}>
       <canvas ref={canvas} aria-label="2D level view" />
+      {pick && (
+        <div className="pick-banner" role="status">
+          {pick.prompt} <span className="muted">Esc or right-click to cancel.</span>
+          <button className="btn small" onClick={() => useEditor.getState().set({ pick: null })}>Cancel</button>
+        </div>
+      )}
     </div>
   );
 }

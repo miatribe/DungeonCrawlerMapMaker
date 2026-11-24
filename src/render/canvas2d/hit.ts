@@ -34,6 +34,31 @@ export function hitTest(wx: number, wy: number, z: number, mode: HitMode = "auto
   return { kind: "cell", pos };
 }
 
+/** Where a prop is drawn: the cell center, pushed toward the wall it's mounted on. */
+export function propPoint(p: { cell: GridPos; side?: string | undefined }): { x: number; y: number } {
+  let x = p.cell.x + 0.5, y = p.cell.y + 0.5;
+  if (p.side === "north") y -= 0.32;
+  if (p.side === "south") y += 0.32;
+  if (p.side === "west") x -= 0.32;
+  if (p.side === "east") x += 0.32;
+  return { x, y };
+}
+
+export const PROP_RADIUS = 0.16;
+
+/** The prop under the cursor on level z, if any (nearest wins). */
+export function propAt<P extends { id: string; cell: GridPos; side?: string | undefined }>(props: P[], wx: number, wy: number, z: number): P | undefined {
+  let best: P | undefined;
+  let bestD = PROP_RADIUS + 0.06;
+  for (const p of props) {
+    if (p.cell.z !== z) continue;
+    const pt = propPoint(p);
+    const d = Math.hypot(pt.x - wx, pt.y - wy);
+    if (d < bestD) { best = p; bestD = d; }
+  }
+  return best;
+}
+
 /** The face of a cell nearest the cursor, or "down" when in the middle of the cell. */
 export function hitFace(wx: number, wy: number, z: number): { pos: GridPos; side: Facing | "down" } {
   const h = hitTest(wx, wy, z, "auto");

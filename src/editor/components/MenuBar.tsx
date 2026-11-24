@@ -88,6 +88,7 @@ export function MenuBar() {
       { label: "Ghost level below", checked: s.ghostBelow, action: () => s.set({ ghostBelow: !s.ghostBelow }) },
       { label: "Ghost level above", checked: s.ghostAbove, action: () => s.set({ ghostAbove: !s.ghostAbove }) },
       { label: "Height labels", checked: s.showHeights, action: () => s.set({ showHeights: !s.showHeights }) },
+      { label: "Show all logic links", shortcut: "L", checked: s.showAllLinks, action: () => s.set({ showAllLinks: !s.showAllLinks }) },
     ],
   };
 

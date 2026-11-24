@@ -6,6 +6,11 @@ import * as ops from "../../core/ops";
 import { useEditor } from "../store";
 import { deleteSelection } from "../tools";
 import { NumberField, Row, Select, Swatch, TextField } from "./fields";
+import { LogicSection } from "./LogicSection";
+import { EventRefField, FACING_OPTIONS, ParamForm } from "./logicFields";
+
+const ID_RE = /^[A-Za-z_][A-Za-z0-9_.\-]*$/;
+const ID_HINT = "Ids start with a letter or _ and use letters, digits, _ . -";
 
 const SIDE_LABEL: Record<Side, string> = { north: "North wall", east: "East wall", south: "South wall", west: "West wall", up: "Ceiling", down: "Floor" };
 
@@ -14,21 +19,13 @@ function useMaterialOptions() {
   return Object.entries(materials).map(([id, m]) => ({ value: id, label: `${m.name} (${id})` }));
 }
 
-function EventPicker({ value, onChange }: { value: EventRef | undefined; onChange: (v: string | undefined) => void }) {
-  const events = useEditor((s) => s.doc.events);
-  if (value !== undefined && typeof value !== "string") return <span className="muted">inline event</span>;
-  return (
-    <Select
-      value={value ?? ""}
-      empty="(none)"
-      options={Object.keys(events).map((id) => ({ value: id, label: id }))}
-      onChange={(v) => onChange(v || undefined)}
-    />
-  );
+function EventPicker({ value, onChange, suggest }: { value: EventRef | undefined; onChange: (v: string | undefined) => void; suggest: string }) {
+  return <EventRefField value={value} onChange={onChange} suggest={suggest} />;
 }
 
 export function Inspector() {
   const sel = useEditor((s) => s.selection);
+  if (sel.props.length === 1 && !sel.cells.length && !sel.edges.length) return <PropInspector id={sel.props[0]!} />;
   if (sel.edges.length === 1 && !sel.cells.length) return <EdgeInspector edgeKey={sel.edges[0]!} />;
   if (sel.cells.length === 1) return <CellInspector cellKeyStr={sel.cells[0]!} />;
   if (sel.cells.length > 1 || sel.edges.length > 1) return <MultiInspector />;
@@ -97,6 +94,7 @@ function CellInspector({ cellKeyStr }: { cellKeyStr: string }) {
   const vertical = (dir: "up" | "down") => r.edgesOf(pos).find((e) => e.dir === dir)?.edge;
 
   return (
+    <>
     <Section title={`Cell (${pos.x}, ${pos.y}, ${pos.z})`} actions={<button className="btn small danger" onClick={deleteSelection}>Delete</button>}>
       <Row label="Floor" hint="Steps above this level's base">
         <NumberField value={rc.floor} onCommit={(n) => upd({ floor: n === 0 ? undefined : n })} />
@@ -135,8 +133,8 @@ function CellInspector({ cellKeyStr }: { cellKeyStr: string }) {
       })}
 
       <h3>Triggers</h3>
-      <Row label="On enter"><EventPicker value={cell.onEnter} onChange={(v) => upd({ onEnter: v })} /></Row>
-      <Row label="On exit"><EventPicker value={cell.onExit} onChange={(v) => upd({ onExit: v })} /></Row>
+      <Row label="On enter"><EventPicker value={cell.onEnter} suggest={`enter_${pos.x}_${pos.y}`} onChange={(v) => upd({ onEnter: v })} /></Row>
+      <Row label="On exit"><EventPicker value={cell.onExit} suggest={`exit_${pos.x}_${pos.y}`} onChange={(v) => upd({ onExit: v })} /></Row>
       <Row label="Tags" hint="Comma-separated"><TextField value={(cell.tags ?? []).join(", ")} onCommit={(t) => { const tags = t.split(",").map((x) => x.trim()).filter(Boolean); upd({ tags: tags.length ? tags : undefined }); }} /></Row>
 
       {props.length > 0 && (
@@ -145,7 +143,7 @@ function CellInspector({ cellKeyStr }: { cellKeyStr: string }) {
           {props.map((p) => (
             <div key={p.id} className="list-row">
               <Swatch color={doc.propTypes[p.type]?.preview?.color ?? "#e0a050"} />
-              <span className="mono">{p.id}</span>
+              <button className="link mono" onClick={() => useEditor.getState().select({ props: [p.id] })}>{p.id}</button>
               <span className="muted">{doc.propTypes[p.type]?.name ?? p.type} · {p.state}{p.side ? ` · ${p.side}` : ""}{typeof p.onUse === "string" ? ` · ${p.onUse}` : ""}</span>
               <button className="btn small" onClick={() => exec(ops.removeProp(p.id))} title="Delete prop">✕</button>
             </div>
@@ -153,6 +151,8 @@ function CellInspector({ cellKeyStr }: { cellKeyStr: string }) {
         </>
       )}
     </Section>
+    <LogicSection target={{ kind: "cell", pos }} />
+    </>
   );
 }
 
@@ -203,7 +203,7 @@ function EdgeInspector({ edgeKey }: { edgeKey: string }) {
     if (id === (e.id ?? "")) return;
     try {
       if (!id) { exec(ops.updateEdge(edgeKey, { id: undefined })); return; }
-      if (!/^[A-Za-z_][A-Za-z0-9_.\-]*$/.test(id)) throw new Error("Ids start with a letter or _ and use letters, digits, _ . -");
+      if (!ID_RE.test(id)) throw new Error(ID_HINT);
       exec(e.id ? ops.renameId(doc, "edge", e.id, id) : ops.updateEdge(edgeKey, { id }));
     } catch (err) {
       notify((err as Error).message, "error");
@@ -211,6 +211,7 @@ function EdgeInspector({ edgeKey }: { edgeKey: string }) {
   };
 
   return (
+    <>
     <Section title={ct?.name ?? e.type} actions={<button className="btn small danger" onClick={() => exec(ops.setEdge(at, null))}>Make wall</button>}>
       <p className="muted small">{fmt(re.from)} → {fmt(re.to)} · {re.vertical ? "vertical" : re.from.z !== re.to.z ? "crosses levels" : re.dir === "east" ? "east–west boundary" : "north–south boundary"}</p>
       <Row label="Id" hint="Needed when events target this connection. Renaming updates references.">
@@ -223,11 +224,72 @@ function EdgeInspector({ edgeKey }: { edgeKey: string }) {
       {ct?.states[e.state] && (
         <p className="muted small">{ct.states[e.state]!.passable ? "Passable" : "Blocks movement"} · {ct.states[e.state]!.blocksSight ? "blocks sight" : "see-through"}</p>
       )}
+      {ct?.params?.length ? (
+        <>
+          <h3>Parameters</h3>
+          <ParamForm defs={ct.params} values={e.params} onChange={(params) => exec(ops.updateEdge(edgeKey, { params }))} />
+        </>
+      ) : null}
       <h3>Triggers</h3>
-      <Row label="On use"><EventPicker value={e.onUse} onChange={(v) => exec(ops.updateEdge(edgeKey, { onUse: v }))} /></Row>
-      <Row label="On bump" hint="Fires when the player walks into it while it's impassable"><EventPicker value={e.onBump} onChange={(v) => exec(ops.updateEdge(edgeKey, { onBump: v }))} /></Row>
+      <Row label="On use"><EventPicker value={e.onUse} suggest={`use_${e.id ?? e.type}`} onChange={(v) => exec(ops.updateEdge(edgeKey, { onUse: v }))} /></Row>
+      <Row label="On bump" hint="Fires when the player walks into it while it's impassable"><EventPicker value={e.onBump} suggest={`bump_${e.id ?? e.type}`} onChange={(v) => exec(ops.updateEdge(edgeKey, { onBump: v }))} /></Row>
       <Row label="Tags"><TextField value={(e.tags ?? []).join(", ")} onCommit={(t) => { const tags = t.split(",").map((x) => x.trim()).filter(Boolean); exec(ops.updateEdge(edgeKey, { tags: tags.length ? tags : undefined })); }} /></Row>
     </Section>
+    <LogicSection target={{ kind: "edge", key: edgeKey }} />
+    </>
+  );
+}
+
+// ---------- prop ----------
+
+function PropInspector({ id }: { id: string }) {
+  const doc = useEditor((s) => s.doc);
+  const exec = useEditor((s) => s.exec);
+  const notify = useEditor((s) => s.notify);
+  const p = doc.props[id];
+  if (!p) return <MapInspector />;
+  const pt = doc.propTypes[p.type];
+  const sideOpts = [
+    { value: "north", label: "North wall" }, { value: "east", label: "East wall" }, { value: "south", label: "South wall" },
+    { value: "west", label: "West wall" }, { value: "up", label: "Ceiling" },
+  ];
+  const rename = (n: string) => {
+    if (n === id) return;
+    if (!ID_RE.test(n)) { notify(ID_HINT, "error"); return; }
+    try {
+      exec(ops.renameId(doc, "prop", id, n));
+      useEditor.getState().select({ props: [n] });
+    } catch (err) {
+      notify((err as Error).message, "error");
+    }
+  };
+  return (
+    <>
+      <Section title={pt?.name ?? p.type} actions={<button className="btn small danger" onClick={() => exec(ops.removeProp(id))}>Delete</button>}>
+        <p className="muted small">In cell ({p.cell.x}, {p.cell.y}, {p.cell.z}) · drag it with the Props tool to move it</p>
+        <Row label="Id" hint="Events refer to props by id. Renaming updates references."><TextField mono value={id} onCommit={rename} /></Row>
+        <Row label="Type">
+          <Select
+            value={p.type}
+            options={Object.entries(doc.propTypes).map(([tid, t]) => ({ value: tid, label: t.name }))}
+            onChange={(t) => t && exec(ops.updateProp(id, { type: t, state: doc.propTypes[t]!.states.includes(p.state) ? p.state : doc.propTypes[t]!.initialState }))}
+          />
+        </Row>
+        <Row label="State"><Select value={p.state} options={(pt?.states ?? []).map((s) => ({ value: s, label: s }))} onChange={(s) => s && exec(ops.updateProp(id, { state: s }))} /></Row>
+        <Row label="Placement"><Select value={p.side ?? ""} empty="Floor (cell center)" options={sideOpts} onChange={(s) => exec(ops.updateProp(id, { side: (s || undefined) as Side | undefined }))} /></Row>
+        <Row label="Facing"><Select value={p.facing ?? ""} empty="(any)" options={FACING_OPTIONS} onChange={(f) => exec(ops.updateProp(id, { facing: (f || undefined) as Facing | undefined }))} /></Row>
+        {pt?.params?.length ? (
+          <>
+            <h3>Parameters</h3>
+            <ParamForm defs={pt.params} values={p.params} onChange={(params) => exec(ops.updateProp(id, { params }))} />
+          </>
+        ) : null}
+        <h3>Triggers</h3>
+        <Row label="On use"><EventPicker value={p.onUse} suggest={`use_${id}`} onChange={(v) => exec(ops.updateProp(id, { onUse: v }))} /></Row>
+        <Row label="Tags"><TextField value={(p.tags ?? []).join(", ")} onCommit={(t) => { const tags = t.split(",").map((x) => x.trim()).filter(Boolean); exec(ops.updateProp(id, { tags: tags.length ? tags : undefined })); }} /></Row>
+      </Section>
+      <LogicSection target={{ kind: "prop", id }} />
+    </>
   );
 }
 

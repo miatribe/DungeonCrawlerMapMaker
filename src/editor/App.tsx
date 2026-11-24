@@ -32,7 +32,8 @@ function useShortcuts() {
       if (e.key === "PageDown") { e.preventDefault(); s.setLevel(s.level - 1); return; }
       if (e.key === "Home") { e.preventDefault(); fitCurrent(); return; }
       if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); deleteSelection(); return; }
-      if (e.key === "Escape") { s.clearSelection(); return; }
+      if (e.key === "Escape") { if (s.pick) s.set({ pick: null }); else s.clearSelection(); return; }
+      if (k === "l" && !e.shiftKey) { s.set({ showAllLinks: !s.showAllLinks }); return; }
       // = / - nudge the floor, Shift (+ / _) the ceiling, of the selection or the hovered cell.
       const nudge = { "=": ["floor", 1], "-": ["floor", -1], "+": ["ceiling", 1], "_": ["ceiling", -1] } as const;
       if (e.key in nudge) {
@@ -54,11 +55,12 @@ function useShortcuts() {
 
 export function App() {
   useShortcuts();
+  const dockHeight = useEditor((s) => s.dockHeight);
   return (
     <div className="app">
       <MenuBar />
       <Toolbar />
-      <main className="center">
+      <main className="center" style={{ gridTemplateRows: `1fr ${dockHeight}px` }}>
         <Viewport />
         <Dock />
       </main>

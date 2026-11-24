@@ -1,7 +1,7 @@
 /** Editor state (Zustand). The map itself lives in `doc`; every change goes through `exec`. */
 import { create } from "zustand";
 import {
-  apply, cellKey, createHistory, createMap, loadProject, redo as redoH, resolve, saveProject, stringifyProject,
+  apply, cellKey, collectLinks, createHistory, type Link, createMap, loadProject, redo as redoH, resolve, saveProject, stringifyProject,
   undo as undoH, validate, type Command, type EditorState, type History, type MapDoc, type Problem,
   type ProjectFile, type ResolvedMap,
 } from "../core";
@@ -12,7 +12,18 @@ import { autosave, type FileHandle } from "./persistence";
 import threeRoomsText from "../../examples/three-rooms.dcmm?raw";
 import towerText from "../../examples/tower.dcmm?raw";
 
-export type ToolId = "select" | "paint" | "room" | "erase" | "edge" | "material" | "height" | "ramp" | "vertical" | "start";
+export type ToolId = "select" | "paint" | "room" | "erase" | "edge" | "material" | "height" | "ramp" | "vertical" | "prop" | "start";
+export type DockTab = "levels" | "events" | "flags" | "types" | "problems";
+
+/** "Pick on map" mode: the next click answers a form field instead of using the tool. */
+export type PickKind = "cell" | "edge" | "prop";
+export interface PickRequest {
+  kinds: PickKind[];
+  prompt: string;
+  /** Which form control asked, so only that button shows as active. */
+  owner?: string;
+  resolve: (r: { kind: "cell"; pos: GridPos } | { kind: "edge"; key: string } | { kind: "prop"; id: string }) => void;
+}
 export type MaterialTarget = "auto" | "floor" | "ceiling" | "walls" | "all";
 export type HeightTarget = "floor" | "ceiling" | "both";
 export type RampKind = "ramp" | "stairs" | "levelStairs";
@@ -34,13 +45,14 @@ interface Derived {
   resolved: ResolvedMap;
   problems: Problem[];
   problemCells: Set<string>;
+  links: Link[];
 }
 
 function derive(doc: MapDoc): Derived {
   const resolved = resolve(doc);
   const problems = validate(doc, resolved);
   const problemCells = new Set(problems.filter((p) => p.severity === "error" && p.cell).map((p) => cellKey(p.cell!)));
-  return { resolved, problems, problemCells };
+  return { resolved, problems, problemCells, links: collectLinks(doc) };
 }
 
 const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
@@ -67,6 +79,12 @@ export interface EditorStore extends Derived {
   rampRise: number;
   verticalDir: "down" | "up";
   createMissing: boolean;
+  activeProp: string;
+  dockTab: DockTab;
+  dockHeight: number;
+  showAllLinks: boolean;
+  editingEvent: string | null;
+  pick: PickRequest | null;
   level: number;
   view: View;
   ghostAbove: boolean;
@@ -74,6 +92,7 @@ export interface EditorStore extends Derived {
   showHeights: boolean;
   selection: Selection;
   hover: Hit | null;
+  hoverProp: string | null;
   preview: { cells?: GridPos[]; mode: "add" | "remove" | "select" } | null;
   cursor: { x: number; y: number } | null;
   toast: { text: string; kind: "info" | "error"; at: number } | null;
@@ -150,6 +169,12 @@ export const useEditor = create<EditorStore>((set, get) => {
     rampRise: 1,
     verticalDir: "down",
     createMissing: true,
+    activeProp: "lever",
+    dockTab: "levels",
+    dockHeight: 210,
+    showAllLinks: false,
+    editingEvent: null,
+    pick: null,
     level: 0,
     view: { panX: 80, panY: 80, zoom: 36 },
     ghostAbove: false,
@@ -157,6 +182,7 @@ export const useEditor = create<EditorStore>((set, get) => {
     showHeights: true,
     selection: EMPTY_SEL,
     hover: null,
+    hoverProp: null,
     preview: null,
     cursor: null,
     toast: null,

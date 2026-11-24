@@ -483,6 +483,42 @@ export function connectVertical(
   });
 }
 
+/**
+ * Rename a state of a connection or prop type: updates the type (states, initial state,
+ * transitions) and every edge/prop of that type currently in that state. Event actions
+ * and conditions that name the state are left for validation to report.
+ */
+export function renameState(kind: "connectionType" | "propType", typeId: string, from: string, to: string): Command {
+  return cmd("Rename state", (d) => {
+    if (from === to) return;
+    if (kind === "connectionType") {
+      const t = d.connectionTypes[typeId];
+      if (!t || !(from in t.states) || to in t.states) return;
+      const states: typeof t.states = {};
+      for (const [k, v] of Object.entries(t.states)) states[k === from ? to : k] = v;
+      for (const s of Object.values(states)) if (s.transitions) s.transitions = s.transitions.map((x) => (x === from ? to : x));
+      t.states = states;
+      if (t.initialState === from) t.initialState = to;
+      for (const e of Object.values(d.edges)) if (e.type === typeId && e.state === from) e.state = to;
+    } else {
+      const t = d.propTypes[typeId];
+      if (!t || !t.states.includes(from) || t.states.includes(to)) return;
+      t.states = t.states.map((s) => (s === from ? to : s));
+      if (t.initialState === from) t.initialState = to;
+      for (const p of Object.values(d.props)) if (p.type === typeId && p.state === from) p.state = to;
+    }
+  });
+}
+
+/** How many edges/props use a type, for delete warnings. */
+export function typeUsage(doc: MapDoc, kind: "connectionType" | "propType" | "customType", id: string): number {
+  if (kind === "connectionType") return Object.values(doc.edges).filter((e) => e.type === id).length;
+  if (kind === "propType") return Object.values(doc.props).filter((p) => p.type === id).length;
+  let n = 0;
+  walkRefs(doc, (r) => { if (r.kind === "customType" && "id" in r && r.id === id) n++; });
+  return n;
+}
+
 // ---------- helpers ----------
 
 /** Positions of all cells on one level. */

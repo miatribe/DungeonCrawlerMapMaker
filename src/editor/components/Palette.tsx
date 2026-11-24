@@ -25,6 +25,7 @@ export function Palette() {
         {tool === "height" && <HeightPalette />}
         {tool === "ramp" && <RampPalette />}
         {tool === "vertical" && <VerticalPalette />}
+        {tool === "prop" && <PropPalette />}
       </div>
     </section>
   );
@@ -58,6 +59,24 @@ function Segmented<T extends string>({ value, options, onChange, label }: { valu
       {options.map((o) => (
         <button key={o.id} role="radio" aria-checked={value === o.id} className={value === o.id ? "active" : ""} onClick={() => onChange(o.id)}>{o.label}</button>
       ))}
+    </div>
+  );
+}
+
+function PropPalette() {
+  const types = useEditor((s) => s.doc.propTypes);
+  const active = useEditor((s) => s.activeProp);
+  const set = useEditor((s) => s.set);
+  return (
+    <div className="choice-list" role="listbox" aria-label="Prop types">
+      {Object.entries(types).map(([id, t]) => (
+        <button key={id} role="option" aria-selected={active === id} className={`choice${active === id ? " active" : ""}`} onClick={() => set({ activeProp: id })}>
+          <Swatch color={t.preview?.color ?? "#e0a050"} />
+          <span className="lbl">{t.name}</span>
+          <span className="muted small">{t.states.join(" / ")}</span>
+        </button>
+      ))}
+      <p className="muted small">Add your own prop types in the Types tab below. Give a prop an On use event in the Inspector to make it do something.</p>
     </div>
   );
 }
