@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { resolve, Runtime, validate, type MapDoc } from "../src/core";
 import { doors, geometry, traps } from "./fixtures/examples";
+import { keep } from "./fixtures/maps";
+import { thinWalls } from "./thinWalls";
 
 const P = (x: number, y: number, z = 0) => ({ x, y, z });
 
@@ -22,6 +24,13 @@ describe.each([["doors", doors], ["traps", traps], ["geometry", geometry]] as co
   });
 });
 
+describe.each([["doors", doors], ["traps", traps], ["geometry", geometry], ["keep", keep]] as const)("%s example", (name, build) => {
+  it("has no thin walls: rooms meet only through openings and doorways", () => {
+    // the Keep's secret wall stands in a doorway, like a door
+    expect(thinWalls(build(), ["opening", "door", "gate", ...(name === "keep" ? ["wall"] : [])])).toEqual([]);
+  });
+});
+
 describe("Doors and Levers", () => {
   it("can be played from start to finish", () => {
     const { rt, last, at, walk } = play(doors());
@@ -33,44 +42,44 @@ describe("Doors and Levers", () => {
     rt.use();
     expect(rt.state.edges["2,1,0:east"]).toBe("open");
     walk(2);
+    expect(at()).toEqual(P(4, 1));
 
     // a locked door and its lever
-    rt.turn("left"); walk(1); rt.turn("right"); walk(1); rt.turn("right"); walk(1); rt.turn("left");
-    expect(at()).toEqual(P(5, 1));
+    walk(2);
     expect(rt.move("forward")).toEqual({ ok: false, reason: "closed" });
     expect(last()).toMatch(/lever on the north wall/);
-    rt.turn("left"); rt.turn("left"); walk(1); rt.turn("right"); walk(1);
-    expect(at()).toEqual(P(4, 0));
+    rt.turn("left"); walk(1); rt.turn("left"); walk(1); rt.turn("right");
+    expect(at()).toEqual(P(5, 0));
     rt.use();
-    expect(rt.state.edges["5,1,0:east"]).toBe("open");
+    expect(rt.state.edges["6,1,0:east"]).toBe("open");
     rt.use();
-    expect(rt.state.edges["5,1,0:east"]).toBe("locked");
+    expect(rt.state.edges["6,1,0:east"]).toBe("locked");
     rt.use();
     expect(rt.state.props.lever).toBe("on");
 
     // three levers for the vault door
-    rt.turn("right"); walk(1); rt.turn("right"); walk(1); rt.turn("left"); walk(1);
-    expect(at()).toEqual(P(6, 1));
+    rt.turn("right"); walk(1); rt.turn("right"); walk(1); rt.turn("left"); walk(2);
+    expect(at()).toEqual(P(8, 1));
     expect(last()).toMatch(/three levers/);
     rt.turn("right"); walk(2); rt.turn("right"); rt.use();
     expect(rt.state.props.lever_a).toBe("on");
-    expect(rt.state.edges["9,1,0:east"]).toBe("locked");
+    expect(rt.state.edges["11,1,0:east"]).toBe("locked");
     rt.turn("left"); rt.turn("left"); walk(2); rt.turn("right"); rt.use();
     expect(rt.state.props.lever_c).toBe("on");
-    expect(rt.state.edges["9,1,0:east"]).toBe("locked");
+    expect(rt.state.edges["11,1,0:east"]).toBe("locked");
     rt.turn("right"); rt.turn("right"); walk(3);
-    expect(at()).toEqual(P(8, 0));
+    expect(at()).toEqual(P(10, 0));
     rt.use();
-    expect(rt.state.edges["9,1,0:east"]).toBe("open");
+    expect(rt.state.edges["11,1,0:east"]).toBe("open");
     rt.use(); // one lever down locks it again
-    expect(rt.state.edges["9,1,0:east"]).toBe("locked");
+    expect(rt.state.edges["11,1,0:east"]).toBe("locked");
     expect(last()).toMatch(/slams shut/);
     rt.use();
-    expect(rt.state.edges["9,1,0:east"]).toBe("open");
+    expect(rt.state.edges["11,1,0:east"]).toBe("open");
 
     // the treasure
-    rt.turn("right"); walk(1); rt.turn("right"); walk(1); rt.turn("left"); walk(2);
-    expect(at()).toEqual(P(11, 1));
+    rt.turn("right"); walk(1); rt.turn("right"); walk(1); rt.turn("left"); walk(3);
+    expect(at()).toEqual(P(14, 1));
     rt.use();
     expect(rt.state.flags.treasure).toBe(true);
     expect(last()).toMatch(/You win/);
@@ -163,27 +172,25 @@ describe("Geometry Tour", () => {
     // heights room
     walk(2); rt.turn("left"); walk(1);
     expect(rt.cell()!.abs.ceiling).toBe(2);
-    rt.move("back"); rt.turn("right"); walk(1); rt.turn("left"); walk(1); rt.turn("right"); walk(1);
+    rt.move("back"); rt.turn("right"); walk(1); rt.turn("left"); walk(1);
+    expect(floor()).toBe(1);
+    rt.turn("right"); walk(1);
     expect(floor()).toBe(2);
-    rt.turn("right");
-    expect(rt.move("forward")).toEqual({ ok: false, reason: "wall" });
-    rt.turn("right"); walk(1); rt.turn("left"); walk(2);
+    rt.turn("right"); walk(2); rt.turn("right"); walk(1);
     expect(floor()).toBe(-1);
-    rt.turn("left"); walk(1);
-    expect(floor()).toBe(-2);
-    rt.turn("left"); rt.turn("left"); walk(1); rt.turn("right"); walk(1); rt.turn("right"); walk(1);
+    rt.turn("right"); walk(1); rt.turn("right"); walk(1);
     expect(at()).toEqual(P(5, 1));
 
-    // tunnel, hall, ramp up to the balcony, pit back down
+    // tunnel, hall, ramp up to the balcony, pit down, back into the hall
     walk(5);
     expect(at()).toEqual(P(10, 1));
     expect(rt.cell()!.abs.ceiling).toBe(8);
-    rt.turn("right"); walk(2);
-    expect(at()).toEqual(P(10, 3, 1));
-    rt.turn("right");
+    rt.turn("right"); walk(3);
+    expect(at()).toEqual(P(10, 4, 1));
+    rt.turn("right"); walk(1);
     expect(rt.move("forward")).toEqual({ ok: true, fell: 1 });
-    expect(at()).toEqual(P(9, 3));
-    rt.turn("right"); walk(2); rt.turn("right"); walk(1);
+    expect(at()).toEqual(P(8, 4));
+    rt.turn("right"); walk(2); rt.turn("right"); walk(1); rt.turn("left"); walk(1); rt.turn("right"); walk(1);
     expect(at()).toEqual(P(10, 1));
 
     // ramp, landing, stairs down, grotto, stairs up a level

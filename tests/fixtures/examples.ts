@@ -31,24 +31,27 @@ function addProps(doc: MapDoc, props: Parameters<typeof ops.addProp>[1][]): MapD
  */
 export function doors(): MapDoc {
   let doc = createMap({ id: "doors-and-levers", name: "Doors and Levers" });
+  // rooms sit a cell apart; each door is set in a one-cell doorway through that gap
   const rooms = [
     rectPositions(P(0, 0), P(2, 2)),
-    rectPositions(P(3, 0), P(5, 2)),
-    rectPositions(P(6, 0), P(9, 3)),
-    rectPositions(P(10, 0), P(12, 2)),
+    rectPositions(P(4, 0), P(6, 2)),
+    rectPositions(P(8, 0), P(11, 3)),
+    rectPositions(P(13, 0), P(15, 2)),
   ];
+  const doorways = [P(3, 1), P(7, 1), P(12, 1)];
   doc = run(
     doc,
     ops.setMapMeta({ tags: ["example"], onLoad: { actions: [msg("Four rooms, four doors. Walk up to a door and press Space to use it.")] } }),
     ops.define("material", "vault", { name: "Vault plating", color: "#6d7480", texture: "builtin:metal" }),
     ...rooms.map((r) => ops.paintCells(r)),
-    ops.setSurface(rooms[0]!, "walls", "brick"),
-    ops.setSurface(rooms[2]!, "walls", "stone"),
-    ops.setSurface(rooms[3]!, "walls", "vault"),
+    ops.paintCells(doorways),
+    ...doorways.map((d) => link(d, "east")),
+    ops.setSurface([...rooms[0]!, doorways[0]!], "walls", "brick"),
+    ops.setSurface([...rooms[3]!, doorways[2]!], "walls", "vault"),
     ops.setSurface(rooms[3]!, "down", "iron"),
     link(P(2, 1), "east", "door", { id: "plain_door" }),
-    link(P(5, 1), "east", "door", { id: "lever_door", state: "locked" }),
-    link(P(9, 1), "east", "door", { id: "vault_door", state: "locked" }),
+    link(P(6, 1), "east", "door", { id: "lever_door", state: "locked" }),
+    link(P(11, 1), "east", "door", { id: "vault_door", state: "locked" }),
     ops.setStart({ cell: P(1, 1), facing: "east" }),
   );
 
@@ -72,7 +75,7 @@ export function doors(): MapDoc {
     ops.define("event", "bumpLeverDoor", {
       actions: [msg("Locked tight, and there's no keyhole. Try the lever on the north wall.")],
     }),
-    ops.updateEdge("5,1,0:east", { onBump: "bumpLeverDoor" }),
+    ops.updateEdge("6,1,0:east", { onBump: "bumpLeverDoor" }),
     // room 3: each lever flips itself, then checks all three
     ...levers.map((id, i) => ops.define("event", `pull_${id}`, {
       conditions: [{ type: "state", target: prop(id), equals: "off" }],
@@ -90,7 +93,7 @@ export function doors(): MapDoc {
       actions: [{ type: "setConnectionState", target: edge("vault_door"), state: "locked" }, msg("The vault door slams shut again.")],
     }),
     ops.define("event", "bumpVault", { actions: [msg("The vault door won't move. Three levers in this room must all be up.")] }),
-    ops.updateEdge("9,1,0:east", { onBump: "bumpVault" }),
+    ops.updateEdge("11,1,0:east", { onBump: "bumpVault" }),
     // room 4
     ops.define("flag", "treasure", { type: "bool", initial: false }),
     ops.define("event", "openChest", {
@@ -98,16 +101,16 @@ export function doors(): MapDoc {
       actions: [{ type: "setPropState", target: prop("chest"), state: "open" }, { type: "setFlag", name: "treasure", value: true }, msg("Gold! You've opened every door. You win.")],
     }),
     // a note as you enter each room
-    ops.updateCells([P(3, 1)], { onEnter: note("This door is locked and has no keyhole. A lever must work it.") }),
-    ops.updateCells([P(6, 1)], { onEnter: note("A heavy vault door, and three levers on the walls. Pull them all up.") }),
-    ops.updateCells([P(10, 1)], { onEnter: note("The vault. A chest waits by the far wall.") }),
+    ops.updateCells([P(4, 1)], { onEnter: note("This door is locked and has no keyhole. A lever must work it.") }),
+    ops.updateCells([P(8, 1)], { onEnter: note("A heavy vault door, and three levers on the walls. Pull them all up.") }),
+    ops.updateCells([P(13, 1)], { onEnter: note("The vault. A chest waits by the far wall.") }),
   );
   return addProps(doc, [
-    { id: "lever", type: "lever", cell: P(4, 0), side: "north", onUse: "pullLever" },
-    { id: "lever_a", type: "lever", cell: P(6, 3), side: "west", onUse: "pull_lever_a" },
-    { id: "lever_b", type: "lever", cell: P(8, 0), side: "north", onUse: "pull_lever_b" },
-    { id: "lever_c", type: "lever", cell: P(8, 3), side: "south", onUse: "pull_lever_c" },
-    { id: "chest", type: "chest", cell: P(12, 1), onUse: "openChest" },
+    { id: "lever", type: "lever", cell: P(5, 0), side: "north", onUse: "pullLever" },
+    { id: "lever_a", type: "lever", cell: P(8, 3), side: "west", onUse: "pull_lever_a" },
+    { id: "lever_b", type: "lever", cell: P(10, 0), side: "north", onUse: "pull_lever_b" },
+    { id: "lever_c", type: "lever", cell: P(10, 3), side: "south", onUse: "pull_lever_c" },
+    { id: "chest", type: "chest", cell: P(15, 1), onUse: "openChest" },
   ]);
 }
 
@@ -252,32 +255,31 @@ export function traps(): MapDoc {
  */
 export function geometry(): MapDoc {
   let doc = createMap({ id: "geometry-tour", name: "Geometry Tour" });
-  const entry = rectPositions(P(0, 0), P(2, 2));
+  // rooms sit a cell apart or meet only through openings, so there are no thin walls
+  const entry = [...rectPositions(P(0, 0), P(1, 2)), P(2, 1)];
   const heights = rectPositions(P(3, 0), P(5, 2));
   const tunnel = [P(6, 1), P(7, 1)];
   const hall = rectPositions(P(8, 0), P(10, 2));
-  const balcony = [P(9, 3, 1), P(10, 3, 1)];
+  const balcony = rectPositions(P(8, 4, 1), P(10, 4, 1));
   const slopes = rectPositions(P(11, 1), P(14, 1));
   const grotto = rectPositions(P(15, 0), P(17, 2));
   const upper = rectPositions(P(19, 0, 1), P(21, 2, 1));
-  const lower = rectPositions(P(19, 0), P(21, 2));
+  // the room below leaves out the cell under the top of the stairs
+  const lower = rectPositions(P(19, 0), P(21, 2)).filter((p) => !(p.x === 19 && p.y === 1));
   doc = run(
     doc,
     ops.setMapMeta({ tags: ["example"] }),
     // entry: plain flat cells
     ops.paintCells(entry),
     ops.setSurface(entry, "walls", "brick"),
-    // heights: raised steps up to a ledge, a sunken pool, a low alcove
+    // heights: steps up to a ledge, a sunken pool, a low alcove (no step is more than one)
     ops.paintCells(heights),
     link(P(2, 1), "east"),
-    ops.setHeights([P(4, 0)], { floor: 1 }),
+    ops.setHeights([P(4, 0), P(5, 1)], { floor: 1 }),
     ops.setHeights([P(5, 0)], { floor: 2 }),
     ops.setHeights([P(4, 2)], { floor: -1 }),
-    ops.setHeights([P(5, 2)], { floor: -2 }),
-    ops.setSurface([P(5, 2)], "down", "water"),
+    ops.setSurface([P(4, 2)], "down", "water"),
     ops.setHeights([P(3, 0)], { ceiling: 2 }),
-    link(P(5, 0), "south", null), // two steps down: wall it off
-    link(P(5, 1), "south", null),
     // a low tunnel
     ops.paintCells(tunnel),
     link(P(5, 1), "east"),
@@ -308,12 +310,14 @@ export function geometry(): MapDoc {
     link(P(17, 1), "east"),
     ops.setStart({ cell: P(1, 1), facing: "east" }),
   );
-  // a ramp from the hall up to a balcony, and stairs from the grotto up to the upper room
-  doc = run(doc, ops.buildLevelStairs(doc, P(10, 2), "south", "ramp"));
+  // a ramp in a niche off the hall up to a balcony, and stairs from the grotto up to the upper room
+  doc = run(doc, ops.paintCells([P(10, 3)]), link(P(10, 2), "south"));
+  doc = run(doc, ops.buildLevelStairs(doc, P(10, 3), "south", "ramp"));
   doc = run(
     doc,
-    link(P(9, 2), "east", null), // the ramp's side is too high to step onto
     ops.paintCells(balcony),
+    ops.paintCells([P(8, 3)]), // the way back into the hall from under the balcony's pit
+    link(P(8, 2), "south"),
   );
   doc = run(doc, ops.buildLevelStairs(doc, P(18, 1), "east", "stairs", 8));
   doc = run(
@@ -327,7 +331,7 @@ export function geometry(): MapDoc {
   // vertical connections
   doc = run(
     doc,
-    ops.connectVertical(doc, P(9, 3, 1), "down", "pit", { createMissing: true }), // balcony pit back into the hall
+    ops.connectVertical(doc, P(8, 4, 1), "down", "pit", { createMissing: true }), // balcony pit back toward the hall
     ops.connectVertical(doc, P(19, 0, 1), "down", "grate"),
     ops.connectVertical(doc, P(21, 0, 1), "down", "hatch"),
     ops.connectVertical(doc, P(21, 1, 1), "down", "pit"),
@@ -336,7 +340,7 @@ export function geometry(): MapDoc {
   );
   doc = run(
     doc,
-    link(P(9, 3), "north"),
+    link(P(8, 4), "north"),
     ops.updateEdge("21,0,0:up", { id: "hatch" }),
   );
 
@@ -349,11 +353,11 @@ export function geometry(): MapDoc {
     }),
     ops.define("event", "lowerRoom", { once: true, actions: [msg("You've dropped into the room below. The ladder in the south-west corner leads back up.")] }),
     ops.updateCells([P(1, 1)], { onEnter: note("Geometry Tour. Walk east through one room per kind of geometry.") }),
-    ops.updateCells([P(3, 1)], { onEnter: note("Floor and ceiling heights: steps up to a ledge (north-east), a pool two steps down (south-east), a low alcove (north-west).") }),
-    ops.updateCells([P(5, 0)], { onEnter: note("Two steps up. The drop south is too far, so it's walled off.") }),
+    ops.updateCells([P(3, 1)], { onEnter: note("Floor and ceiling heights: steps up to a ledge (north-east), a sunken pool (south), a low alcove (north-west).") }),
+    ops.updateCells([P(5, 0)], { onEnter: note("The top of the steps, two above the floor.") }),
     ops.updateCells([P(6, 1)], { onEnter: note("A low tunnel: the ceiling is only three steps high.") }),
-    ops.updateCells([P(8, 1)], { onEnter: note("A vaulted hall, two levels tall. The ramp in the south-east corner climbs a full level to a balcony.") }),
-    ops.updateCells([P(10, 3, 1)], { onEnter: note("The balcony. Its west end has a pit back down to the hall.") }),
+    ops.updateCells([P(8, 1)], { onEnter: note("A vaulted hall, two levels tall. The ramp south of the east end climbs a full level to a balcony.") }),
+    ops.updateCells([P(10, 4, 1)], { onEnter: note("The balcony. Its west end has a pit back down to the hall.") }),
     ops.updateCells([P(11, 1)], { onEnter: note("A ramp up to a landing, then stairs down.") }),
     ops.updateCells([P(15, 1)], { onEnter: note("A sunken grotto with a deeper pool. The stairs to the east climb a full level.") }),
     ops.updateCells([P(19, 1, 1)], { onEnter: note("The upper room. Its floor has a grate (north-west), a trapdoor (north-east, use the lever), a pit (east) and an open shaft (south).") }),

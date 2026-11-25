@@ -83,13 +83,6 @@
       },
       {
         "pos": {
-          "x": 3,
-          "y": 0,
-          "z": 0
-        }
-      },
-      {
-        "pos": {
           "x": 4,
           "y": 0,
           "z": 0
@@ -107,25 +100,6 @@
           "x": 6,
           "y": 0,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
-        }
-      },
-      {
-        "pos": {
-          "x": 7,
-          "y": 0,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
         }
       },
       {
@@ -133,12 +107,6 @@
           "x": 8,
           "y": 0,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
         }
       },
       {
@@ -146,12 +114,6 @@
           "x": 9,
           "y": 0,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
         }
       },
       {
@@ -159,18 +121,18 @@
           "x": 10,
           "y": 0,
           "z": 0
-        },
-        "surfaces": {
-          "north": "vault",
-          "east": "vault",
-          "south": "vault",
-          "west": "vault",
-          "down": "iron"
         }
       },
       {
         "pos": {
           "x": 11,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 13,
           "y": 0,
           "z": 0
         },
@@ -184,7 +146,21 @@
       },
       {
         "pos": {
-          "x": 12,
+          "x": 14,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
+        }
+      },
+      {
+        "pos": {
+          "x": 15,
           "y": 0,
           "z": 0
         },
@@ -241,6 +217,19 @@
           "y": 1,
           "z": 0
         },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 4,
+          "y": 1,
+          "z": 0
+        },
         "onEnter": {
           "once": true,
           "actions": [
@@ -249,13 +238,6 @@
               "text": "This door is locked and has no keyhole. A lever must work it."
             }
           ]
-        }
-      },
-      {
-        "pos": {
-          "x": 4,
-          "y": 1,
-          "z": 0
         }
       },
       {
@@ -270,12 +252,20 @@
           "x": 6,
           "y": 1,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
+        }
+      },
+      {
+        "pos": {
+          "x": 7,
+          "y": 1,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 8,
+          "y": 1,
+          "z": 0
         },
         "onEnter": {
           "once": true,
@@ -289,46 +279,41 @@
       },
       {
         "pos": {
-          "x": 7,
-          "y": 1,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
-        }
-      },
-      {
-        "pos": {
-          "x": 8,
-          "y": 1,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
-        }
-      },
-      {
-        "pos": {
           "x": 9,
           "y": 1,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
         }
       },
       {
         "pos": {
           "x": 10,
+          "y": 1,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 11,
+          "y": 1,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 12,
+          "y": 1,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault"
+        }
+      },
+      {
+        "pos": {
+          "x": 13,
           "y": 1,
           "z": 0
         },
@@ -351,7 +336,7 @@
       },
       {
         "pos": {
-          "x": 11,
+          "x": 14,
           "y": 1,
           "z": 0
         },
@@ -365,7 +350,7 @@
       },
       {
         "pos": {
-          "x": 12,
+          "x": 15,
           "y": 1,
           "z": 0
         },
@@ -418,13 +403,6 @@
       },
       {
         "pos": {
-          "x": 3,
-          "y": 2,
-          "z": 0
-        }
-      },
-      {
-        "pos": {
           "x": 4,
           "y": 2,
           "z": 0
@@ -442,25 +420,6 @@
           "x": 6,
           "y": 2,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
-        }
-      },
-      {
-        "pos": {
-          "x": 7,
-          "y": 2,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
         }
       },
       {
@@ -468,12 +427,6 @@
           "x": 8,
           "y": 2,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
         }
       },
       {
@@ -481,12 +434,6 @@
           "x": 9,
           "y": 2,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
         }
       },
       {
@@ -494,13 +441,6 @@
           "x": 10,
           "y": 2,
           "z": 0
-        },
-        "surfaces": {
-          "north": "vault",
-          "east": "vault",
-          "south": "vault",
-          "west": "vault",
-          "down": "iron"
         }
       },
       {
@@ -508,18 +448,11 @@
           "x": 11,
           "y": 2,
           "z": 0
-        },
-        "surfaces": {
-          "north": "vault",
-          "east": "vault",
-          "south": "vault",
-          "west": "vault",
-          "down": "iron"
         }
       },
       {
         "pos": {
-          "x": 12,
+          "x": 13,
           "y": 2,
           "z": 0
         },
@@ -533,28 +466,30 @@
       },
       {
         "pos": {
-          "x": 6,
-          "y": 3,
+          "x": 14,
+          "y": 2,
           "z": 0
         },
         "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
         }
       },
       {
         "pos": {
-          "x": 7,
-          "y": 3,
+          "x": 15,
+          "y": 2,
           "z": 0
         },
         "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
         }
       },
       {
@@ -562,12 +497,6 @@
           "x": 8,
           "y": 3,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
         }
       },
       {
@@ -575,12 +504,20 @@
           "x": 9,
           "y": 3,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone"
+        }
+      },
+      {
+        "pos": {
+          "x": 10,
+          "y": 3,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 11,
+          "y": 3,
+          "z": 0
         }
       }
     ],
@@ -637,26 +574,6 @@
       },
       {
         "from": {
-          "x": 3,
-          "y": 0,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 3,
-          "y": 0,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 4,
           "y": 0,
           "z": 0
@@ -681,23 +598,13 @@
           "y": 0,
           "z": 0
         },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 6,
-          "y": 0,
-          "z": 0
-        },
         "dir": "east",
         "type": "opening",
         "state": "open"
       },
       {
         "from": {
-          "x": 6,
+          "x": 5,
           "y": 0,
           "z": 0
         },
@@ -707,17 +614,7 @@
       },
       {
         "from": {
-          "x": 7,
-          "y": 0,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 7,
+          "x": 6,
           "y": 0,
           "z": 0
         },
@@ -742,6 +639,16 @@
           "z": 0
         },
         "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
         "type": "opening",
         "state": "open"
       },
@@ -781,13 +688,23 @@
           "y": 0,
           "z": 0
         },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 13,
+          "y": 0,
+          "z": 0
+        },
         "dir": "east",
         "type": "opening",
         "state": "open"
       },
       {
         "from": {
-          "x": 11,
+          "x": 13,
           "y": 0,
           "z": 0
         },
@@ -797,7 +714,27 @@
       },
       {
         "from": {
-          "x": 12,
+          "x": 14,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 14,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 15,
           "y": 0,
           "z": 0
         },
@@ -878,16 +815,6 @@
       },
       {
         "from": {
-          "x": 3,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 4,
           "y": 1,
           "z": 0
@@ -899,6 +826,26 @@
       {
         "from": {
           "x": 4,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 5,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 5,
           "y": 1,
           "z": 0
         },
@@ -909,7 +856,7 @@
       {
         "id": "lever_door",
         "from": {
-          "x": 5,
+          "x": 6,
           "y": 1,
           "z": 0
         },
@@ -920,26 +867,6 @@
       },
       {
         "from": {
-          "x": 5,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 6,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 6,
           "y": 1,
           "z": 0
@@ -960,16 +887,6 @@
       },
       {
         "from": {
-          "x": 7,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 8,
           "y": 1,
           "z": 0
@@ -981,6 +898,46 @@
       {
         "from": {
           "x": 8,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
           "y": 1,
           "z": 0
         },
@@ -991,7 +948,7 @@
       {
         "id": "vault_door",
         "from": {
-          "x": 9,
+          "x": 11,
           "y": 1,
           "z": 0
         },
@@ -999,46 +956,6 @@
         "type": "door",
         "state": "locked",
         "onBump": "bumpVault"
-      },
-      {
-        "from": {
-          "x": 9,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 10,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 10,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 11,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
       },
       {
         "from": {
@@ -1053,6 +970,56 @@
       {
         "from": {
           "x": 12,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 13,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 13,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 14,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 14,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 15,
           "y": 1,
           "z": 0
         },
@@ -1082,16 +1049,6 @@
       },
       {
         "from": {
-          "x": 3,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 4,
           "y": 2,
           "z": 0
@@ -1102,41 +1059,11 @@
       },
       {
         "from": {
-          "x": 6,
+          "x": 5,
           "y": 2,
           "z": 0
         },
         "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 6,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 7,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 7,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "south",
         "type": "opening",
         "state": "open"
       },
@@ -1166,6 +1093,16 @@
           "y": 2,
           "z": 0
         },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 2,
+          "z": 0
+        },
         "dir": "south",
         "type": "opening",
         "state": "open"
@@ -1182,7 +1119,27 @@
       },
       {
         "from": {
+          "x": 10,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
           "x": 11,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 13,
           "y": 2,
           "z": 0
         },
@@ -1192,18 +1149,8 @@
       },
       {
         "from": {
-          "x": 6,
-          "y": 3,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 7,
-          "y": 3,
+          "x": 14,
+          "y": 2,
           "z": 0
         },
         "dir": "east",
@@ -1213,6 +1160,26 @@
       {
         "from": {
           "x": 8,
+          "y": 3,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 3,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
           "y": 3,
           "z": 0
         },
@@ -1226,7 +1193,7 @@
         "id": "chest",
         "type": "chest",
         "cell": {
-          "x": 12,
+          "x": 15,
           "y": 1,
           "z": 0
         },
@@ -1237,7 +1204,7 @@
         "id": "lever",
         "type": "lever",
         "cell": {
-          "x": 4,
+          "x": 5,
           "y": 0,
           "z": 0
         },
@@ -1249,7 +1216,7 @@
         "id": "lever_a",
         "type": "lever",
         "cell": {
-          "x": 6,
+          "x": 8,
           "y": 3,
           "z": 0
         },
@@ -1261,7 +1228,7 @@
         "id": "lever_b",
         "type": "lever",
         "cell": {
-          "x": 8,
+          "x": 10,
           "y": 0,
           "z": 0
         },
@@ -1273,7 +1240,7 @@
         "id": "lever_c",
         "type": "lever",
         "cell": {
-          "x": 8,
+          "x": 10,
           "y": 3,
           "z": 0
         },

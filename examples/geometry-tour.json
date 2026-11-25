@@ -16,7 +16,7 @@
       },
       "max": {
         "x": 21,
-        "y": 3,
+        "y": 4,
         "z": 1
       }
     },
@@ -78,30 +78,6 @@
     {
       "pos": {
         "x": 1,
-        "y": 0,
-        "z": 0
-      },
-      "floor": 0,
-      "ceiling": 4,
-      "abs": {
-        "floor": 0,
-        "ceiling": 4
-      },
-      "shape": {
-        "kind": "flat"
-      },
-      "surfaces": {
-        "north": "brick",
-        "east": "brick",
-        "south": "brick",
-        "west": "brick",
-        "up": "ceiling",
-        "down": "flagstone"
-      }
-    },
-    {
-      "pos": {
-        "x": 2,
         "y": 0,
         "z": 0
       },
@@ -199,7 +175,7 @@
         "actions": [
           {
             "type": "showMessage",
-            "text": "Two steps up. The drop south is too far, so it's walled off."
+            "text": "The top of the steps, two above the floor."
           }
         ]
       }
@@ -532,7 +508,7 @@
         "actions": [
           {
             "type": "showMessage",
-            "text": "Floor and ceiling heights: steps up to a ledge (north-east), a pool two steps down (south-east), a low alcove (north-west)."
+            "text": "Floor and ceiling heights: steps up to a ledge (north-east), a sunken pool (south), a low alcove (north-west)."
           }
         ]
       }
@@ -567,10 +543,10 @@
         "y": 1,
         "z": 0
       },
-      "floor": 0,
+      "floor": 1,
       "ceiling": 4,
       "abs": {
-        "floor": 0,
+        "floor": 1,
         "ceiling": 4
       },
       "shape": {
@@ -670,7 +646,7 @@
         "actions": [
           {
             "type": "showMessage",
-            "text": "A vaulted hall, two levels tall. The ramp in the south-east corner climbs a full level to a balcony."
+            "text": "A vaulted hall, two levels tall. The ramp south of the east end climbs a full level to a balcony."
           }
         ]
       }
@@ -946,31 +922,6 @@
     },
     {
       "pos": {
-        "x": 19,
-        "y": 1,
-        "z": 0
-      },
-      "floor": 0,
-      "ceiling": 4,
-      "abs": {
-        "floor": 0,
-        "ceiling": 4
-      },
-      "shape": {
-        "kind": "flat"
-      },
-      "surfaces": {
-        "north": "stone",
-        "east": "stone",
-        "south": "stone",
-        "west": "stone",
-        "up": "ceiling",
-        "down": "flagstone"
-      },
-      "onEnter": "lowerRoom"
-    },
-    {
-      "pos": {
         "x": 20,
         "y": 1,
         "z": 0
@@ -1069,30 +1020,6 @@
     },
     {
       "pos": {
-        "x": 2,
-        "y": 2,
-        "z": 0
-      },
-      "floor": 0,
-      "ceiling": 4,
-      "abs": {
-        "floor": 0,
-        "ceiling": 4
-      },
-      "shape": {
-        "kind": "flat"
-      },
-      "surfaces": {
-        "north": "brick",
-        "east": "brick",
-        "south": "brick",
-        "west": "brick",
-        "up": "ceiling",
-        "down": "flagstone"
-      }
-    },
-    {
-      "pos": {
         "x": 3,
         "y": 2,
         "z": 0
@@ -1136,7 +1063,7 @@
         "south": "stone",
         "west": "stone",
         "up": "ceiling",
-        "down": "flagstone"
+        "down": "water"
       }
     },
     {
@@ -1145,10 +1072,10 @@
         "y": 2,
         "z": 0
       },
-      "floor": -2,
+      "floor": 0,
       "ceiling": 4,
       "abs": {
-        "floor": -2,
+        "floor": 0,
         "ceiling": 4
       },
       "shape": {
@@ -1160,7 +1087,7 @@
         "south": "stone",
         "west": "stone",
         "up": "ceiling",
-        "down": "water"
+        "down": "flagstone"
       }
     },
     {
@@ -1224,9 +1151,7 @@
         "ceiling": 8
       },
       "shape": {
-        "kind": "ramp",
-        "rise": 4,
-        "toward": "south"
+        "kind": "flat"
       },
       "surfaces": {
         "north": "brick",
@@ -1386,8 +1311,58 @@
     },
     {
       "pos": {
-        "x": 9,
+        "x": 8,
         "y": 3,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 10,
+        "y": 3,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 8,
+      "abs": {
+        "floor": 0,
+        "ceiling": 8
+      },
+      "shape": {
+        "kind": "ramp",
+        "rise": 4,
+        "toward": "south"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 8,
+        "y": 4,
         "z": 0
       },
       "floor": 0,
@@ -1644,8 +1619,32 @@
     },
     {
       "pos": {
+        "x": 8,
+        "y": 4,
+        "z": 1
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 4,
+        "ceiling": 8
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
         "x": 9,
-        "y": 3,
+        "y": 4,
         "z": 1
       },
       "floor": 0,
@@ -1669,7 +1668,7 @@
     {
       "pos": {
         "x": 10,
-        "y": 3,
+        "y": 4,
         "z": 1
       },
       "floor": 0,
@@ -1738,37 +1737,7 @@
         "z": 0
       },
       "to": {
-        "x": 2,
-        "y": 0,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
         "x": 1,
-        "y": 0,
-        "z": 0
-      },
-      "to": {
-        "x": 1,
-        "y": 1,
-        "z": 0
-      },
-      "dir": "south",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 2,
-        "y": 0,
-        "z": 0
-      },
-      "to": {
-        "x": 2,
         "y": 1,
         "z": 0
       },
@@ -1829,6 +1798,21 @@
       },
       "to": {
         "x": 4,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 5,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 5,
         "y": 1,
         "z": 0
       },
@@ -1998,21 +1982,6 @@
         "z": 0
       },
       "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 19,
-        "y": 0,
-        "z": 0
-      },
-      "to": {
-        "x": 19,
-        "y": 1,
-        "z": 0
-      },
-      "dir": "south",
       "type": "opening",
       "state": "open"
     },
@@ -2169,21 +2138,6 @@
     },
     {
       "from": {
-        "x": 2,
-        "y": 1,
-        "z": 0
-      },
-      "to": {
-        "x": 2,
-        "y": 2,
-        "z": 0
-      },
-      "dir": "south",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
         "x": 3,
         "y": 1,
         "z": 0
@@ -2254,6 +2208,21 @@
         "z": 0
       },
       "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 5,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 5,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "south",
       "type": "opening",
       "state": "open"
     },
@@ -2539,36 +2508,6 @@
         "z": 1
       },
       "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 19,
-        "y": 1,
-        "z": 0
-      },
-      "to": {
-        "x": 20,
-        "y": 1,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 19,
-        "y": 1,
-        "z": 0
-      },
-      "to": {
-        "x": 19,
-        "y": 2,
-        "z": 0
-      },
-      "dir": "south",
       "type": "opening",
       "state": "open"
     },
@@ -2649,21 +2588,6 @@
     },
     {
       "from": {
-        "x": 1,
-        "y": 2,
-        "z": 0
-      },
-      "to": {
-        "x": 2,
-        "y": 2,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
         "x": 3,
         "y": 2,
         "z": 0
@@ -2709,16 +2633,31 @@
     },
     {
       "from": {
+        "x": 8,
+        "y": 2,
+        "z": 0
+      },
+      "to": {
+        "x": 8,
+        "y": 3,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
         "x": 9,
         "y": 2,
         "z": 0
       },
       "to": {
-        "x": 9,
-        "y": 3,
+        "x": 10,
+        "y": 2,
         "z": 0
       },
-      "dir": "south",
+      "dir": "east",
       "type": "opening",
       "state": "open"
     },
@@ -2731,7 +2670,7 @@
       "to": {
         "x": 10,
         "y": 3,
-        "z": 1
+        "z": 0
       },
       "dir": "south",
       "type": "opening",
@@ -2829,13 +2768,43 @@
     },
     {
       "from": {
-        "x": 9,
+        "x": 8,
         "y": 3,
         "z": 0
       },
       "to": {
-        "x": 9,
+        "x": 8,
+        "y": 4,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 10,
         "y": 3,
+        "z": 0
+      },
+      "to": {
+        "x": 10,
+        "y": 4,
+        "z": 1
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 8,
+        "y": 4,
+        "z": 0
+      },
+      "to": {
+        "x": 8,
+        "y": 4,
         "z": 1
       },
       "dir": "up",
@@ -3024,13 +2993,28 @@
     },
     {
       "from": {
+        "x": 8,
+        "y": 4,
+        "z": 1
+      },
+      "to": {
         "x": 9,
-        "y": 3,
+        "y": 4,
+        "z": 1
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 9,
+        "y": 4,
         "z": 1
       },
       "to": {
         "x": 10,
-        "y": 3,
+        "y": 4,
         "z": 1
       },
       "dir": "east",
@@ -3137,6 +3121,25 @@
     {
       "between": [
         {
+          "x": 5,
+          "y": 0,
+          "z": 0
+        },
+        {
+          "x": 5,
+          "y": 1,
+          "z": 0
+        }
+      ],
+      "kind": "floor",
+      "from": 1,
+      "to": 2,
+      "material": "stone",
+      "facing": "south"
+    },
+    {
+      "between": [
+        {
           "x": 15,
           "y": 0,
           "z": 0
@@ -3199,6 +3202,25 @@
           "z": 0
         },
         {
+          "x": 5,
+          "y": 1,
+          "z": 0
+        }
+      ],
+      "kind": "floor",
+      "from": 0,
+      "to": 1,
+      "material": "stone",
+      "facing": "west"
+    },
+    {
+      "between": [
+        {
+          "x": 4,
+          "y": 1,
+          "z": 0
+        },
+        {
           "x": 4,
           "y": 2,
           "z": 0
@@ -3223,11 +3245,49 @@
           "z": 0
         }
       ],
+      "kind": "floor",
+      "from": 0,
+      "to": 1,
+      "material": "stone",
+      "facing": "east"
+    },
+    {
+      "between": [
+        {
+          "x": 5,
+          "y": 1,
+          "z": 0
+        },
+        {
+          "x": 6,
+          "y": 1,
+          "z": 0
+        }
+      ],
       "kind": "ceiling",
       "from": 3,
       "to": 4,
       "material": "dirt",
       "facing": "west"
+    },
+    {
+      "between": [
+        {
+          "x": 5,
+          "y": 1,
+          "z": 0
+        },
+        {
+          "x": 5,
+          "y": 2,
+          "z": 0
+        }
+      ],
+      "kind": "floor",
+      "from": 0,
+      "to": 1,
+      "material": "stone",
+      "facing": "south"
     },
     {
       "between": [
@@ -3338,20 +3398,20 @@
         }
       ],
       "kind": "floor",
-      "from": -2,
-      "to": -1,
+      "from": -1,
+      "to": 0,
       "material": "stone",
-      "facing": "east"
+      "facing": "west"
     },
     {
       "between": [
         {
-          "x": 9,
+          "x": 8,
           "y": 2,
           "z": 0
         },
         {
-          "x": 9,
+          "x": 8,
           "y": 3,
           "z": 0
         }

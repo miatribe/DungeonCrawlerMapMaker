@@ -66,19 +66,6 @@
       },
       {
         "pos": {
-          "x": 2,
-          "y": 0,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "brick",
-          "east": "brick",
-          "south": "brick",
-          "west": "brick"
-        }
-      },
-      {
-        "pos": {
           "x": 3,
           "y": 0,
           "z": 0
@@ -105,7 +92,7 @@
           "actions": [
             {
               "type": "showMessage",
-              "text": "Two steps up. The drop south is too far, so it's walled off."
+              "text": "The top of the steps, two above the floor."
             }
           ]
         }
@@ -280,7 +267,7 @@
           "actions": [
             {
               "type": "showMessage",
-              "text": "Floor and ceiling heights: steps up to a ledge (north-east), a pool two steps down (south-east), a low alcove (north-west)."
+              "text": "Floor and ceiling heights: steps up to a ledge (north-east), a sunken pool (south), a low alcove (north-west)."
             }
           ]
         }
@@ -297,7 +284,8 @@
           "x": 5,
           "y": 1,
           "z": 0
-        }
+        },
+        "floor": 1
       },
       {
         "pos": {
@@ -354,7 +342,7 @@
           "actions": [
             {
               "type": "showMessage",
-              "text": "A vaulted hall, two levels tall. The ramp in the south-east corner climbs a full level to a balcony."
+              "text": "A vaulted hall, two levels tall. The ramp south of the east end climbs a full level to a balcony."
             }
           ]
         }
@@ -537,14 +525,6 @@
       },
       {
         "pos": {
-          "x": 19,
-          "y": 1,
-          "z": 0
-        },
-        "onEnter": "lowerRoom"
-      },
-      {
-        "pos": {
           "x": 20,
           "y": 1,
           "z": 0
@@ -587,19 +567,6 @@
       },
       {
         "pos": {
-          "x": 2,
-          "y": 2,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "brick",
-          "east": "brick",
-          "south": "brick",
-          "west": "brick"
-        }
-      },
-      {
-        "pos": {
           "x": 3,
           "y": 2,
           "z": 0
@@ -611,17 +578,16 @@
           "y": 2,
           "z": 0
         },
-        "floor": -1
+        "floor": -1,
+        "surfaces": {
+          "down": "water"
+        }
       },
       {
         "pos": {
           "x": 5,
           "y": 2,
           "z": 0
-        },
-        "floor": -2,
-        "surfaces": {
-          "down": "water"
         }
       },
       {
@@ -659,11 +625,6 @@
           "z": 0
         },
         "ceiling": 8,
-        "shape": {
-          "kind": "ramp",
-          "rise": 4,
-          "toward": "south"
-        },
         "surfaces": {
           "north": "brick",
           "east": "brick",
@@ -742,8 +703,28 @@
       },
       {
         "pos": {
-          "x": 9,
+          "x": 8,
           "y": 3,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 10,
+          "y": 3,
+          "z": 0
+        },
+        "ceiling": 8,
+        "shape": {
+          "kind": "ramp",
+          "rise": 4,
+          "toward": "south"
+        }
+      },
+      {
+        "pos": {
+          "x": 8,
+          "y": 4,
           "z": 0
         }
       },
@@ -857,15 +838,22 @@
       },
       {
         "pos": {
+          "x": 8,
+          "y": 4,
+          "z": 1
+        }
+      },
+      {
+        "pos": {
           "x": 9,
-          "y": 3,
+          "y": 4,
           "z": 1
         }
       },
       {
         "pos": {
           "x": 10,
-          "y": 3,
+          "y": 4,
           "z": 1
         },
         "onEnter": {
@@ -906,26 +894,6 @@
           "y": 0,
           "z": 0
         },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 1,
-          "y": 0,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 2,
-          "y": 0,
-          "z": 0
-        },
         "dir": "south",
         "type": "opening",
         "state": "open"
@@ -963,6 +931,16 @@
       {
         "from": {
           "x": 4,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 5,
           "y": 0,
           "z": 0
         },
@@ -1086,16 +1064,6 @@
           "y": 0,
           "z": 0
         },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 19,
-          "y": 0,
-          "z": 0
-        },
         "dir": "up",
         "type": "grate",
         "state": "closed"
@@ -1193,16 +1161,6 @@
       },
       {
         "from": {
-          "x": 2,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 3,
           "y": 1,
           "z": 0
@@ -1248,6 +1206,16 @@
           "z": 0
         },
         "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 5,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
         "type": "opening",
         "state": "open"
       },
@@ -1444,26 +1412,6 @@
       },
       {
         "from": {
-          "x": 19,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 19,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 20,
           "y": 1,
           "z": 0
@@ -1514,16 +1462,6 @@
       },
       {
         "from": {
-          "x": 1,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 3,
           "y": 2,
           "z": 0
@@ -1554,11 +1492,21 @@
       },
       {
         "from": {
-          "x": 9,
+          "x": 8,
           "y": 2,
           "z": 0
         },
         "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
         "type": "opening",
         "state": "open"
       },
@@ -1569,7 +1517,6 @@
           "z": 0
         },
         "dir": "south",
-        "toZ": 1,
         "type": "opening",
         "state": "open"
       },
@@ -1635,8 +1582,29 @@
       },
       {
         "from": {
-          "x": 9,
+          "x": 8,
           "y": 3,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 3,
+          "z": 0
+        },
+        "dir": "south",
+        "toZ": 1,
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 4,
           "z": 0
         },
         "dir": "up",
@@ -1765,8 +1733,18 @@
       },
       {
         "from": {
+          "x": 8,
+          "y": 4,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
           "x": 9,
-          "y": 3,
+          "y": 4,
           "z": 1
         },
         "dir": "east",

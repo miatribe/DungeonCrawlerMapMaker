@@ -88,12 +88,13 @@ export function threeRooms(): MapDoc {
  */
 export function keep(): MapDoc {
   let doc = createMap({ id: "keep-of-echoes", name: "The Keep of Echoes" });
-  const entry = rectPositions(P(0, 0), P(2, 2));
+  // rooms are kept a cell apart (or meet only through a doorway), so there are no thin walls
+  const entry = [...rectPositions(P(0, 0), P(1, 2)), P(2, 1)];
   const hall = rectPositions(P(3, 0), P(7, 4));
   const dais = rectPositions(P(6, 1), P(7, 3));
-  const stairRoom = rectPositions(P(8, 1), P(9, 3));
+  const stairRoom = [P(8, 2), P(9, 2)];
   const armory = rectPositions(P(4, 7), P(6, 8));
-  const tower = rectPositions(P(10, 1, 1), P(12, 3, 1));
+  const tower = [...rectPositions(P(10, 1, 1), P(12, 2, 1)), P(11, 3, 1)];
   const library = rectPositions(P(10, 4, 1), P(12, 5, 1));
   const cellar = rectPositions(P(3, 3, -1), P(5, 4, -1));
 
@@ -170,7 +171,7 @@ export function keep(): MapDoc {
     ops.paintCells(cellar),
     ops.setSurface(cellar, "walls", "moss"),
     ops.setSurface(cellar, "down", "dirt"),
-    ops.setHeights([P(5, 4, -1)], { floor: -1 }),
+    ops.setHeights([P(5, 4, -1)], { floor: -1, ceiling: 3 }), // stays clear of the stairs above
     ops.setSurface([P(5, 4, -1)], "down", "water"),
     ops.setStart({ cell: P(1, 1), facing: "east" }),
   );

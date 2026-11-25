@@ -15,7 +15,7 @@
         "z": 0
       },
       "max": {
-        "x": 12,
+        "x": 15,
         "y": 3,
         "z": 0
       }
@@ -129,30 +129,6 @@
     },
     {
       "pos": {
-        "x": 3,
-        "y": 0,
-        "z": 0
-      },
-      "floor": 0,
-      "ceiling": 4,
-      "abs": {
-        "floor": 0,
-        "ceiling": 4
-      },
-      "shape": {
-        "kind": "flat"
-      },
-      "surfaces": {
-        "north": "stone",
-        "east": "stone",
-        "south": "stone",
-        "west": "stone",
-        "up": "ceiling",
-        "down": "flagstone"
-      }
-    },
-    {
-      "pos": {
         "x": 4,
         "y": 0,
         "z": 0
@@ -202,30 +178,6 @@
     {
       "pos": {
         "x": 6,
-        "y": 0,
-        "z": 0
-      },
-      "floor": 0,
-      "ceiling": 4,
-      "abs": {
-        "floor": 0,
-        "ceiling": 4
-      },
-      "shape": {
-        "kind": "flat"
-      },
-      "surfaces": {
-        "north": "stone",
-        "east": "stone",
-        "south": "stone",
-        "west": "stone",
-        "up": "ceiling",
-        "down": "flagstone"
-      }
-    },
-    {
-      "pos": {
-        "x": 7,
         "y": 0,
         "z": 0
       },
@@ -311,17 +263,41 @@
         "kind": "flat"
       },
       "surfaces": {
-        "north": "vault",
-        "east": "vault",
-        "south": "vault",
-        "west": "vault",
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
         "up": "ceiling",
-        "down": "iron"
+        "down": "flagstone"
       }
     },
     {
       "pos": {
         "x": 11,
+        "y": 0,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 13,
         "y": 0,
         "z": 0
       },
@@ -345,7 +321,31 @@
     },
     {
       "pos": {
-        "x": 12,
+        "x": 14,
+        "y": 0,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "vault",
+        "east": "vault",
+        "south": "vault",
+        "west": "vault",
+        "up": "ceiling",
+        "down": "iron"
+      }
+    },
+    {
+      "pos": {
+        "x": 15,
         "y": 0,
         "z": 0
       },
@@ -442,6 +442,30 @@
     {
       "pos": {
         "x": 3,
+        "y": 1,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "brick",
+        "east": "brick",
+        "south": "brick",
+        "west": "brick",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 4,
         "y": 1,
         "z": 0
       },
@@ -474,30 +498,6 @@
     },
     {
       "pos": {
-        "x": 4,
-        "y": 1,
-        "z": 0
-      },
-      "floor": 0,
-      "ceiling": 4,
-      "abs": {
-        "floor": 0,
-        "ceiling": 4
-      },
-      "shape": {
-        "kind": "flat"
-      },
-      "surfaces": {
-        "north": "stone",
-        "east": "stone",
-        "south": "stone",
-        "west": "stone",
-        "up": "ceiling",
-        "down": "flagstone"
-      }
-    },
-    {
-      "pos": {
         "x": 5,
         "y": 1,
         "z": 0
@@ -542,15 +542,6 @@
         "west": "stone",
         "up": "ceiling",
         "down": "flagstone"
-      },
-      "onEnter": {
-        "once": true,
-        "actions": [
-          {
-            "type": "showMessage",
-            "text": "A heavy vault door, and three levers on the walls. Pull them all up."
-          }
-        ]
       }
     },
     {
@@ -599,6 +590,15 @@
         "west": "stone",
         "up": "ceiling",
         "down": "flagstone"
+      },
+      "onEnter": {
+        "once": true,
+        "actions": [
+          {
+            "type": "showMessage",
+            "text": "A heavy vault door, and three levers on the walls. Pull them all up."
+          }
+        ]
       }
     },
     {
@@ -641,6 +641,78 @@
         "kind": "flat"
       },
       "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 11,
+        "y": 1,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 12,
+        "y": 1,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "vault",
+        "east": "vault",
+        "south": "vault",
+        "west": "vault",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 13,
+        "y": 1,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
         "north": "vault",
         "east": "vault",
         "south": "vault",
@@ -660,7 +732,7 @@
     },
     {
       "pos": {
-        "x": 11,
+        "x": 14,
         "y": 1,
         "z": 0
       },
@@ -684,7 +756,7 @@
     },
     {
       "pos": {
-        "x": 12,
+        "x": 15,
         "y": 1,
         "z": 0
       },
@@ -780,30 +852,6 @@
     },
     {
       "pos": {
-        "x": 3,
-        "y": 2,
-        "z": 0
-      },
-      "floor": 0,
-      "ceiling": 4,
-      "abs": {
-        "floor": 0,
-        "ceiling": 4
-      },
-      "shape": {
-        "kind": "flat"
-      },
-      "surfaces": {
-        "north": "stone",
-        "east": "stone",
-        "south": "stone",
-        "west": "stone",
-        "up": "ceiling",
-        "down": "flagstone"
-      }
-    },
-    {
-      "pos": {
         "x": 4,
         "y": 2,
         "z": 0
@@ -853,30 +901,6 @@
     {
       "pos": {
         "x": 6,
-        "y": 2,
-        "z": 0
-      },
-      "floor": 0,
-      "ceiling": 4,
-      "abs": {
-        "floor": 0,
-        "ceiling": 4
-      },
-      "shape": {
-        "kind": "flat"
-      },
-      "surfaces": {
-        "north": "stone",
-        "east": "stone",
-        "south": "stone",
-        "west": "stone",
-        "up": "ceiling",
-        "down": "flagstone"
-      }
-    },
-    {
-      "pos": {
-        "x": 7,
         "y": 2,
         "z": 0
       },
@@ -962,12 +986,12 @@
         "kind": "flat"
       },
       "surfaces": {
-        "north": "vault",
-        "east": "vault",
-        "south": "vault",
-        "west": "vault",
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
         "up": "ceiling",
-        "down": "iron"
+        "down": "flagstone"
       }
     },
     {
@@ -986,17 +1010,17 @@
         "kind": "flat"
       },
       "surfaces": {
-        "north": "vault",
-        "east": "vault",
-        "south": "vault",
-        "west": "vault",
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
         "up": "ceiling",
-        "down": "iron"
+        "down": "flagstone"
       }
     },
     {
       "pos": {
-        "x": 12,
+        "x": 13,
         "y": 2,
         "z": 0
       },
@@ -1020,8 +1044,8 @@
     },
     {
       "pos": {
-        "x": 6,
-        "y": 3,
+        "x": 14,
+        "y": 2,
         "z": 0
       },
       "floor": 0,
@@ -1034,18 +1058,18 @@
         "kind": "flat"
       },
       "surfaces": {
-        "north": "stone",
-        "east": "stone",
-        "south": "stone",
-        "west": "stone",
+        "north": "vault",
+        "east": "vault",
+        "south": "vault",
+        "west": "vault",
         "up": "ceiling",
-        "down": "flagstone"
+        "down": "iron"
       }
     },
     {
       "pos": {
-        "x": 7,
-        "y": 3,
+        "x": 15,
+        "y": 2,
         "z": 0
       },
       "floor": 0,
@@ -1058,12 +1082,12 @@
         "kind": "flat"
       },
       "surfaces": {
-        "north": "stone",
-        "east": "stone",
-        "south": "stone",
-        "west": "stone",
+        "north": "vault",
+        "east": "vault",
+        "south": "vault",
+        "west": "vault",
         "up": "ceiling",
-        "down": "flagstone"
+        "down": "iron"
       }
     },
     {
@@ -1093,6 +1117,54 @@
     {
       "pos": {
         "x": 9,
+        "y": 3,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 10,
+        "y": 3,
+        "z": 0
+      },
+      "floor": 0,
+      "ceiling": 4,
+      "abs": {
+        "floor": 0,
+        "ceiling": 4
+      },
+      "shape": {
+        "kind": "flat"
+      },
+      "surfaces": {
+        "north": "stone",
+        "east": "stone",
+        "south": "stone",
+        "west": "stone",
+        "up": "ceiling",
+        "down": "flagstone"
+      }
+    },
+    {
+      "pos": {
+        "x": 11,
         "y": 3,
         "z": 0
       },
@@ -1193,36 +1265,6 @@
     },
     {
       "from": {
-        "x": 3,
-        "y": 0,
-        "z": 0
-      },
-      "to": {
-        "x": 4,
-        "y": 0,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 3,
-        "y": 0,
-        "z": 0
-      },
-      "to": {
-        "x": 3,
-        "y": 1,
-        "z": 0
-      },
-      "dir": "south",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
         "x": 4,
         "y": 0,
         "z": 0
@@ -1258,6 +1300,21 @@
         "z": 0
       },
       "to": {
+        "x": 6,
+        "y": 0,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 5,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
         "x": 5,
         "y": 1,
         "z": 0
@@ -1273,52 +1330,7 @@
         "z": 0
       },
       "to": {
-        "x": 7,
-        "y": 0,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
         "x": 6,
-        "y": 0,
-        "z": 0
-      },
-      "to": {
-        "x": 6,
-        "y": 1,
-        "z": 0
-      },
-      "dir": "south",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 7,
-        "y": 0,
-        "z": 0
-      },
-      "to": {
-        "x": 8,
-        "y": 0,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 7,
-        "y": 0,
-        "z": 0
-      },
-      "to": {
-        "x": 7,
         "y": 1,
         "z": 0
       },
@@ -1353,6 +1365,21 @@
         "z": 0
       },
       "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 9,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 10,
+        "y": 0,
+        "z": 0
+      },
+      "dir": "east",
       "type": "opening",
       "state": "open"
     },
@@ -1408,21 +1435,6 @@
         "z": 0
       },
       "to": {
-        "x": 12,
-        "y": 0,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 11,
-        "y": 0,
-        "z": 0
-      },
-      "to": {
         "x": 11,
         "y": 1,
         "z": 0
@@ -1433,12 +1445,72 @@
     },
     {
       "from": {
-        "x": 12,
+        "x": 13,
         "y": 0,
         "z": 0
       },
       "to": {
-        "x": 12,
+        "x": 14,
+        "y": 0,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 13,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 13,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 14,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 15,
+        "y": 0,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 14,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 14,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 15,
+        "y": 0,
+        "z": 0
+      },
+      "to": {
+        "x": 15,
         "y": 1,
         "z": 0
       },
@@ -1554,21 +1626,6 @@
     },
     {
       "from": {
-        "x": 3,
-        "y": 1,
-        "z": 0
-      },
-      "to": {
-        "x": 3,
-        "y": 2,
-        "z": 0
-      },
-      "dir": "south",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
         "x": 4,
         "y": 1,
         "z": 0
@@ -1590,6 +1647,36 @@
       },
       "to": {
         "x": 4,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 5,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 6,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 5,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 5,
         "y": 2,
         "z": 0
       },
@@ -1600,12 +1687,12 @@
     {
       "id": "lever_door",
       "from": {
-        "x": 5,
+        "x": 6,
         "y": 1,
         "z": 0
       },
       "to": {
-        "x": 6,
+        "x": 7,
         "y": 1,
         "z": 0
       },
@@ -1616,36 +1703,6 @@
     },
     {
       "from": {
-        "x": 5,
-        "y": 1,
-        "z": 0
-      },
-      "to": {
-        "x": 5,
-        "y": 2,
-        "z": 0
-      },
-      "dir": "south",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 6,
-        "y": 1,
-        "z": 0
-      },
-      "to": {
-        "x": 7,
-        "y": 1,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
         "x": 6,
         "y": 1,
         "z": 0
@@ -1671,21 +1728,6 @@
         "z": 0
       },
       "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 7,
-        "y": 1,
-        "z": 0
-      },
-      "to": {
-        "x": 7,
-        "y": 2,
-        "z": 0
-      },
-      "dir": "south",
       "type": "opening",
       "state": "open"
     },
@@ -1712,6 +1754,66 @@
       },
       "to": {
         "x": 8,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 9,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 10,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 9,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 9,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 10,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 11,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 10,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 10,
         "y": 2,
         "z": 0
       },
@@ -1722,12 +1824,12 @@
     {
       "id": "vault_door",
       "from": {
-        "x": 9,
+        "x": 11,
         "y": 1,
         "z": 0
       },
       "to": {
-        "x": 10,
+        "x": 12,
         "y": 1,
         "z": 0
       },
@@ -1738,12 +1840,12 @@
     },
     {
       "from": {
-        "x": 9,
+        "x": 11,
         "y": 1,
         "z": 0
       },
       "to": {
-        "x": 9,
+        "x": 11,
         "y": 2,
         "z": 0
       },
@@ -1753,12 +1855,12 @@
     },
     {
       "from": {
-        "x": 10,
+        "x": 12,
         "y": 1,
         "z": 0
       },
       "to": {
-        "x": 11,
+        "x": 13,
         "y": 1,
         "z": 0
       },
@@ -1768,27 +1870,12 @@
     },
     {
       "from": {
-        "x": 10,
+        "x": 13,
         "y": 1,
         "z": 0
       },
       "to": {
-        "x": 10,
-        "y": 2,
-        "z": 0
-      },
-      "dir": "south",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 11,
-        "y": 1,
-        "z": 0
-      },
-      "to": {
-        "x": 12,
+        "x": 14,
         "y": 1,
         "z": 0
       },
@@ -1798,12 +1885,12 @@
     },
     {
       "from": {
-        "x": 11,
+        "x": 13,
         "y": 1,
         "z": 0
       },
       "to": {
-        "x": 11,
+        "x": 13,
         "y": 2,
         "z": 0
       },
@@ -1813,12 +1900,42 @@
     },
     {
       "from": {
-        "x": 12,
+        "x": 14,
         "y": 1,
         "z": 0
       },
       "to": {
-        "x": 12,
+        "x": 15,
+        "y": 1,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 14,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 14,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 15,
+        "y": 1,
+        "z": 0
+      },
+      "to": {
+        "x": 15,
         "y": 2,
         "z": 0
       },
@@ -1858,21 +1975,6 @@
     },
     {
       "from": {
-        "x": 3,
-        "y": 2,
-        "z": 0
-      },
-      "to": {
-        "x": 4,
-        "y": 2,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
         "x": 4,
         "y": 2,
         "z": 0
@@ -1888,61 +1990,16 @@
     },
     {
       "from": {
-        "x": 6,
+        "x": 5,
         "y": 2,
         "z": 0
       },
       "to": {
-        "x": 7,
+        "x": 6,
         "y": 2,
         "z": 0
       },
       "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 6,
-        "y": 2,
-        "z": 0
-      },
-      "to": {
-        "x": 6,
-        "y": 3,
-        "z": 0
-      },
-      "dir": "south",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 7,
-        "y": 2,
-        "z": 0
-      },
-      "to": {
-        "x": 8,
-        "y": 2,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 7,
-        "y": 2,
-        "z": 0
-      },
-      "to": {
-        "x": 7,
-        "y": 3,
-        "z": 0
-      },
-      "dir": "south",
       "type": "opening",
       "state": "open"
     },
@@ -1973,6 +2030,21 @@
         "z": 0
       },
       "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 9,
+        "y": 2,
+        "z": 0
+      },
+      "to": {
+        "x": 10,
+        "y": 2,
+        "z": 0
+      },
+      "dir": "east",
       "type": "opening",
       "state": "open"
     },
@@ -2008,12 +2080,42 @@
     },
     {
       "from": {
+        "x": 10,
+        "y": 2,
+        "z": 0
+      },
+      "to": {
+        "x": 10,
+        "y": 3,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
         "x": 11,
         "y": 2,
         "z": 0
       },
       "to": {
-        "x": 12,
+        "x": 11,
+        "y": 3,
+        "z": 0
+      },
+      "dir": "south",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 13,
+        "y": 2,
+        "z": 0
+      },
+      "to": {
+        "x": 14,
         "y": 2,
         "z": 0
       },
@@ -2023,28 +2125,13 @@
     },
     {
       "from": {
-        "x": 6,
-        "y": 3,
+        "x": 14,
+        "y": 2,
         "z": 0
       },
       "to": {
-        "x": 7,
-        "y": 3,
-        "z": 0
-      },
-      "dir": "east",
-      "type": "opening",
-      "state": "open"
-    },
-    {
-      "from": {
-        "x": 7,
-        "y": 3,
-        "z": 0
-      },
-      "to": {
-        "x": 8,
-        "y": 3,
+        "x": 15,
+        "y": 2,
         "z": 0
       },
       "dir": "east",
@@ -2065,6 +2152,36 @@
       "dir": "east",
       "type": "opening",
       "state": "open"
+    },
+    {
+      "from": {
+        "x": 9,
+        "y": 3,
+        "z": 0
+      },
+      "to": {
+        "x": 10,
+        "y": 3,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
+    },
+    {
+      "from": {
+        "x": 10,
+        "y": 3,
+        "z": 0
+      },
+      "to": {
+        "x": 11,
+        "y": 3,
+        "z": 0
+      },
+      "dir": "east",
+      "type": "opening",
+      "state": "open"
     }
   ],
   "risers": [],
@@ -2073,7 +2190,7 @@
       "id": "chest",
       "type": "chest",
       "cell": {
-        "x": 12,
+        "x": 15,
         "y": 1,
         "z": 0
       },
@@ -2084,7 +2201,7 @@
       "id": "lever",
       "type": "lever",
       "cell": {
-        "x": 4,
+        "x": 5,
         "y": 0,
         "z": 0
       },
@@ -2096,7 +2213,7 @@
       "id": "lever_a",
       "type": "lever",
       "cell": {
-        "x": 6,
+        "x": 8,
         "y": 3,
         "z": 0
       },
@@ -2108,7 +2225,7 @@
       "id": "lever_b",
       "type": "lever",
       "cell": {
-        "x": 8,
+        "x": 10,
         "y": 0,
         "z": 0
       },
@@ -2120,7 +2237,7 @@
       "id": "lever_c",
       "type": "lever",
       "cell": {
-        "x": 8,
+        "x": 10,
         "y": 3,
         "z": 0
       },

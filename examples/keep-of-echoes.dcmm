@@ -120,6 +120,7 @@
           "z": -1
         },
         "floor": -1,
+        "ceiling": 3,
         "surfaces": {
           "north": "moss",
           "east": "moss",
@@ -162,19 +163,6 @@
       {
         "pos": {
           "x": 1,
-          "y": 0,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "brick",
-          "east": "brick",
-          "south": "brick",
-          "west": "brick"
-        }
-      },
-      {
-        "pos": {
-          "x": 2,
           "y": 0,
           "z": 0
         },
@@ -339,20 +327,6 @@
       },
       {
         "pos": {
-          "x": 8,
-          "y": 1,
-          "z": 0
-        }
-      },
-      {
-        "pos": {
-          "x": 9,
-          "y": 1,
-          "z": 0
-        }
-      },
-      {
-        "pos": {
           "x": 0,
           "y": 2,
           "z": 0
@@ -367,19 +341,6 @@
       {
         "pos": {
           "x": 1,
-          "y": 2,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "brick",
-          "east": "brick",
-          "south": "brick",
-          "west": "brick"
-        }
-      },
-      {
-        "pos": {
-          "x": 2,
           "y": 2,
           "z": 0
         },
@@ -535,20 +496,6 @@
         "ceiling": 8,
         "surfaces": {
           "down": "marble"
-        }
-      },
-      {
-        "pos": {
-          "x": 8,
-          "y": 3,
-          "z": 0
-        }
-      },
-      {
-        "pos": {
-          "x": 9,
-          "y": 3,
-          "z": 0
         }
       },
       {
@@ -790,21 +737,7 @@
       },
       {
         "pos": {
-          "x": 10,
-          "y": 3,
-          "z": 1
-        }
-      },
-      {
-        "pos": {
           "x": 11,
-          "y": 3,
-          "z": 1
-        }
-      },
-      {
-        "pos": {
-          "x": 12,
           "y": 3,
           "z": 1
         }
@@ -1026,26 +959,6 @@
           "y": 0,
           "z": 0
         },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 1,
-          "y": 0,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 2,
-          "y": 0,
-          "z": 0
-        },
         "dir": "south",
         "type": "opening",
         "state": "open"
@@ -1193,16 +1106,6 @@
       },
       {
         "from": {
-          "x": 2,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 3,
           "y": 1,
           "z": 0
@@ -1293,47 +1196,7 @@
       },
       {
         "from": {
-          "x": 8,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 8,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 9,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 0,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 1,
           "y": 2,
           "z": 0
         },
@@ -1456,32 +1319,12 @@
       },
       {
         "from": {
-          "x": 8,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 9,
           "y": 2,
           "z": 0
         },
         "dir": "east",
         "toZ": 1,
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 9,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "south",
         "type": "opening",
         "state": "open"
       },
@@ -1572,16 +1415,6 @@
           "z": 0
         },
         "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 8,
-          "y": 3,
-          "z": 0
-        },
-        "dir": "east",
         "type": "opening",
         "state": "open"
       },
@@ -1801,16 +1634,6 @@
       },
       {
         "from": {
-          "x": 10,
-          "y": 2,
-          "z": 1
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
           "x": 11,
           "y": 2,
           "z": 1
@@ -1826,36 +1649,6 @@
           "z": 1
         },
         "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 12,
-          "y": 2,
-          "z": 1
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 10,
-          "y": 3,
-          "z": 1
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 11,
-          "y": 3,
-          "z": 1
-        },
-        "dir": "east",
         "type": "opening",
         "state": "open"
       },
