@@ -6,15 +6,15 @@
     "version": "0.1.0"
   },
   "map": {
-    "id": "three-rooms",
-    "name": "Three Rooms",
+    "id": "doors-and-levers",
+    "name": "Doors and Levers",
     "cellSize": 1,
     "stepsPerLevel": 4,
     "stepHeight": 0.25,
     "start": {
       "cell": {
         "x": 1,
-        "y": 2,
+        "y": 1,
         "z": 0
       },
       "facing": "east"
@@ -27,6 +27,14 @@
       "floor": "flagstone",
       "ceiling": "ceiling"
     },
+    "onLoad": {
+      "actions": [
+        {
+          "type": "showMessage",
+          "text": "Four rooms, four doors. Walk up to a door and press Space to use it."
+        }
+      ]
+    },
     "levels": [
       {
         "z": 0,
@@ -36,6 +44,173 @@
     "cells": [
       {
         "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 2,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 3,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 4,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 5,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 6,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "stone",
+          "east": "stone",
+          "south": "stone",
+          "west": "stone"
+        }
+      },
+      {
+        "pos": {
+          "x": 7,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "stone",
+          "east": "stone",
+          "south": "stone",
+          "west": "stone"
+        }
+      },
+      {
+        "pos": {
+          "x": 8,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "stone",
+          "east": "stone",
+          "south": "stone",
+          "west": "stone"
+        }
+      },
+      {
+        "pos": {
+          "x": 9,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "stone",
+          "east": "stone",
+          "south": "stone",
+          "west": "stone"
+        }
+      },
+      {
+        "pos": {
+          "x": 10,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
+        }
+      },
+      {
+        "pos": {
+          "x": 11,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
+        }
+      },
+      {
+        "pos": {
+          "x": 12,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
+        }
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
           "x": 1,
           "y": 1,
           "z": 0
@@ -44,8 +219,7 @@
           "north": "brick",
           "east": "brick",
           "south": "brick",
-          "west": "brick",
-          "down": "flagA"
+          "west": "brick"
         }
       },
       {
@@ -58,8 +232,7 @@
           "north": "brick",
           "east": "brick",
           "south": "brick",
-          "west": "brick",
-          "down": "flagA"
+          "west": "brick"
         }
       },
       {
@@ -68,12 +241,14 @@
           "y": 1,
           "z": 0
         },
-        "surfaces": {
-          "north": "brick",
-          "east": "brick",
-          "south": "brick",
-          "west": "brick",
-          "down": "flagA"
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "This door is locked and has no keyhole. A lever must work it."
+            }
+          ]
         }
       },
       {
@@ -81,13 +256,6 @@
           "x": 4,
           "y": 1,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone",
-          "down": "flagB"
         }
       },
       {
@@ -95,13 +263,6 @@
           "x": 5,
           "y": 1,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone",
-          "down": "flagB"
         }
       },
       {
@@ -114,8 +275,16 @@
           "north": "stone",
           "east": "stone",
           "south": "stone",
-          "west": "stone",
-          "down": "flagB"
+          "west": "stone"
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "A heavy vault door, and three levers on the walls. Pull them all up."
+            }
+          ]
         }
       },
       {
@@ -128,8 +297,97 @@
           "north": "stone",
           "east": "stone",
           "south": "stone",
-          "west": "stone",
-          "down": "flagB"
+          "west": "stone"
+        }
+      },
+      {
+        "pos": {
+          "x": 8,
+          "y": 1,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "stone",
+          "east": "stone",
+          "south": "stone",
+          "west": "stone"
+        }
+      },
+      {
+        "pos": {
+          "x": 9,
+          "y": 1,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "stone",
+          "east": "stone",
+          "south": "stone",
+          "west": "stone"
+        }
+      },
+      {
+        "pos": {
+          "x": 10,
+          "y": 1,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "The vault. A chest waits by the far wall."
+            }
+          ]
+        }
+      },
+      {
+        "pos": {
+          "x": 11,
+          "y": 1,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
+        }
+      },
+      {
+        "pos": {
+          "x": 12,
+          "y": 1,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
+        }
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 2,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
         }
       },
       {
@@ -142,10 +400,8 @@
           "north": "brick",
           "east": "brick",
           "south": "brick",
-          "west": "brick",
-          "down": "flagA"
-        },
-        "onEnter": "welcome"
+          "west": "brick"
+        }
       },
       {
         "pos": {
@@ -157,8 +413,7 @@
           "north": "brick",
           "east": "brick",
           "south": "brick",
-          "west": "brick",
-          "down": "flagA"
+          "west": "brick"
         }
       },
       {
@@ -166,13 +421,6 @@
           "x": 3,
           "y": 2,
           "z": 0
-        },
-        "surfaces": {
-          "north": "brick",
-          "east": "brick",
-          "south": "brick",
-          "west": "brick",
-          "down": "flagA"
         }
       },
       {
@@ -180,13 +428,6 @@
           "x": 4,
           "y": 2,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone",
-          "down": "flagB"
         }
       },
       {
@@ -194,15 +435,7 @@
           "x": 5,
           "y": 2,
           "z": 0
-        },
-        "surfaces": {
-          "north": "stone",
-          "east": "stone",
-          "south": "stone",
-          "west": "stone",
-          "down": "flagB"
-        },
-        "onEnter": "draft"
+        }
       },
       {
         "pos": {
@@ -214,8 +447,7 @@
           "north": "stone",
           "east": "stone",
           "south": "stone",
-          "west": "stone",
-          "down": "flagB"
+          "west": "stone"
         }
       },
       {
@@ -228,78 +460,75 @@
           "north": "stone",
           "east": "stone",
           "south": "stone",
-          "west": "stone",
-          "down": "flagB"
+          "west": "stone"
         }
       },
       {
         "pos": {
-          "x": 1,
-          "y": 3,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "brick",
-          "east": "brick",
-          "south": "brick",
-          "west": "brick",
-          "down": "flagA"
-        }
-      },
-      {
-        "pos": {
-          "x": 2,
-          "y": 3,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "brick",
-          "east": "brick",
-          "south": "brick",
-          "west": "brick",
-          "down": "flagA"
-        }
-      },
-      {
-        "pos": {
-          "x": 3,
-          "y": 3,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "brick",
-          "east": "brick",
-          "south": "brick",
-          "west": "brick",
-          "down": "flagA"
-        }
-      },
-      {
-        "pos": {
-          "x": 4,
-          "y": 3,
+          "x": 8,
+          "y": 2,
           "z": 0
         },
         "surfaces": {
           "north": "stone",
           "east": "stone",
           "south": "stone",
-          "west": "stone",
-          "down": "flagB"
+          "west": "stone"
         }
       },
       {
         "pos": {
-          "x": 5,
-          "y": 3,
+          "x": 9,
+          "y": 2,
           "z": 0
         },
         "surfaces": {
           "north": "stone",
           "east": "stone",
           "south": "stone",
-          "west": "stone",
-          "down": "flagB"
+          "west": "stone"
+        }
+      },
+      {
+        "pos": {
+          "x": 10,
+          "y": 2,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
+        }
+      },
+      {
+        "pos": {
+          "x": 11,
+          "y": 2,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
+        }
+      },
+      {
+        "pos": {
+          "x": 12,
+          "y": 2,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "vault",
+          "east": "vault",
+          "south": "vault",
+          "west": "vault",
+          "down": "iron"
         }
       },
       {
@@ -312,8 +541,7 @@
           "north": "stone",
           "east": "stone",
           "south": "stone",
-          "west": "stone",
-          "down": "flagB"
+          "west": "stone"
         }
       },
       {
@@ -326,101 +554,61 @@
           "north": "stone",
           "east": "stone",
           "south": "stone",
-          "west": "stone",
-          "down": "flagB"
+          "west": "stone"
         }
       },
       {
         "pos": {
-          "x": 5,
-          "y": 4,
+          "x": 8,
+          "y": 3,
           "z": 0
         },
         "surfaces": {
-          "north": "moss",
-          "east": "moss",
-          "south": "moss",
-          "west": "moss",
-          "down": "flagC"
+          "north": "stone",
+          "east": "stone",
+          "south": "stone",
+          "west": "stone"
         }
       },
       {
         "pos": {
-          "x": 6,
-          "y": 4,
+          "x": 9,
+          "y": 3,
           "z": 0
         },
         "surfaces": {
-          "north": "moss",
-          "east": "moss",
-          "south": "moss",
-          "west": "moss",
-          "down": "flagC"
-        },
-        "onEnter": "trap"
-      },
-      {
-        "pos": {
-          "x": 7,
-          "y": 4,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "moss",
-          "east": "moss",
-          "south": "moss",
-          "west": "moss",
-          "down": "flagC"
-        }
-      },
-      {
-        "pos": {
-          "x": 5,
-          "y": 5,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "moss",
-          "east": "moss",
-          "south": "moss",
-          "west": "moss",
-          "down": "flagC"
-        }
-      },
-      {
-        "pos": {
-          "x": 6,
-          "y": 5,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "moss",
-          "east": "moss",
-          "south": "moss",
-          "west": "moss",
-          "down": "flagC"
-        }
-      },
-      {
-        "pos": {
-          "x": 7,
-          "y": 5,
-          "z": 0
-        },
-        "surfaces": {
-          "north": "moss",
-          "east": "moss",
-          "south": "moss",
-          "west": "moss",
-          "down": "flagC"
+          "north": "stone",
+          "east": "stone",
+          "south": "stone",
+          "west": "stone"
         }
       }
     ],
     "edges": [
       {
         "from": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
           "x": 1,
-          "y": 1,
+          "y": 0,
           "z": 0
         },
         "dir": "east",
@@ -430,7 +618,7 @@
       {
         "from": {
           "x": 1,
-          "y": 1,
+          "y": 0,
           "z": 0
         },
         "dir": "south",
@@ -440,17 +628,7 @@
       {
         "from": {
           "x": 2,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 2,
-          "y": 1,
+          "y": 0,
           "z": 0
         },
         "dir": "south",
@@ -460,7 +638,17 @@
       {
         "from": {
           "x": 3,
-          "y": 1,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 3,
+          "y": 0,
           "z": 0
         },
         "dir": "south",
@@ -470,7 +658,7 @@
       {
         "from": {
           "x": 4,
-          "y": 1,
+          "y": 0,
           "z": 0
         },
         "dir": "east",
@@ -480,7 +668,7 @@
       {
         "from": {
           "x": 4,
-          "y": 1,
+          "y": 0,
           "z": 0
         },
         "dir": "south",
@@ -490,17 +678,7 @@
       {
         "from": {
           "x": 5,
-          "y": 1,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 5,
-          "y": 1,
+          "y": 0,
           "z": 0
         },
         "dir": "south",
@@ -510,7 +688,7 @@
       {
         "from": {
           "x": 6,
-          "y": 1,
+          "y": 0,
           "z": 0
         },
         "dir": "east",
@@ -520,7 +698,7 @@
       {
         "from": {
           "x": 6,
-          "y": 1,
+          "y": 0,
           "z": 0
         },
         "dir": "south",
@@ -530,6 +708,116 @@
       {
         "from": {
           "x": 7,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 7,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 11,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 11,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 12,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
           "y": 1,
           "z": 0
         },
@@ -540,7 +828,7 @@
       {
         "from": {
           "x": 1,
-          "y": 2,
+          "y": 1,
           "z": 0
         },
         "dir": "east",
@@ -550,7 +838,7 @@
       {
         "from": {
           "x": 1,
-          "y": 2,
+          "y": 1,
           "z": 0
         },
         "dir": "south",
@@ -558,181 +846,30 @@
         "state": "open"
       },
       {
+        "id": "plain_door",
         "from": {
           "x": 2,
-          "y": 2,
+          "y": 1,
           "z": 0
         },
         "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 2,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "id": "gate",
-        "from": {
-          "x": 3,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "gate",
-        "state": "closed"
-      },
-      {
-        "from": {
-          "x": 3,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 4,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 4,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 5,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 5,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 6,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 6,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 7,
-          "y": 2,
-          "z": 0
-        },
-        "dir": "south",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 1,
-          "y": 3,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 2,
-          "y": 3,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 4,
-          "y": 3,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 5,
-          "y": 3,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "from": {
-          "x": 6,
-          "y": 3,
-          "z": 0
-        },
-        "dir": "east",
-        "type": "opening",
-        "state": "open"
-      },
-      {
-        "id": "door",
-        "from": {
-          "x": 6,
-          "y": 3,
-          "z": 0
-        },
-        "dir": "south",
         "type": "door",
         "state": "closed"
       },
       {
         "from": {
-          "x": 5,
-          "y": 4,
+          "x": 2,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 3,
+          "y": 1,
           "z": 0
         },
         "dir": "east",
@@ -741,8 +878,50 @@
       },
       {
         "from": {
+          "x": 3,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "id": "lever_door",
+        "from": {
           "x": 5,
-          "y": 4,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "door",
+        "state": "locked",
+        "onBump": "bumpLeverDoor"
+      },
+      {
+        "from": {
+          "x": 5,
+          "y": 1,
           "z": 0
         },
         "dir": "south",
@@ -752,7 +931,7 @@
       {
         "from": {
           "x": 6,
-          "y": 4,
+          "y": 1,
           "z": 0
         },
         "dir": "east",
@@ -762,7 +941,7 @@
       {
         "from": {
           "x": 6,
-          "y": 4,
+          "y": 1,
           "z": 0
         },
         "dir": "south",
@@ -772,7 +951,17 @@
       {
         "from": {
           "x": 7,
-          "y": 4,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 7,
+          "y": 1,
           "z": 0
         },
         "dir": "south",
@@ -781,8 +970,130 @@
       },
       {
         "from": {
-          "x": 5,
-          "y": 5,
+          "x": 8,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "id": "vault_door",
+        "from": {
+          "x": 9,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "door",
+        "state": "locked",
+        "onBump": "bumpVault"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 11,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 11,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 12,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 3,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 2,
           "z": 0
         },
         "dir": "east",
@@ -792,7 +1103,117 @@
       {
         "from": {
           "x": 6,
-          "y": 5,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 6,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 7,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 7,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 11,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 6,
+          "y": 3,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 7,
+          "y": 3,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 3,
           "z": 0
         },
         "dir": "east",
@@ -805,34 +1226,60 @@
         "id": "chest",
         "type": "chest",
         "cell": {
-          "x": 7,
-          "y": 5,
+          "x": 12,
+          "y": 1,
           "z": 0
         },
         "state": "closed",
         "onUse": "openChest"
       },
       {
-        "id": "lever1",
+        "id": "lever",
         "type": "lever",
         "cell": {
-          "x": 3,
+          "x": 4,
+          "y": 0,
+          "z": 0
+        },
+        "side": "north",
+        "state": "off",
+        "onUse": "pullLever"
+      },
+      {
+        "id": "lever_a",
+        "type": "lever",
+        "cell": {
+          "x": 6,
           "y": 3,
           "z": 0
         },
+        "side": "west",
         "state": "off",
-        "onUse": "toggleGate"
+        "onUse": "pull_lever_a"
       },
       {
-        "id": "lever2",
+        "id": "lever_b",
         "type": "lever",
         "cell": {
-          "x": 5,
-          "y": 5,
+          "x": 8,
+          "y": 0,
           "z": 0
         },
+        "side": "north",
         "state": "off",
-        "onUse": "unlockDoor"
+        "onUse": "pull_lever_b"
+      },
+      {
+        "id": "lever_c",
+        "type": "lever",
+        "cell": {
+          "x": 8,
+          "y": 3,
+          "z": 0
+        },
+        "side": "south",
+        "state": "off",
+        "onUse": "pull_lever_c"
       }
     ],
     "materials": {
@@ -881,17 +1328,10 @@
         "color": "#2a2630",
         "texture": "builtin:noise"
       },
-      "flagA": {
-        "name": "Flagstone A",
-        "color": "#4a3a38"
-      },
-      "flagB": {
-        "name": "Flagstone B",
-        "color": "#3b4048"
-      },
-      "flagC": {
-        "name": "Flagstone C",
-        "color": "#33472f"
+      "vault": {
+        "name": "Vault plating",
+        "color": "#6d7480",
+        "texture": "builtin:metal"
       }
     },
     "connectionTypes": {
@@ -1117,104 +1557,13 @@
     },
     "customTypes": {},
     "events": {
-      "welcome": {
-        "once": true,
-        "actions": [
-          {
-            "type": "showMessage",
-            "text": "You wake in a cold brick room. An iron gate blocks the east wall. Look for a lever."
-          }
-        ]
-      },
-      "draft": {
-        "once": true,
-        "actions": [
-          {
-            "type": "showMessage",
-            "text": "A cold draft slides past you. The stone here is damp."
-          }
-        ]
-      },
-      "toggleGate": {
+      "pullLever": {
         "conditions": [
           {
             "type": "state",
             "target": {
               "kind": "edge",
-              "id": "gate"
-            },
-            "equals": "closed"
-          }
-        ],
-        "actions": [
-          {
-            "type": "setConnectionState",
-            "target": {
-              "kind": "edge",
-              "id": "gate"
-            },
-            "state": "open"
-          },
-          {
-            "type": "setPropState",
-            "target": {
-              "kind": "prop",
-              "id": "lever1"
-            },
-            "state": "on"
-          },
-          {
-            "type": "showMessage",
-            "text": "Chains rattle. The gate rises."
-          }
-        ],
-        "else": [
-          {
-            "type": "setConnectionState",
-            "target": {
-              "kind": "edge",
-              "id": "gate"
-            },
-            "state": "closed"
-          },
-          {
-            "type": "setPropState",
-            "target": {
-              "kind": "prop",
-              "id": "lever1"
-            },
-            "state": "off"
-          },
-          {
-            "type": "showMessage",
-            "text": "The gate grinds shut again."
-          }
-        ]
-      },
-      "trap": {
-        "once": true,
-        "actions": [
-          {
-            "type": "setConnectionState",
-            "target": {
-              "kind": "edge",
-              "id": "door"
-            },
-            "state": "locked"
-          },
-          {
-            "type": "showMessage",
-            "text": "The door slams shut behind you and the lock turns."
-          }
-        ]
-      },
-      "unlockDoor": {
-        "conditions": [
-          {
-            "type": "state",
-            "target": {
-              "kind": "edge",
-              "id": "door"
+              "id": "lever_door"
             },
             "equals": "locked"
           }
@@ -1224,27 +1573,278 @@
             "type": "setConnectionState",
             "target": {
               "kind": "edge",
-              "id": "door"
+              "id": "lever_door"
             },
-            "state": "closed"
+            "state": "open"
           },
           {
             "type": "setPropState",
             "target": {
               "kind": "prop",
-              "id": "lever2"
+              "id": "lever"
             },
             "state": "on"
           },
           {
             "type": "showMessage",
-            "text": "Click. Somewhere behind you, a lock releases."
+            "text": "Clunk. The bolt slides back and the east door swings open."
           }
         ],
         "else": [
           {
+            "type": "setConnectionState",
+            "target": {
+              "kind": "edge",
+              "id": "lever_door"
+            },
+            "state": "locked"
+          },
+          {
+            "type": "setPropState",
+            "target": {
+              "kind": "prop",
+              "id": "lever"
+            },
+            "state": "off"
+          },
+          {
             "type": "showMessage",
-            "text": "The lever is already pulled."
+            "text": "The door swings shut and the bolt slides home."
+          }
+        ]
+      },
+      "bumpLeverDoor": {
+        "actions": [
+          {
+            "type": "showMessage",
+            "text": "Locked tight, and there's no keyhole. Try the lever on the north wall."
+          }
+        ]
+      },
+      "pull_lever_a": {
+        "conditions": [
+          {
+            "type": "state",
+            "target": {
+              "kind": "prop",
+              "id": "lever_a"
+            },
+            "equals": "off"
+          }
+        ],
+        "actions": [
+          {
+            "type": "setPropState",
+            "target": {
+              "kind": "prop",
+              "id": "lever_a"
+            },
+            "state": "on"
+          },
+          {
+            "type": "showMessage",
+            "text": "Lever 1 clicks up."
+          },
+          {
+            "type": "runEvent",
+            "event": "checkLevers"
+          }
+        ],
+        "else": [
+          {
+            "type": "setPropState",
+            "target": {
+              "kind": "prop",
+              "id": "lever_a"
+            },
+            "state": "off"
+          },
+          {
+            "type": "showMessage",
+            "text": "Lever 1 clicks down."
+          },
+          {
+            "type": "runEvent",
+            "event": "checkLevers"
+          }
+        ]
+      },
+      "pull_lever_b": {
+        "conditions": [
+          {
+            "type": "state",
+            "target": {
+              "kind": "prop",
+              "id": "lever_b"
+            },
+            "equals": "off"
+          }
+        ],
+        "actions": [
+          {
+            "type": "setPropState",
+            "target": {
+              "kind": "prop",
+              "id": "lever_b"
+            },
+            "state": "on"
+          },
+          {
+            "type": "showMessage",
+            "text": "Lever 2 clicks up."
+          },
+          {
+            "type": "runEvent",
+            "event": "checkLevers"
+          }
+        ],
+        "else": [
+          {
+            "type": "setPropState",
+            "target": {
+              "kind": "prop",
+              "id": "lever_b"
+            },
+            "state": "off"
+          },
+          {
+            "type": "showMessage",
+            "text": "Lever 2 clicks down."
+          },
+          {
+            "type": "runEvent",
+            "event": "checkLevers"
+          }
+        ]
+      },
+      "pull_lever_c": {
+        "conditions": [
+          {
+            "type": "state",
+            "target": {
+              "kind": "prop",
+              "id": "lever_c"
+            },
+            "equals": "off"
+          }
+        ],
+        "actions": [
+          {
+            "type": "setPropState",
+            "target": {
+              "kind": "prop",
+              "id": "lever_c"
+            },
+            "state": "on"
+          },
+          {
+            "type": "showMessage",
+            "text": "Lever 3 clicks up."
+          },
+          {
+            "type": "runEvent",
+            "event": "checkLevers"
+          }
+        ],
+        "else": [
+          {
+            "type": "setPropState",
+            "target": {
+              "kind": "prop",
+              "id": "lever_c"
+            },
+            "state": "off"
+          },
+          {
+            "type": "showMessage",
+            "text": "Lever 3 clicks down."
+          },
+          {
+            "type": "runEvent",
+            "event": "checkLevers"
+          }
+        ]
+      },
+      "checkLevers": {
+        "conditions": [
+          {
+            "type": "state",
+            "target": {
+              "kind": "prop",
+              "id": "lever_a"
+            },
+            "equals": "on"
+          },
+          {
+            "type": "state",
+            "target": {
+              "kind": "prop",
+              "id": "lever_b"
+            },
+            "equals": "on"
+          },
+          {
+            "type": "state",
+            "target": {
+              "kind": "prop",
+              "id": "lever_c"
+            },
+            "equals": "on"
+          }
+        ],
+        "actions": [
+          {
+            "type": "setConnectionState",
+            "target": {
+              "kind": "edge",
+              "id": "vault_door"
+            },
+            "state": "open"
+          },
+          {
+            "type": "showMessage",
+            "text": "All three levers are up. The vault door grinds open!"
+          }
+        ],
+        "else": [
+          {
+            "type": "runEvent",
+            "event": "relockVault"
+          }
+        ],
+        "notes": "Runs after any of the three levers moves. All up opens the vault; anything else locks it again."
+      },
+      "relockVault": {
+        "conditions": [
+          {
+            "type": "state",
+            "target": {
+              "kind": "edge",
+              "id": "vault_door"
+            },
+            "equals": "open"
+          }
+        ],
+        "actions": [
+          {
+            "type": "setConnectionState",
+            "target": {
+              "kind": "edge",
+              "id": "vault_door"
+            },
+            "state": "locked"
+          },
+          {
+            "type": "showMessage",
+            "text": "The vault door slams shut again."
+          }
+        ]
+      },
+      "bumpVault": {
+        "actions": [
+          {
+            "type": "showMessage",
+            "text": "The vault door won't move. Three levers in this room must all be up."
           }
         ]
       },
@@ -1266,7 +1866,7 @@
           },
           {
             "type": "showMessage",
-            "text": "The chest opens. Gold! You win the demo."
+            "text": "Gold! You've opened every door. You win."
           }
         ]
       }
@@ -1276,6 +1876,9 @@
         "type": "bool",
         "initial": false
       }
-    }
+    },
+    "tags": [
+      "example"
+    ]
   }
 }

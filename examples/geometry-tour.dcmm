@@ -1,0 +1,2132 @@
+{
+  "format": "dcmm-project",
+  "formatVersion": 1,
+  "app": {
+    "name": "DCMM",
+    "version": "0.1.0"
+  },
+  "map": {
+    "id": "geometry-tour",
+    "name": "Geometry Tour",
+    "cellSize": 1,
+    "stepsPerLevel": 4,
+    "stepHeight": 0.25,
+    "start": {
+      "cell": {
+        "x": 1,
+        "y": 1,
+        "z": 0
+      },
+      "facing": "east"
+    },
+    "rules": {
+      "maxStep": 1
+    },
+    "defaults": {
+      "wall": "stone",
+      "floor": "flagstone",
+      "ceiling": "ceiling"
+    },
+    "levels": [
+      {
+        "z": 0,
+        "name": "Ground"
+      },
+      {
+        "z": 1,
+        "name": "Upper"
+      }
+    ],
+    "cells": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 2,
+          "y": 0,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 3,
+          "y": 0,
+          "z": 0
+        },
+        "ceiling": 2
+      },
+      {
+        "pos": {
+          "x": 4,
+          "y": 0,
+          "z": 0
+        },
+        "floor": 1
+      },
+      {
+        "pos": {
+          "x": 5,
+          "y": 0,
+          "z": 0
+        },
+        "floor": 2,
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "Two steps up. The drop south is too far, so it's walled off."
+            }
+          ]
+        }
+      },
+      {
+        "pos": {
+          "x": 8,
+          "y": 0,
+          "z": 0
+        },
+        "ceiling": 8,
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 9,
+          "y": 0,
+          "z": 0
+        },
+        "ceiling": 8,
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 10,
+          "y": 0,
+          "z": 0
+        },
+        "ceiling": 8,
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 15,
+          "y": 0,
+          "z": 0
+        },
+        "floor": -1,
+        "surfaces": {
+          "north": "moss",
+          "east": "moss",
+          "south": "moss",
+          "west": "moss",
+          "down": "dirt"
+        }
+      },
+      {
+        "pos": {
+          "x": 16,
+          "y": 0,
+          "z": 0
+        },
+        "floor": -2,
+        "surfaces": {
+          "north": "moss",
+          "east": "moss",
+          "south": "moss",
+          "west": "moss",
+          "down": "water"
+        }
+      },
+      {
+        "pos": {
+          "x": 17,
+          "y": 0,
+          "z": 0
+        },
+        "floor": -1,
+        "surfaces": {
+          "north": "moss",
+          "east": "moss",
+          "south": "moss",
+          "west": "moss",
+          "down": "dirt"
+        }
+      },
+      {
+        "pos": {
+          "x": 19,
+          "y": 0,
+          "z": 0
+        },
+        "onEnter": "lowerRoom"
+      },
+      {
+        "pos": {
+          "x": 20,
+          "y": 0,
+          "z": 0
+        },
+        "onEnter": "lowerRoom"
+      },
+      {
+        "pos": {
+          "x": 21,
+          "y": 0,
+          "z": 0
+        },
+        "onEnter": "lowerRoom"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 1,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "Geometry Tour. Walk east through one room per kind of geometry."
+            }
+          ]
+        }
+      },
+      {
+        "pos": {
+          "x": 2,
+          "y": 1,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 3,
+          "y": 1,
+          "z": 0
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "Floor and ceiling heights: steps up to a ledge (north-east), a pool two steps down (south-east), a low alcove (north-west)."
+            }
+          ]
+        }
+      },
+      {
+        "pos": {
+          "x": 4,
+          "y": 1,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 5,
+          "y": 1,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 6,
+          "y": 1,
+          "z": 0
+        },
+        "ceiling": 3,
+        "surfaces": {
+          "north": "dirt",
+          "east": "dirt",
+          "south": "dirt",
+          "west": "dirt"
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "A low tunnel: the ceiling is only three steps high."
+            }
+          ]
+        }
+      },
+      {
+        "pos": {
+          "x": 7,
+          "y": 1,
+          "z": 0
+        },
+        "ceiling": 3,
+        "surfaces": {
+          "north": "dirt",
+          "east": "dirt",
+          "south": "dirt",
+          "west": "dirt"
+        }
+      },
+      {
+        "pos": {
+          "x": 8,
+          "y": 1,
+          "z": 0
+        },
+        "ceiling": 8,
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "A vaulted hall, two levels tall. The ramp in the south-east corner climbs a full level to a balcony."
+            }
+          ]
+        }
+      },
+      {
+        "pos": {
+          "x": 9,
+          "y": 1,
+          "z": 0
+        },
+        "ceiling": 8,
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 10,
+          "y": 1,
+          "z": 0
+        },
+        "ceiling": 8,
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 11,
+          "y": 1,
+          "z": 0
+        },
+        "shape": {
+          "kind": "ramp",
+          "rise": 1,
+          "toward": "east"
+        },
+        "surfaces": {
+          "north": "wood",
+          "east": "wood",
+          "south": "wood",
+          "west": "wood"
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "A ramp up to a landing, then stairs down."
+            }
+          ]
+        }
+      },
+      {
+        "pos": {
+          "x": 12,
+          "y": 1,
+          "z": 0
+        },
+        "floor": 1,
+        "surfaces": {
+          "north": "wood",
+          "east": "wood",
+          "south": "wood",
+          "west": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 13,
+          "y": 1,
+          "z": 0
+        },
+        "shape": {
+          "kind": "stairs",
+          "rise": 1,
+          "toward": "west",
+          "treads": 4
+        },
+        "surfaces": {
+          "north": "wood",
+          "east": "wood",
+          "south": "wood",
+          "west": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 14,
+          "y": 1,
+          "z": 0
+        },
+        "floor": -1,
+        "shape": {
+          "kind": "stairs",
+          "rise": 1,
+          "toward": "west",
+          "treads": 4
+        },
+        "surfaces": {
+          "north": "wood",
+          "east": "wood",
+          "south": "wood",
+          "west": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 15,
+          "y": 1,
+          "z": 0
+        },
+        "floor": -1,
+        "surfaces": {
+          "north": "moss",
+          "east": "moss",
+          "south": "moss",
+          "west": "moss",
+          "down": "dirt"
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "A sunken grotto with a deeper pool. The stairs to the east climb a full level."
+            }
+          ]
+        }
+      },
+      {
+        "pos": {
+          "x": 16,
+          "y": 1,
+          "z": 0
+        },
+        "floor": -1,
+        "surfaces": {
+          "north": "moss",
+          "east": "moss",
+          "south": "moss",
+          "west": "moss",
+          "down": "dirt"
+        }
+      },
+      {
+        "pos": {
+          "x": 17,
+          "y": 1,
+          "z": 0
+        },
+        "floor": -1,
+        "surfaces": {
+          "north": "moss",
+          "east": "moss",
+          "south": "moss",
+          "west": "moss",
+          "down": "dirt"
+        }
+      },
+      {
+        "pos": {
+          "x": 18,
+          "y": 1,
+          "z": 0
+        },
+        "ceiling": 8,
+        "shape": {
+          "kind": "stairs",
+          "rise": 4,
+          "toward": "east",
+          "treads": 8
+        }
+      },
+      {
+        "pos": {
+          "x": 19,
+          "y": 1,
+          "z": 0
+        },
+        "onEnter": "lowerRoom"
+      },
+      {
+        "pos": {
+          "x": 20,
+          "y": 1,
+          "z": 0
+        },
+        "onEnter": "lowerRoom"
+      },
+      {
+        "pos": {
+          "x": 21,
+          "y": 1,
+          "z": 0
+        },
+        "onEnter": "lowerRoom"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 2,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 2,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 2,
+          "y": 2,
+          "z": 0
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 3,
+          "y": 2,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 4,
+          "y": 2,
+          "z": 0
+        },
+        "floor": -1
+      },
+      {
+        "pos": {
+          "x": 5,
+          "y": 2,
+          "z": 0
+        },
+        "floor": -2,
+        "surfaces": {
+          "down": "water"
+        }
+      },
+      {
+        "pos": {
+          "x": 8,
+          "y": 2,
+          "z": 0
+        },
+        "ceiling": 8,
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 9,
+          "y": 2,
+          "z": 0
+        },
+        "ceiling": 8,
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 10,
+          "y": 2,
+          "z": 0
+        },
+        "ceiling": 8,
+        "shape": {
+          "kind": "ramp",
+          "rise": 4,
+          "toward": "south"
+        },
+        "surfaces": {
+          "north": "brick",
+          "east": "brick",
+          "south": "brick",
+          "west": "brick"
+        }
+      },
+      {
+        "pos": {
+          "x": 15,
+          "y": 2,
+          "z": 0
+        },
+        "floor": -1,
+        "surfaces": {
+          "north": "moss",
+          "east": "moss",
+          "south": "moss",
+          "west": "moss",
+          "down": "dirt"
+        }
+      },
+      {
+        "pos": {
+          "x": 16,
+          "y": 2,
+          "z": 0
+        },
+        "floor": -1,
+        "surfaces": {
+          "north": "moss",
+          "east": "moss",
+          "south": "moss",
+          "west": "moss",
+          "down": "dirt"
+        }
+      },
+      {
+        "pos": {
+          "x": 17,
+          "y": 2,
+          "z": 0
+        },
+        "floor": -1,
+        "surfaces": {
+          "north": "moss",
+          "east": "moss",
+          "south": "moss",
+          "west": "moss",
+          "down": "dirt"
+        }
+      },
+      {
+        "pos": {
+          "x": 19,
+          "y": 2,
+          "z": 0
+        },
+        "onEnter": "lowerRoom"
+      },
+      {
+        "pos": {
+          "x": 20,
+          "y": 2,
+          "z": 0
+        },
+        "onEnter": "lowerRoom"
+      },
+      {
+        "pos": {
+          "x": 21,
+          "y": 2,
+          "z": 0
+        },
+        "onEnter": "lowerRoom"
+      },
+      {
+        "pos": {
+          "x": 9,
+          "y": 3,
+          "z": 0
+        }
+      },
+      {
+        "pos": {
+          "x": 19,
+          "y": 0,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "An iron grate. You can see down, but not pass."
+            }
+          ]
+        }
+      },
+      {
+        "pos": {
+          "x": 20,
+          "y": 0,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 21,
+          "y": 0,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 19,
+          "y": 1,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "The upper room. Its floor has a grate (north-west), a trapdoor (north-east, use the lever), a pit (east) and an open shaft (south)."
+            }
+          ]
+        }
+      },
+      {
+        "pos": {
+          "x": 20,
+          "y": 1,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 21,
+          "y": 1,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 19,
+          "y": 2,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 20,
+          "y": 2,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 21,
+          "y": 2,
+          "z": 1
+        },
+        "surfaces": {
+          "down": "wood"
+        }
+      },
+      {
+        "pos": {
+          "x": 9,
+          "y": 3,
+          "z": 1
+        }
+      },
+      {
+        "pos": {
+          "x": 10,
+          "y": 3,
+          "z": 1
+        },
+        "onEnter": {
+          "once": true,
+          "actions": [
+            {
+              "type": "showMessage",
+              "text": "The balcony. Its west end has a pit back down to the hall."
+            }
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 2,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 3,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 3,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 15,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 15,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 16,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 16,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 17,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "up",
+        "type": "grate",
+        "state": "closed"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 21,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "id": "hatch",
+        "from": {
+          "x": 21,
+          "y": 0,
+          "z": 0
+        },
+        "dir": "up",
+        "type": "hatch",
+        "state": "closed"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 2,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 2,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 3,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 3,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 5,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 6,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 7,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 11,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 12,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 13,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 14,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 15,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 15,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 16,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 16,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 17,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 17,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 18,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "toZ": 1,
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 21,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 21,
+          "y": 1,
+          "z": 0
+        },
+        "dir": "up",
+        "type": "pit",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 0,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 1,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 3,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 4,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 8,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 10,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "south",
+        "toZ": 1,
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 15,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 16,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "up",
+        "type": "ladder",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 2,
+          "z": 0
+        },
+        "dir": "up",
+        "type": "open",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 3,
+          "z": 0
+        },
+        "dir": "up",
+        "type": "pit",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 0,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 0,
+          "z": 1
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 0,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 0,
+          "z": 1
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 21,
+          "y": 0,
+          "z": 1
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 1,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 1,
+          "z": 1
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 1,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 1,
+          "z": 1
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 21,
+          "y": 1,
+          "z": 1
+        },
+        "dir": "south",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 19,
+          "y": 2,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 20,
+          "y": 2,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      },
+      {
+        "from": {
+          "x": 9,
+          "y": 3,
+          "z": 1
+        },
+        "dir": "east",
+        "type": "opening",
+        "state": "open"
+      }
+    ],
+    "props": [
+      {
+        "id": "hatch_lever",
+        "type": "lever",
+        "cell": {
+          "x": 20,
+          "y": 0,
+          "z": 1
+        },
+        "side": "north",
+        "state": "off",
+        "onUse": "toggleHatch"
+      }
+    ],
+    "materials": {
+      "stone": {
+        "name": "Grey stone",
+        "color": "#7b8190",
+        "texture": "builtin:stone"
+      },
+      "brick": {
+        "name": "Red brick",
+        "color": "#a5503a",
+        "texture": "builtin:brick"
+      },
+      "moss": {
+        "name": "Mossy stone",
+        "color": "#5b8a58",
+        "texture": "builtin:moss"
+      },
+      "wood": {
+        "name": "Oak planks",
+        "color": "#8a5a2b",
+        "texture": "builtin:planks"
+      },
+      "iron": {
+        "name": "Iron",
+        "color": "#9aa0a8",
+        "texture": "builtin:metal"
+      },
+      "dirt": {
+        "name": "Dirt",
+        "color": "#5a4632",
+        "texture": "builtin:dirt"
+      },
+      "water": {
+        "name": "Water",
+        "color": "#2f5f8a",
+        "texture": "builtin:water"
+      },
+      "flagstone": {
+        "name": "Flagstone",
+        "color": "#4a4440",
+        "texture": "builtin:flagstone"
+      },
+      "ceiling": {
+        "name": "Ceiling",
+        "color": "#2a2630",
+        "texture": "builtin:noise"
+      }
+    },
+    "connectionTypes": {
+      "opening": {
+        "name": "Opening",
+        "kind": "opening",
+        "axis": "horizontal",
+        "initialState": "open",
+        "states": {
+          "open": {
+            "passable": true,
+            "blocksSight": false
+          }
+        }
+      },
+      "door": {
+        "name": "Wooden door",
+        "kind": "door",
+        "axis": "horizontal",
+        "material": "wood",
+        "initialState": "closed",
+        "states": {
+          "closed": {
+            "passable": false,
+            "blocksSight": true,
+            "transitions": [
+              "open"
+            ]
+          },
+          "open": {
+            "passable": true,
+            "blocksSight": false,
+            "transitions": [
+              "closed"
+            ]
+          },
+          "locked": {
+            "passable": false,
+            "blocksSight": true,
+            "transitions": []
+          }
+        }
+      },
+      "gate": {
+        "name": "Iron gate",
+        "kind": "gate",
+        "axis": "horizontal",
+        "material": "iron",
+        "initialState": "closed",
+        "states": {
+          "closed": {
+            "passable": false,
+            "blocksSight": false,
+            "transitions": []
+          },
+          "open": {
+            "passable": true,
+            "blocksSight": false,
+            "transitions": []
+          }
+        }
+      },
+      "secretWall": {
+        "name": "Secret wall",
+        "kind": "wall",
+        "axis": "horizontal",
+        "initialState": "closed",
+        "states": {
+          "closed": {
+            "passable": false,
+            "blocksSight": true,
+            "transitions": []
+          },
+          "open": {
+            "passable": true,
+            "blocksSight": false,
+            "transitions": []
+          }
+        }
+      },
+      "open": {
+        "name": "Open",
+        "kind": "opening",
+        "axis": "vertical",
+        "initialState": "open",
+        "states": {
+          "open": {
+            "passable": true,
+            "blocksSight": false
+          }
+        }
+      },
+      "hatch": {
+        "name": "Trapdoor",
+        "kind": "hatch",
+        "axis": "vertical",
+        "material": "wood",
+        "initialState": "closed",
+        "states": {
+          "closed": {
+            "passable": false,
+            "blocksSight": true,
+            "transitions": [
+              "open"
+            ]
+          },
+          "open": {
+            "passable": true,
+            "blocksSight": false,
+            "transitions": [
+              "closed"
+            ]
+          }
+        }
+      },
+      "pit": {
+        "name": "Pit",
+        "kind": "pit",
+        "axis": "vertical",
+        "initialState": "open",
+        "states": {
+          "open": {
+            "passable": true,
+            "blocksSight": false
+          }
+        }
+      },
+      "ladder": {
+        "name": "Ladder",
+        "kind": "ladder",
+        "axis": "vertical",
+        "material": "wood",
+        "initialState": "open",
+        "states": {
+          "open": {
+            "passable": true,
+            "blocksSight": false
+          }
+        }
+      },
+      "grate": {
+        "name": "Grate",
+        "kind": "grate",
+        "axis": "vertical",
+        "material": "iron",
+        "initialState": "closed",
+        "states": {
+          "closed": {
+            "passable": false,
+            "blocksSight": false,
+            "transitions": []
+          }
+        }
+      }
+    },
+    "propTypes": {
+      "lever": {
+        "name": "Lever",
+        "states": [
+          "off",
+          "on"
+        ],
+        "initialState": "off",
+        "preview": {
+          "color": "#c9ccd1",
+          "icon": "lever"
+        }
+      },
+      "button": {
+        "name": "Button",
+        "states": [
+          "up",
+          "down"
+        ],
+        "initialState": "up",
+        "preview": {
+          "color": "#c9ccd1",
+          "icon": "button"
+        }
+      },
+      "chest": {
+        "name": "Chest",
+        "states": [
+          "closed",
+          "open"
+        ],
+        "initialState": "closed",
+        "preview": {
+          "color": "#f2c744",
+          "icon": "chest"
+        }
+      },
+      "sign": {
+        "name": "Sign",
+        "states": [
+          "default"
+        ],
+        "initialState": "default",
+        "params": [
+          {
+            "name": "text",
+            "type": "string",
+            "default": ""
+          }
+        ],
+        "preview": {
+          "color": "#c8a46e",
+          "icon": "sign"
+        }
+      },
+      "pressurePlate": {
+        "name": "Pressure plate",
+        "states": [
+          "up",
+          "down"
+        ],
+        "initialState": "up",
+        "preview": {
+          "color": "#8c8c8c",
+          "icon": "plate"
+        }
+      }
+    },
+    "customTypes": {},
+    "events": {
+      "toggleHatch": {
+        "conditions": [
+          {
+            "type": "state",
+            "target": {
+              "kind": "edge",
+              "id": "hatch"
+            },
+            "equals": "closed"
+          }
+        ],
+        "actions": [
+          {
+            "type": "setConnectionState",
+            "target": {
+              "kind": "edge",
+              "id": "hatch"
+            },
+            "state": "open"
+          },
+          {
+            "type": "setPropState",
+            "target": {
+              "kind": "prop",
+              "id": "hatch_lever"
+            },
+            "state": "on"
+          },
+          {
+            "type": "showMessage",
+            "text": "A trapdoor drops open in the north-east corner."
+          }
+        ],
+        "else": [
+          {
+            "type": "setConnectionState",
+            "target": {
+              "kind": "edge",
+              "id": "hatch"
+            },
+            "state": "closed"
+          },
+          {
+            "type": "setPropState",
+            "target": {
+              "kind": "prop",
+              "id": "hatch_lever"
+            },
+            "state": "off"
+          },
+          {
+            "type": "showMessage",
+            "text": "The trapdoor swings shut."
+          }
+        ]
+      },
+      "lowerRoom": {
+        "once": true,
+        "actions": [
+          {
+            "type": "showMessage",
+            "text": "You've dropped into the room below. The ladder in the south-west corner leads back up."
+          }
+        ]
+      }
+    },
+    "flags": {},
+    "tags": [
+      "example"
+    ]
+  }
+}

@@ -9,9 +9,9 @@ import type { View } from "../render/canvas2d/view";
 import type { Hit } from "../render/canvas2d/hit";
 import type { GridPos } from "../core/geometry";
 import { autosave, type FileHandle } from "./persistence";
-import threeRoomsText from "../../examples/three-rooms.dcmm?raw";
-import towerText from "../../examples/tower.dcmm?raw";
-import cryptText from "../../examples/crypt.dcmm?raw";
+import doorsText from "../../examples/doors-and-levers.dcmm?raw";
+import trapsText from "../../examples/trap-gauntlet.dcmm?raw";
+import geometryText from "../../examples/geometry-tour.dcmm?raw";
 import keepText from "../../examples/keep-of-echoes.dcmm?raw";
 
 export type ToolId = "select" | "paint" | "room" | "erase" | "edge" | "material" | "height" | "ramp" | "vertical" | "prop" | "start";
@@ -48,10 +48,10 @@ export interface Selection {
 const EMPTY_SEL: Selection = { cells: [], edges: [], props: [] };
 
 export const EXAMPLES: Record<string, { name: string; text: string }> = {
-  "keep-of-echoes": { name: "The Keep of Echoes (everything)", text: keepText },
-  "three-rooms": { name: "Three Rooms", text: threeRoomsText },
-  tower: { name: "Tower (multi-level)", text: towerText },
-  crypt: { name: "The Crypt (puzzle, custom types)", text: cryptText },
+  "doors-and-levers": { name: "Doors and Levers", text: doorsText },
+  "trap-gauntlet": { name: "Trap Gauntlet", text: trapsText },
+  "geometry-tour": { name: "Geometry Tour", text: geometryText },
+  "keep-of-echoes": { name: "The Keep of Echoes (full game)", text: keepText },
 };
 
 interface Derived {

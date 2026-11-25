@@ -24,9 +24,10 @@ The first time you open DCMM it loads **The Keep of Echoes**, an example map tha
 
 - **File → New map** starts from scratch.
 - **File → Example: …** opens the other examples:
-  - **Three Rooms:** levers, a gate and a door trap.
-  - **Tower:** two levels joined by stairs, with a pit.
-  - **The Crypt:** a puzzle with custom types, flags, a secret wall, a trapdoor and a ladder.
+  - **Doors and Levers:** a plain door, a locked door worked by a lever, and a vault door that needs three levers up at once.
+  - **Trap Gauntlet:** a dart plate, a spiked pit, a hidden trapdoor, a rune floor and a flooding room, with a flag that counts your hits.
+  - **Geometry Tour:** one room per kind of geometry: raised and sunken floors, low and vaulted ceilings, ramps, stairs, a ramp and stairs that climb a full level, and every vertical connection (grate, trapdoor, pit, open shaft, ladder).
+  - **The Keep of Echoes:** the full example game, which you can play from start to finish.
 
 ### Saving your work
 
