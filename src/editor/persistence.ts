@@ -1,80 +1,7 @@
 /**
- * Local persistence: IndexedDB autosave + recent maps, and file open/save via the File
- * System Access API where available (download/upload fallback elsewhere).
+ * File open/save via the File System Access API where available (download/upload fallback
+ * elsewhere). Maps live only in files: there is no browser autosave.
  */
-
-const DB = "dcmm";
-const STORE = "projects";
-
-interface Saved {
-  uid: string;
-  name: string;
-  savedAt: number;
-  text: string;
-}
-
-function openDb(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB, 1);
-    req.onupgradeneeded = () => req.result.createObjectStore(STORE, { keyPath: "uid" });
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-async function tx<T>(mode: IDBTransactionMode, fn: (s: IDBObjectStore) => IDBRequest<T>): Promise<T> {
-  const db = await openDb();
-  return new Promise((resolve, reject) => {
-    const t = db.transaction(STORE, mode);
-    const req = fn(t.objectStore(STORE));
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-export const RECENT_LIMIT = 10;
-
-export async function autosave(entry: Saved): Promise<void> {
-  try {
-    await tx("readwrite", (s) => s.put(entry));
-    const all = await listRecent();
-    for (const old of all.slice(RECENT_LIMIT)) await tx("readwrite", (s) => s.delete(old.uid));
-    try { localStorage.setItem("dcmm:last", entry.uid); } catch { /* storage blocked */ }
-  } catch (e) {
-    console.warn("Autosave failed", e);
-  }
-}
-
-export async function listRecent(): Promise<Saved[]> {
-  try {
-    const all = await tx<Saved[]>("readonly", (s) => s.getAll() as IDBRequest<Saved[]>);
-    return all.sort((a, b) => b.savedAt - a.savedAt);
-  } catch {
-    return [];
-  }
-}
-
-export async function loadRecent(uid: string): Promise<Saved | undefined> {
-  try {
-    return await tx<Saved | undefined>("readonly", (s) => s.get(uid) as IDBRequest<Saved | undefined>);
-  } catch {
-    return undefined;
-  }
-}
-
-export async function loadLast(): Promise<Saved | undefined> {
-  let uid: string | null = null;
-  try { uid = localStorage.getItem("dcmm:last"); } catch { /* storage blocked */ }
-  if (uid) {
-    const s = await loadRecent(uid);
-    if (s) return s;
-  }
-  return (await listRecent())[0];
-}
-
-export async function forgetRecent(uid: string): Promise<void> {
-  try { await tx("readwrite", (s) => s.delete(uid)); } catch { /* ignore */ }
-}
 
 // ---------- files ----------
 
@@ -150,4 +77,4 @@ export function download(name: string, data: string | Uint8Array, mime: string):
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export type { FileHandle, Saved };
+export type { FileHandle };

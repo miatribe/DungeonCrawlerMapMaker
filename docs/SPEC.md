@@ -443,9 +443,9 @@ Event references use a picker with "＋ New event". Multi-selection edits the sh
 - Orbit, pan and zoom. Options: cut away levels above the current one, show X-ray walls, highlight the selection.
 - v1 is view-only. Clicking selects the item under the cursor and syncs the selection with the 2D view and the Inspector.
 
-### 8.7 Undo / redo and autosave
+### 8.7 Undo / redo and saving
 - All mutations go through **commands** on an immutable store (Zustand + Immer patches). Undo and redo apply inverse patches. The history keeps 200 steps.
-- Autosave writes to IndexedDB, debounced by 1 s. A "Recent maps" list keeps the last 10. Projects can be opened from or downloaded to `.dcmm` files. The File System Access API is used where available, with a fallback to download and upload.
+- There is no browser autosave. Projects are opened from and saved to `.dcmm` files, using the File System Access API where available, with a fallback to download and upload. The editor warns before closing the tab, or opening another map, when there are unsaved changes.
 
 ### 8.8 Validation (Problems panel)
 
@@ -522,7 +522,7 @@ examples/          three-rooms.dcmm (port of the prototype), tower.dcmm (multi-l
 ## 11. Milestones
 
 1. **Core model:** types, Zod schemas, canonical edges, operations with undo, validation, `ResolvedMap`, and the JSON exporter with golden tests. A port of the prototype's "Three Rooms" acts as the test fixture.
-2. **2D editor:** canvas level view, Select/Paint/Room/Erase/Edge/Material tools, Inspector, levels panel, autosave and file open/save, export dialog.
+2. **2D editor:** canvas level view, Select/Paint/Room/Erase/Edge/Material tools, Inspector, levels panel, file open/save, export dialog.
 3. **Heights and vertical:** Height, Ramp/Stairs and Vertical-edge tools; tall cells; overlap validation; ghosted levels.
 4. **Logic editor:** props, Events, Flags and Types panels, custom types, type libraries.
 5. **3D:** mesh builder, orbit view, then the first-person playtest with the interpreter and debug panel.

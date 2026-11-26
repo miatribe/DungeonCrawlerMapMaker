@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { canRedo, canUndo, redoLabel, undoLabel } from "../../core";
-import { listRecent, newProject, openExample, openProject, openRecent, saveProject } from "../actions";
-import type { Saved } from "../persistence";
+import { newProject, openExample, openProject, saveProject } from "../actions";
 import { EXAMPLES, useEditor } from "../store";
 import { deleteSelection } from "../tools";
 import { fitCurrent } from "./Viewport";
@@ -42,13 +41,11 @@ function Menu({ label, items, open, onOpen, onClose }: { label: string; items: I
 
 export function MenuBar() {
   const [open, setOpen] = useState<string | null>(null);
-  const [recent, setRecent] = useState<Saved[]>([]);
   const bar = useRef<HTMLDivElement>(null);
   const s = useEditor();
 
   useEffect(() => {
     if (!open) return;
-    if (open === "File") void listRecent().then(setRecent);
     const onDoc = (e: MouseEvent) => { if (!bar.current?.contains(e.target as Node)) setOpen(null); };
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(null); };
     document.addEventListener("mousedown", onDoc);
@@ -66,12 +63,6 @@ export function MenuBar() {
       { label: "Export…", shortcut: "Ctrl+E", action: () => s.set({ exportOpen: true }) },
       "sep",
       ...Object.entries(EXAMPLES).map(([id, ex]): Item => ({ label: `Example: ${ex.name}`, action: () => openExample(id) })),
-      ...(recent.length ? (["sep"] as Item[]) : []),
-      ...recent.slice(0, 8).map((r): Item => ({
-        label: `${r.name}${r.uid === s.docUid ? " (current)" : ""} — ${new Date(r.savedAt).toLocaleString()}`,
-        action: () => void openRecent(r.uid),
-        disabled: r.uid === s.docUid,
-      })),
     ],
     Edit: [
       { label: canUndo(s.history) ? `Undo ${undoLabel(s.history)}` : "Undo", shortcut: "Ctrl+Z", action: s.undo, disabled: !canUndo(s.history) },
@@ -111,7 +102,7 @@ export function MenuBar() {
       ))}
       <div className="doc-title">
         {s.doc.name}
-        <span className="file">{s.fileName ? ` · ${s.fileName}${s.dirty ? " •" : ""}` : " · autosaved in browser"}</span>
+        <span className="file">{s.fileName ? ` · ${s.fileName}` : ""}{s.dirty ? " · unsaved changes" : ""}</span>
       </div>
       <button className="btn primary" onClick={() => s.set({ exportOpen: true })}>Export</button>
     </div>

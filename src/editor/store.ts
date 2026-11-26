@@ -8,7 +8,7 @@ import {
 import type { View } from "../render/canvas2d/view";
 import type { Hit } from "../render/canvas2d/hit";
 import type { GridPos } from "../core/geometry";
-import { autosave, type FileHandle } from "./persistence";
+import type { FileHandle } from "./persistence";
 import doorsText from "../../examples/doors-and-levers.dcmm?raw";
 import trapsText from "../../examples/trap-gauntlet.dcmm?raw";
 import geometryText from "../../examples/geometry-tour.dcmm?raw";
@@ -68,14 +68,11 @@ function derive(doc: MapDoc): Derived {
   return { resolved, problems, problemCells, links: collectLinks(doc) };
 }
 
-const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-
 export interface EditorStore extends Derived {
   doc: MapDoc;
   history: History;
   assets: NonNullable<ProjectFile["assets"]>;
   notes: NonNullable<EditorState["notes"]>;
-  docUid: string;
   fileName: string | null;
   fileHandle: FileHandle | undefined;
   dirty: boolean;
@@ -121,7 +118,6 @@ export interface EditorStore extends Derived {
   cursor: { x: number; y: number } | null;
   toast: { text: string; kind: "info" | "error"; at: number } | null;
   exportOpen: boolean;
-  recentOpen: boolean;
   /** Bumped when something outside wants the viewport to re-center. */
   focusRequest: { x: number; y: number; at: number } | null;
   /** The viewport should fit the map once it knows its size (file had no saved view). */
@@ -138,24 +134,14 @@ export interface EditorStore extends Derived {
   set(p: Partial<EditorStore>): void;
   notify(text: string, kind?: "info" | "error"): void;
   newMap(): void;
-  loadText(text: string, opts?: { fileName?: string | null; handle?: FileHandle; uid?: string; silent?: boolean }): boolean;
+  loadText(text: string, opts?: { fileName?: string | null; handle?: FileHandle; silent?: boolean }): boolean;
   projectText(): string;
   markSaved(fileName: string | null, handle: FileHandle | undefined): void;
   focusCell(x: number, y: number, z: number): void;
 }
 
-let saveTimer: ReturnType<typeof setTimeout> | undefined;
-
 export const useEditor = create<EditorStore>((set, get) => {
   const initial = createMap();
-
-  const scheduleAutosave = () => {
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => {
-      const s = get();
-      void autosave({ uid: s.docUid, name: s.doc.name, savedAt: Date.now(), text: s.projectText() });
-    }, 1000);
-  };
 
   const commit = (doc: MapDoc, history: History) => {
     set({ doc, history, dirty: true, ...derive(doc) });
@@ -167,7 +153,6 @@ export const useEditor = create<EditorStore>((set, get) => {
     const props = sel.props.filter((k) => doc.props[k]);
     if (cells.length !== sel.cells.length || edges.length !== sel.edges.length || props.length !== sel.props.length)
       set({ selection: { cells, edges, props } });
-    scheduleAutosave();
   };
 
   return {
@@ -176,7 +161,6 @@ export const useEditor = create<EditorStore>((set, get) => {
     ...derive(initial),
     assets: {},
     notes: [],
-    docUid: uid(),
     fileName: null,
     fileHandle: undefined,
     dirty: false,
@@ -218,7 +202,6 @@ export const useEditor = create<EditorStore>((set, get) => {
     cursor: null,
     toast: null,
     exportOpen: false,
-    recentOpen: false,
     focusRequest: null,
     pendingFit: false,
 
@@ -264,11 +247,10 @@ export const useEditor = create<EditorStore>((set, get) => {
     newMap() {
       const doc = createMap();
       set({
-        doc, history: createHistory(), ...derive(doc), assets: {}, notes: [], docUid: uid(),
+        doc, history: createHistory(), ...derive(doc), assets: {}, notes: [],
         fileName: null, fileHandle: undefined, dirty: false, selection: EMPTY_SEL, level: 0,
         view: { panX: 80, panY: 80, zoom: 36 }, tool: "room",
       });
-      scheduleAutosave();
       get().notify("New map. Drag with the Room tool to start.");
     },
 
@@ -285,7 +267,6 @@ export const useEditor = create<EditorStore>((set, get) => {
         ...derive(r.doc),
         assets: r.assets,
         notes: r.editor.notes ?? [],
-        docUid: opts.uid ?? uid(),
         fileName: opts.fileName ?? null,
         fileHandle: opts.handle,
         dirty: false,
@@ -300,8 +281,6 @@ export const useEditor = create<EditorStore>((set, get) => {
         ghostBelow: v.showLevelsBelow ?? true,
         pendingFit: !v.pan || v.zoom === undefined,
       });
-      // Remember what's open, so a reload comes back to it even before any edit.
-      scheduleAutosave();
       if (!opts.silent) {
         const extra = r.problems.length ? ` (${r.problems.length} load warning${r.problems.length > 1 ? "s" : ""})` : "";
         get().notify(`Opened ${r.doc.name}${r.migratedFrom ? ` (upgraded from format ${r.migratedFrom})` : ""}${extra}`);

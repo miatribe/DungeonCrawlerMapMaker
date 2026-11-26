@@ -31,7 +31,7 @@ The first time you open DCMM it loads **The Keep of Echoes**, an example map tha
 
 ### Saving your work
 
-- Your map **autosaves in the browser**, and the last one reopens when you come back.
+- Maps are **not saved in the browser**. Use **File → Save** (Ctrl+S) to keep your work in a `.dcmm` file, and **File → Open…** to load it again. DCMM warns you before you close the tab or open another map with unsaved changes.
 - Browser storage can be cleared, and it doesn't follow you to other browsers or computers, so use **File → Save** (`Ctrl+S`) to keep a `.dcmm` project file. In Chrome and Edge it saves straight to disk; other browsers download it.
 - **File → Open** (`Ctrl+O`) loads a `.dcmm` file.
 - One map per file.

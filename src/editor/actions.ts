@@ -1,14 +1,15 @@
 /** File-level actions shared by the menu bar and keyboard shortcuts. */
 import { runExport } from "../exporters";
-import { download, listRecent, loadRecent, openFile, saveFile } from "./persistence";
+import { download, openFile, saveFile } from "./persistence";
 import { EXAMPLES, useEditor } from "./store";
 
 const S = () => useEditor.getState();
 
 const confirmDiscard = () =>
-  !S().dirty || S().fileName === null || window.confirm("You have unsaved changes to this file. They're kept in browser autosave, but continue?");
+  !S().dirty || window.confirm("You have unsaved changes. Discard them?");
 
 export async function openProject(): Promise<void> {
+  if (!confirmDiscard()) return;
   try {
     const f = await openFile();
     if (!f) return;
@@ -40,12 +41,6 @@ export function openExample(id: string): void {
   if (ex && confirmDiscard()) S().loadText(ex.text);
 }
 
-export async function openRecent(uid: string): Promise<void> {
-  const r = await loadRecent(uid);
-  if (r) S().loadText(r.text, { uid: r.uid });
-}
-
-export { listRecent };
 
 export function exportNow(exporterId: string, options: Record<string, unknown>): boolean {
   const s = S();
